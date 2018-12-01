@@ -1,8 +1,9 @@
 import {NONE} from "../constants/categories";
+import {ADD_ITEM, CHANGE_CATEGORY, REMOVE_ITEM} from "../actions";
 
 const items = (state = [], action) => {
     switch (action.type) {
-        case 'ADD_ITEM':
+        case ADD_ITEM:
             return [
                 ...state,
                 {
@@ -11,9 +12,9 @@ const items = (state = [], action) => {
                     category: NONE
                 }
             ];
-        case 'REMOVE_ITEM':
+        case REMOVE_ITEM:
             return state.filter(item => item.id !== action.id);
-        case 'CHANGE_CATEGORY': {
+        case CHANGE_CATEGORY: {
             const item = state.find(item => item.id === action.id);
             return [
                 ...state.filter(item => item.id !== action.id),
