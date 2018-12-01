@@ -1,0 +1,10 @@
+export const PRODUCE = 'Produce';
+export const DAIRY = 'Dairy';
+export const FROZEN = 'Frozen';
+export const GRAINS = 'Grains';
+export const MEAT = 'Meat';
+export const CANNED = 'Canned';
+export const DRYGOODS = 'DryGoods';
+export const HOUSEHOLD = 'Household';
+export const OTHER = 'Other';
+export const NONE = 'None';

@@ -4,7 +4,13 @@ export const addItem = text => ({
     text
 });
 
-export const completeItem = id => ({
-    type: 'COMPLETE_ITEM',
+export const removeItem = id => ({
+    type: 'REMOVE_ITEM',
     id
+});
+
+export const changeCategory = (id, category) => ({
+    type: 'CHANGE_CATEGORY',
+    id,
+    category
 });

@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "chai": "^4.2.0",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-redux": "^5.1.1",
@@ -12,7 +13,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "mocha --recursive --compilers js:babel-core/register",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -25,6 +26,11 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-preset-es2015": "^6.24.1",
+    "enzyme": "^3.7.0",
+    "enzyme-adapter-react-16": "^1.7.0",
+    "mocha": "^5.2.0",
     "prop-types": "latest"
   }
 }

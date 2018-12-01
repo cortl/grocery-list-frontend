@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Item from './Item'
-import {completeItem} from "../actions";
 import {connect} from "react-redux";
 
 const ItemList = (props) => (
@@ -10,7 +9,7 @@ const ItemList = (props) => (
             <Item
                 key={item.id}
                 {...item}
-                onClick={() => props.toggleItem(item.id)}
+                remove={props.removeItem}
             />
         )}
     </ul>
@@ -28,8 +27,4 @@ const mapStateToProps = state => ({
     items: state.items
 });
 
-const mapDispatchToProps = dispatch => ({
-    toggleItem: id => dispatch(completeItem(id))
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ItemList)
+export default connect(mapStateToProps)(ItemList)
