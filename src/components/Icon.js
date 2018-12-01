@@ -9,6 +9,7 @@ const Icon = ({color, type}) => {
 
 Icon.propTypes = {
     type: PropTypes.string,
+    color: PropTypes.string
 };
 
 export default Icon
