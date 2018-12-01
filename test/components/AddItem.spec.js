@@ -1,6 +1,6 @@
 import Chance from 'chance';
-import {expect} from "chai";
 import sinon from 'sinon'
+import {expect} from '../utils/chai'
 import {AddItem} from "../../src/components/AddItem";
 import React from "react";
 import {shallow} from "enzyme";
