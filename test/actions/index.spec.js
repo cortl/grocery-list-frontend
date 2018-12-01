@@ -1,8 +1,6 @@
 import Chance from 'chance';
 import {expect} from "chai";
-import items from "../../src/reducers/items";
 import sinon from 'sinon'
-import {NONE} from "../../src/constants/categories";
 import {ADD_ITEM, addItem, CHANGE_CATEGORY, changeCategory, REMOVE_ITEM, removeItem} from "../../src/actions";
 
 const chance = new Chance();

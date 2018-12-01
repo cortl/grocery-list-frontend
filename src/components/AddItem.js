@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {addItem} from '../actions/index'
 
-const AddItem = (props) => {
+export const AddItem = (props) => {
     let input;
 
     const addItemToList = () => {
