@@ -2,41 +2,52 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {addItem} from '../actions/index'
 
-export const AddItem = (props) => {
-    let input;
+export class AddItem extends React.Component  {
 
-    const addItemToList = () => {
-        props.addItem(input.value);
-        input.value = '';
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            value: ''
+        }
+    }
 
-    return (
-        <div className="input-group mb-3 mt-3">
+    render(){
+       return(
+           <div className="input-group mb-3 mt-3">
             <input type="text"
                    className="form-control"
                    placeholder="Apples..."
                    aria-label="Grocery Item"
                    aria-describedby="itemAddField"
-                   ref={node => input = node}
+                   value={this.state.value}
+                   onChange={e => this.setState({value: e.target.value})}
                    onKeyPress={(e) => {
                        if (e.key === 'Enter') {
-                           addItemToList();
+                           this.addItemToList();
                        }
                    }}
             />
             <div className="input-group-append">
                 <button
                     style={{zIndex: 0}}
-                    onClick={(e) => addItemToList()}
+                    onClick={(e) => this.addItemToList()}
                     className="btn btn-outline-secondary"
                     type="button"
                     id="itemAddField">+
                 </button>
             </div>
-        </div>);
-};
+        </div>)
+    }
 
-const mapDispatchToProps = dispatch => ({
+    addItemToList = () => {
+        this.props.addItem(this.state.value);
+        this.setState({
+            value: ''
+        })
+    };
+}
+
+export const mapDispatchToProps = dispatch => ({
     addItem: (itemValue) => dispatch(addItem(itemValue))
 });
 
