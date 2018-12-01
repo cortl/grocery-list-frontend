@@ -15,9 +15,10 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "mocha --recursive --require babel-register --require test/setup.js",
+    "test": "nyc mocha --recursive --require babel-register --require test/setup.js",
     "eject": "react-scripts eject",
-    "verify": "./node_modules/.bin/eslint src"
+    "verify": "./node_modules/.bin/eslint src",
+    "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -44,6 +45,7 @@
     "eslint": "^5.9.0",
     "eslint-plugin-babel": "^5.3.0",
     "mocha": "^5.2.0",
+    "nyc": "^13.1.0",
     "prop-types": "latest",
     "sinon": "^7.1.1"
   }
