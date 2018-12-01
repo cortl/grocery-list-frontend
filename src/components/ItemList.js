@@ -8,8 +8,9 @@ const ItemList = (props) => (
         {props.items.map(item =>
             <Item
                 key={item.id}
-                {...item}
-                remove={props.removeItem}
+                id={item.id}
+                text={item.text}
+                category={item.category}
             />
         )}
     </ul>
@@ -19,7 +20,7 @@ ItemList.propTypes = {
     items: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.number.isRequired,
         text: PropTypes.string.isRequired,
-        category: PropTypes.string
+        category: PropTypes.object.isRequired
     }).isRequired).isRequired,
 };
 

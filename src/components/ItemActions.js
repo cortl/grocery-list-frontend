@@ -2,9 +2,9 @@ import React from 'react'
 import Icon from './Icon';
 import {connect} from "react-redux";
 import {changeCategory, removeItem} from "../actions";
-import {BLUE, GRAY, GREEN, LIGHT_BLUE, PINK, PURPLE, RED, TAN, WHITE, YELLOW} from "../constants/colors";
 import Category from "./Category";
 import * as CATEGORIES from "../constants/categories";
+import PropTypes from "prop-types";
 
 const ItemActions = (props) => (
     <div className='float-right'>
@@ -13,22 +13,29 @@ const ItemActions = (props) => (
             <Icon color={props.color} type='cog'/>
         </button>
         <ul className="dropdown-menu" aria-labelledby={`${props.id}dropDown`}>
-            <Category textColor={'white'} change={props.changeCategory(props.id)} color={GREEN} text={CATEGORIES.PRODUCE}/>
-            <Category textColor={'white'} change={props.changeCategory(props.id)} color={PINK} text={CATEGORIES.DAIRY}/>
-            <Category textColor={'white'} change={props.changeCategory(props.id)} color={LIGHT_BLUE} text={CATEGORIES.FROZEN}/>
-            <Category textColor={'white'} change={props.changeCategory(props.id)} color={TAN} text={CATEGORIES.GRAINS}/>
-            <Category textColor={'white'} change={props.changeCategory(props.id)} color={RED} text={CATEGORIES.MEAT}/>
-            <Category textColor={'white'} change={props.changeCategory(props.id)} color={GRAY} text={CATEGORIES.CANNED}/>
-            <Category textColor={'white'} change={props.changeCategory(props.id)} color={BLUE} text={CATEGORIES.DRYGOODS}/>
-            <Category textColor={'white'} change={props.changeCategory(props.id)} color={PURPLE} text={CATEGORIES.HOUSEHOLD}/>
-            <Category textColor={'white'} change={props.changeCategory(props.id)} color={YELLOW} text={CATEGORIES.OTHER}/>
-            <Category textColor={'black'} change={props.changeCategory(props.id)} color={WHITE} text={CATEGORIES.NONE}/>
+            <Category change={props.changeCategory(props.id)} category={CATEGORIES.PRODUCE}/>
+            <Category change={props.changeCategory(props.id)} category={CATEGORIES.DAIRY}/>
+            <Category change={props.changeCategory(props.id)} category={CATEGORIES.FROZEN}/>
+            <Category change={props.changeCategory(props.id)} category={CATEGORIES.GRAINS}/>
+            <Category change={props.changeCategory(props.id)} category={CATEGORIES.MEAT}/>
+            <Category change={props.changeCategory(props.id)} category={CATEGORIES.CANNED}/>
+            <Category change={props.changeCategory(props.id)} category={CATEGORIES.DRYGOODS}/>
+            <Category change={props.changeCategory(props.id)} category={CATEGORIES.HOUSEHOLD}/>
+            <Category change={props.changeCategory(props.id)} category={CATEGORIES.OTHER}/>
+            <Category change={props.changeCategory(props.id)} category={CATEGORIES.NONE}/>
         </ul>
         <button onClick={(e) => props.removeItem(props.id)} type='button' className='btn btn-link'>
             <Icon color={props.color} type='trash'/>
         </button>
     </div>
 );
+
+ItemActions.propTypes = {
+    id: PropTypes.number.isRequired,
+    color: PropTypes.string.isRequired,
+    changeCategory: PropTypes.func.isRequired,
+    removeItem: PropTypes.func.isRequired
+};
 
 const mapDispatchToProps = dispatch => ({
     removeItem: id => dispatch(removeItem(id)),
