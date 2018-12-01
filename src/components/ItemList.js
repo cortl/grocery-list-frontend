@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Item from './Item'
 import {connect} from "react-redux";
 
-const ItemList = (props) => (
+export const ItemList = (props) => (
     <ul className='list-group'>
         {props.items.sort(sortByCategory).map(item =>
             <Item
@@ -16,7 +16,7 @@ const ItemList = (props) => (
     </ul>
 );
 
-const sortByCategory = (itemA, itemB) => itemA.category.sortOrder - itemB.category.sortOrder;
+export const sortByCategory = (itemA, itemB) => itemA.category.sortOrder - itemB.category.sortOrder;
 
 ItemList.propTypes = {
     items: PropTypes.arrayOf(PropTypes.shape({
@@ -26,7 +26,7 @@ ItemList.propTypes = {
     }).isRequired).isRequired,
 };
 
-const mapStateToProps = state => ({
+export const mapStateToProps = state => ({
     items: state.items
 });
 

@@ -4,7 +4,7 @@ import sinon from 'sinon'
 import {ADD_ITEM, addItem, CHANGE_CATEGORY, changeCategory, REMOVE_ITEM, removeItem} from "../../src/actions";
 
 const chance = new Chance();
-const sandbox = sinon.sandbox.create();
+const sandbox = sinon.createSandbox();
 
 describe('Actions', () => {
 

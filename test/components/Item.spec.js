@@ -11,7 +11,7 @@ describe('Item', () => {
 
     let wrapper,
         text = chance.string(),
-        id = chance.string(),
+        id = chance.natural(),
         category = {
             textColor: chance.string(),
             backgroundColor: chance.string()
