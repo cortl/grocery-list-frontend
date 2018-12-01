@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from "prop-types";
 
 const Category = (props) => (
+    // eslint-disable-next-line
     <a href='#' onClick={(e) => props.change(props.category)}
        style={{color: props.category.textColor}}>
         <li style={{backgroundColor: props.category.backgroundColor}}

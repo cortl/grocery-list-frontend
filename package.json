@@ -14,7 +14,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build CI=false",
+    "build": "react-scripts build",
     "test": "mocha --recursive --require babel-register --require test/setup.js",
     "eject": "react-scripts eject",
     "verify": "./node_modules/.bin/eslint src"
