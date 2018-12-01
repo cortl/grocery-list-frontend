@@ -15,7 +15,7 @@ Category.propTypes = {
         backgroundColor: PropTypes.string.isRequired,
         textColor: PropTypes.string.isRequired
     }),
-    change: PropTypes.func.isRequired,
+    change: PropTypes.func.isRequired
 };
 
 export default Category

@@ -23,7 +23,7 @@ ItemList.propTypes = {
         id: PropTypes.number.isRequired,
         text: PropTypes.string.isRequired,
         category: PropTypes.object.isRequired
-    }).isRequired).isRequired,
+    }).isRequired).isRequired
 };
 
 export const mapStateToProps = state => ({

@@ -21,7 +21,7 @@ const Item = (props) => {
 Item.propTypes = {
     text: PropTypes.string.isRequired,
     id: PropTypes.number.isRequired,
-    category: PropTypes.object,
+    category: PropTypes.object
 };
 
 export default Item
