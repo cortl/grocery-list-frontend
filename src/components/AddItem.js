@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {addItem} from '../actions'
+import {addItem} from '../actions/index'
 
 const AddItem = (props) => {
     let input;

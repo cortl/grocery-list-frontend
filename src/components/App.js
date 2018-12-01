@@ -1,5 +1,5 @@
 import React from 'react'
-import AddItem from '../containers/AddItem'
+import AddItem from './AddItem'
 import Header from "./Header";
 import ItemList from "./ItemList";
 

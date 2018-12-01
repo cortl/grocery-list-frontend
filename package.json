@@ -35,6 +35,7 @@
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.7.0",
     "mocha": "^5.2.0",
-    "prop-types": "latest"
+    "prop-types": "latest",
+    "sinon": "^7.1.1"
   }
 }
