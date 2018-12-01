@@ -16,7 +16,9 @@ jobs:
         paths:
         - node_modules
         key: v1-dependencies-{{ checksum "package.json" }}
-    - run: npm install -g codecov
+    - run:
+        name: Install CodeCov
+        command: npm install -g codecov
     - run:
       - name: Run ESLint
       - command: npm run verify
