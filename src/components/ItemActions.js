@@ -6,7 +6,7 @@ import Category from "./Category";
 import * as CATEGORIES from "../constants/categories";
 import PropTypes from "prop-types";
 
-const ItemActions = (props) => (
+export const ItemActions = (props) => (
     <div className='float-right'>
         <button type='button' className='btn btn-link' id={`${props.id}dropDown`}
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -37,7 +37,7 @@ ItemActions.propTypes = {
     removeItem: PropTypes.func.isRequired
 };
 
-const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = dispatch => ({
     removeItem: id => dispatch(removeItem(id)),
     changeCategory: id => category => dispatch(changeCategory(id, category))
 });
