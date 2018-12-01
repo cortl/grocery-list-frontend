@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 
 const ItemList = (props) => (
     <ul className='list-group'>
-        {props.items.map(item =>
+        {props.items.sort(sortByCategory).map(item =>
             <Item
                 key={item.id}
                 id={item.id}
@@ -15,6 +15,8 @@ const ItemList = (props) => (
         )}
     </ul>
 );
+
+const sortByCategory = (itemA, itemB) => itemA.category.sortOrder - itemB.category.sortOrder;
 
 ItemList.propTypes = {
     items: PropTypes.arrayOf(PropTypes.shape({
