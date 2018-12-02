@@ -68,7 +68,7 @@ export const CATEGORIES = {
     Grains: GRAINS,
     Meat: MEAT,
     Canned: CANNED,
-    Drygoods: DRYGOODS,
+    DryGoods: DRYGOODS,
     Household: HOUSEHOLD,
     Other: OTHER,
     None: NONE
