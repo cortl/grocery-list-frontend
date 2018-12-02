@@ -16,7 +16,7 @@ jobs:
         paths:
         - node_modules
         key: v1-dependencies-{{ checksum "package.json" }}
-    - run: npm install -g codecov
+    - run: pip install --user codecov
     - run: npm run verify
     - run: npm test
     - run: npm run coverage
