@@ -2,7 +2,6 @@
   "name": "grocery-list-frontend",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://cortl.github.io/grocery-list-frontend",
   "dependencies": {
     "babel-preset-react": "^6.24.1",
     "firebase": "^5.6.0",
