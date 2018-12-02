@@ -39,4 +39,10 @@ describe('Reducers', () => {
         expect(actualState[0].text).to.be.equal(action.text);
         expect(actualState[0].category).to.be.equal(action.category);
     });
+
+    it('should handle default', () => {
+        const expectedState = [];
+        const actualState = items(expectedState, {});
+        expect(actualState).to.be.equal(expectedState)
+    })
 });
