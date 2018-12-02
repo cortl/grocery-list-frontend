@@ -29,3 +29,5 @@ coverage.lcov
 # IntelliJ
 .idea/
 .idea
+
+.env
