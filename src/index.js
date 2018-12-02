@@ -9,12 +9,12 @@ import {reduxFirestore, getFirestore} from 'redux-firestore';
 import {reactReduxFirebase, getFirebase} from 'react-redux-firebase';
 import fbConfig from './config/fbConfig';
 
+const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(rootReducer,
-    compose(
+    composeEnhancer(
         applyMiddleware(thunk.withExtraArgument({getFirebase, getFirestore})),
         reactReduxFirebase(fbConfig),
-        reduxFirestore(fbConfig),
-        window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+        reduxFirestore(fbConfig)
     )
 );
 ReactDOM.render(
