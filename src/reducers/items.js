@@ -7,24 +7,24 @@ const items = (state = [], action) => {
             return [
                 ...state,
                 {
-                    id: action.id,
-                    text: action.text,
+                    name: action.name,
                     category: NONE
                 }
             ];
         case REMOVE_ITEM:
-            return state.filter(item => item.id !== action.id);
+            return state;
         case CHANGE_CATEGORY: {
-            const item = state.find(item => item.id === action.id);
-            return [
-                ...state.filter(item => item.id !== action.id),
-                {
-                    id: action.id,
-                    text: item.text,
-                    category: action.category
-                }
-            ]
+            return state
         }
+        case 'CREATE_PROJECT_ERROR':
+            console.log('done broke', action.err);
+            return state;
+        case 'REMOVE_ITEM_ERROR':
+            console.log('done broke', action.err);
+            return state;
+        case 'CHANGE_CATEGORY_ERROR':
+            console.log('done broke', action.err);
+            return state;
         default:
             return state
     }

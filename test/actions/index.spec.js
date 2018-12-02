@@ -1,7 +1,7 @@
 import Chance from 'chance';
 import {expect} from "chai";
 import sinon from 'sinon'
-import {ADD_ITEM, addItem, CHANGE_CATEGORY, changeCategory, REMOVE_ITEM, removeItem} from "../../src/actions";
+import {ADD_ITEM, addItem, CHANGE_CATEGORY, changeNewCategory, REMOVE_ITEM, removeItem} from "../../src/actions";
 
 const chance = new Chance();
 const sandbox = sinon.createSandbox();
@@ -38,8 +38,8 @@ describe('Actions', () => {
         expect(actualItem.id).to.be.equal(id);
     });
 
-    it('should have a changeCategory action', () => {
-        const actualItem = changeCategory(id, category);
+    it('should have a changeNewCategory action', () => {
+        const actualItem = changeNewCategory(id, category);
 
         expect(actualItem.type).to.be.equal(CHANGE_CATEGORY);
         expect(actualItem.id).to.be.equal(id);

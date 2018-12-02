@@ -11,8 +11,9 @@ const Item = (props) => {
             <div className='clearfix'>
                 <span className='float-left mt-2'>{props.text}</span>
                 <ItemActions
-                    color={props.category.textColor}
+                    category={props.category}
                     id={props.id}
+                    name={props.text}
                 />
             </div>
         </li>)
@@ -20,7 +21,7 @@ const Item = (props) => {
 
 Item.propTypes = {
     text: PropTypes.string.isRequired,
-    id: PropTypes.number.isRequired,
+    id: PropTypes.string.isRequired,
     category: PropTypes.object
 };
 

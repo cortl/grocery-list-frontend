@@ -7,7 +7,7 @@ import * as sinon from "sinon";
 import Category from "../../src/components/Category";
 import * as CATEGORIES from "../../src/constants/categories";
 import Icon from "../../src/components/Icon";
-import {changeCategory, removeItem} from "../../src/actions";
+import {changeNewCategory, removeItem} from "../../src/actions";
 
 const chance = new Chance();
 const sandbox = sinon.createSandbox();
@@ -144,7 +144,7 @@ describe('Item Actions', () => {
             sandbox.restore();
 
             actualProps.changeCategory(id)(category);
-            expect(dispatchSpy).to.have.been.calledWith(changeCategory(id, category));
+            expect(dispatchSpy).to.have.been.calledWith(changeNewCategory(id, category));
             sandbox.restore();
         })
     });

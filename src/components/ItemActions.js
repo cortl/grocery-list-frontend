@@ -1,45 +1,58 @@
-import React from 'react'
+import React, {Component} from 'react'
 import Icon from './Icon';
 import {connect} from "react-redux";
-import {changeCategory, removeItem} from "../actions";
+import {changeExistingCategory, changeNewCategory, removeItem} from "../actions";
 import Category from "./Category";
-import * as CATEGORIES from "../constants/categories";
 import PropTypes from "prop-types";
+import {compose} from "redux";
+import {firestoreConnect} from "react-redux-firebase";
+import {CATEGORIES} from "../constants/categories";
 
-export const ItemActions = (props) => (
-    <div className='float-right'>
-        <button type='button' className='btn btn-link' id={`${props.id}dropDown`}
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-            <Icon color={props.color} type='cog'/>
-        </button>
-        <ul className="dropdown-menu" aria-labelledby={`${props.id}dropDown`}>
-            <Category change={props.changeCategory(props.id)} category={CATEGORIES.PRODUCE}/>
-            <Category change={props.changeCategory(props.id)} category={CATEGORIES.DAIRY}/>
-            <Category change={props.changeCategory(props.id)} category={CATEGORIES.FROZEN}/>
-            <Category change={props.changeCategory(props.id)} category={CATEGORIES.GRAINS}/>
-            <Category change={props.changeCategory(props.id)} category={CATEGORIES.MEAT}/>
-            <Category change={props.changeCategory(props.id)} category={CATEGORIES.CANNED}/>
-            <Category change={props.changeCategory(props.id)} category={CATEGORIES.DRYGOODS}/>
-            <Category change={props.changeCategory(props.id)} category={CATEGORIES.HOUSEHOLD}/>
-            <Category change={props.changeCategory(props.id)} category={CATEGORIES.OTHER}/>
-            <Category change={props.changeCategory(props.id)} category={CATEGORIES.NONE}/>
-        </ul>
-        <button onClick={(e) => props.removeItem(props.id)} type='button' className='btn btn-link'>
-            <Icon color={props.color} type='trash'/>
-        </button>
-    </div>
-);
+export class ItemActions extends Component {
+
+    changeCategory = () => {
+        return this.props.category.associationId
+            ? this.props.updateExistingCategory(this.props.category.associationId, this.props.name)
+            : this.props.addNewCategory(this.props.id, this.props.name);
+
+    };
+
+    render() {
+        return (
+            <div className='float-right'>
+                <button type='button' className='btn btn-link' id={`${this.props.id}dropDown`}
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <Icon color={this.props.category.textColor} type='cog'/>
+                </button>
+                <ul className="dropdown-menu" aria-labelledby={`${this.props.id}dropDown`}>
+                    {Object.keys(CATEGORIES).map((key) => {
+                        return <Category key={key} change={this.changeCategory()} category={CATEGORIES[key]}/>
+                    })}
+                </ul>
+                <button onClick={(e) => this.props.removeItem(this.props.id)} type='button' className='btn btn-link'>
+                    <Icon color={this.props.category.textColor} type='trash'/>
+                </button>
+            </div>
+        )
+    }
+}
 
 ItemActions.propTypes = {
-    id: PropTypes.number.isRequired,
-    color: PropTypes.string.isRequired,
-    changeCategory: PropTypes.func.isRequired,
+    id: PropTypes.string.isRequired,
+    addNewCategory: PropTypes.func.isRequired,
+    updateExistingCategory: PropTypes.func.isRequired,
     removeItem: PropTypes.func.isRequired
 };
 
 export const mapDispatchToProps = dispatch => ({
     removeItem: id => dispatch(removeItem(id)),
-    changeCategory: id => category => dispatch(changeCategory(id, category))
+    addNewCategory: (id, name) => category => dispatch(changeNewCategory(id, name, category)),
+    updateExistingCategory: (id, name) => category => dispatch(changeExistingCategory(id, name, category))
 });
 
-export default connect(null, mapDispatchToProps)(ItemActions);
+export default compose(
+    connect(null, mapDispatchToProps),
+    firestoreConnect([
+        {collection: 'items'},
+        {collection: 'associations'}
+    ]))(ItemActions);

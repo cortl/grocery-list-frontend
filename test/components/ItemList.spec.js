@@ -2,20 +2,19 @@ import {shallow} from "enzyme/build";
 import React from "react";
 import {expect} from "../utils/chai";
 import Chance from "chance";
-import * as sinon from "sinon";
-import {ItemList, mapStateToProps, sortByCategory} from "../../src/components/ItemList";
+import {ItemList, mapStateToProps} from "../../src/components/ItemList";
 import Item from "../../src/components/Item";
+import {MEAT, NONE, PRODUCE} from "../../src/constants/categories";
 
 const chance = new Chance();
-const sandbox = sinon.createSandbox();
 
 describe('Item List', () => {
 
     const buildItem = (sortOrder) => () => ({
         id: chance.natural(),
-        text: chance.string(),
+        name: chance.string(),
         category: {
-            name: chance.string(),
+            ...NONE,
             sortOrder: sortOrder
         }
     });
@@ -42,7 +41,7 @@ describe('Item List', () => {
         items.forEach((item, index) => {
             expect(wrapper.find(Item).at(index).key()).to.be.equal(item.id.toString());
             expect(wrapper.find(Item).at(index).props().id).to.be.equal(item.id);
-            expect(wrapper.find(Item).at(index).props().text).to.be.equal( item.text);
+            expect(wrapper.find(Item).at(index).props().text).to.be.equal(item.name);
             expect(wrapper.find(Item).at(index).props().category).to.be.equal(item.category);
         })
     });
@@ -58,14 +57,68 @@ describe('Item List', () => {
     });
 
     describe('Redux', () => {
+        let associations,
+            state;
+
+        beforeEach(() => {
+            items = [buildItem(-1)(), buildItem(-1)()];
+            associations = [{
+                category: 'Produce',
+                name: chance.string()
+            }];
+            state = {firestore: {ordered: {items, associations}}};
+        });
+
         it('should map state to props', () => {
-            const state = {
-                items
-            };
+            const actualProps = mapStateToProps(state);
+
+            expect(actualProps.items).to.deep.equal(state.firestore.ordered.items);
+        });
+
+        it('should put together matching category and item', () => {
+            items = [buildItem(0)()];
+            associations = [{
+                category: 'Produce',
+                name: items[0].name
+            }];
+
+            state = {firestore: {ordered: {items, associations}}};
 
             const actualProps = mapStateToProps(state);
 
-            expect(actualProps.items).to.be.equal(state.items);
+            expect(actualProps.items[0].category).to.be.equal(PRODUCE);
+        });
+
+        it('should use none if it is unable to match category and name', () => {
+            items = [buildItem(0)()];
+            associations = [{
+                category: 'Produce',
+                name: chance.string()
+            }];
+
+            state = {firestore: {ordered: {items, associations}}};
+
+            const actualProps = mapStateToProps(state);
+
+            expect(actualProps.items[0].category).to.be.equal(NONE);
+        });
+
+        it('should map multiple items and categories', () => {
+            items = [buildItem(0)(), buildItem(0)()];
+            associations = [{
+                category: 'Produce',
+                name: items[0].name
+            }, {
+                category: 'Meat',
+                name: items[1].name
+            }];
+
+            state = {firestore: {ordered: {items, associations}}};
+
+            const actualProps = mapStateToProps(state);
+
+            expect(actualProps.items[0].category).to.be.equal(PRODUCE);
+            expect(actualProps.items[1].category).to.be.equal(MEAT);
         })
     });
 
