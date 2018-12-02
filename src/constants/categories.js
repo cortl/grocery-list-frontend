@@ -71,5 +71,5 @@ export const CATEGORIES = {
     Drygoods: DRYGOODS,
     Household: HOUSEHOLD,
     Other: OTHER,
-    None: NONE,
+    None: NONE
 };
