@@ -19,7 +19,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "nyc mocha --recursive --require babel-register --require test/setup.js",
+    "test": "mocha --recursive --require babel-register --require test/setup.js",
     "eject": "react-scripts eject",
     "verify": "./node_modules/.bin/eslint src",
     "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov"

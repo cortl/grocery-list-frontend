@@ -4,7 +4,7 @@ import {expect} from '../utils/chai'
 import {AddItem, mapDispatchToProps} from "../../src/components/AddItem";
 import React from "react";
 import {shallow} from "enzyme";
-import {addItem} from "../../src/actions";
+import * as Actions from "../../src/actions";
 
 const chance = new Chance();
 const sandbox = sinon.createSandbox();
@@ -71,10 +71,11 @@ describe('Add Item', () => {
     describe('Redux', () => {
         it('should map dispatch to props', () => {
             const actualProps = mapDispatchToProps(dispatchSpy);
+            sandbox.stub(Actions, 'addItem');
 
             actualProps.addItem(inputText);
 
-            expect(dispatchSpy).to.have.been.calledWith(addItem(inputText))
+            expect(dispatchSpy).to.have.been.calledWith(Actions.addItem(inputText))
         });
     });
 });

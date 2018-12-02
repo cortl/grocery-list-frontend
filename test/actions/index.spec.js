@@ -1,48 +1,51 @@
 import Chance from 'chance';
 import {expect} from "chai";
 import sinon from 'sinon'
-import {ADD_ITEM, addItem, CHANGE_CATEGORY, changeNewCategory, REMOVE_ITEM, removeItem} from "../../src/actions";
 
 const chance = new Chance();
 const sandbox = sinon.createSandbox();
 
 describe('Actions', () => {
 
-    const id = chance.natural(),
-        category = chance.string(),
-        text = chance.string(),
-        now = new Date();
+    const name = chance.string();
 
-    let clock;
+    let getFirestoreStub,
+        firestoreStub,
+        addStub,
+        thenStub,
+        catchStub,
+        getStateSpy,
+        dispatchSpy,
+        getFirebaseSpy;
 
     beforeEach(() => {
-        clock = sinon.useFakeTimers(now.getTime());
+        getFirestoreStub = sandbox.stub();
+        firestoreStub = sandbox.stub();
+        addStub = sandbox.spy();
     });
 
     afterEach(() => {
         sandbox.restore();
     });
 
-    it('should have an addItem action', () => {
-        const actualItem = addItem(text);
+    describe('Add Item', () => {
+        const firestore = {
+            add: sandbox.spy(),
+            then: sandbox.spy(),
+            catch: sandbox.spy()
+        };
+        getFirestoreStub = sandbox.stub().returns(firestore);
 
-        expect(actualItem.type).to.be.equal(ADD_ITEM);
-        expect(actualItem.id).to.be.equal(now.getTime());
-        expect(actualItem.text).to.be.equal(text);
+        // addItem(name)(dispatchSpy, getStateSpy, {getFirebase: getFirebaseSpy, getFirestore: getFirestoreStub})
+
+
     });
 
-    it('should have an removeItem action', () => {
-        const actualItem = removeItem(id);
+    describe('Remove Item', () => {
 
-        expect(actualItem.type).to.be.equal(REMOVE_ITEM);
-        expect(actualItem.id).to.be.equal(id);
     });
 
-    it('should have a changeNewCategory action', () => {
-        const actualItem = changeNewCategory(id, category);
+    describe('Change Category', () => {
 
-        expect(actualItem.type).to.be.equal(CHANGE_CATEGORY);
-        expect(actualItem.id).to.be.equal(id);
-        expect(actualItem.category).to.be.equal(category);
     });
 });

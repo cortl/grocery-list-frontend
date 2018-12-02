@@ -17,7 +17,7 @@ describe('Category', () => {
     let wrapper,
         changeSpy = sandbox.spy(),
         category = {
-            name: chance.string(),
+            category: chance.string(),
             backgroundColor: chance.string(),
             textColor: chance.string()
         };
@@ -41,7 +41,7 @@ describe('Category', () => {
     it('should call change if link is clicked', () => {
         wrapper.simulate('click');
 
-        expect(changeSpy).to.have.been.calledWith(category);
+        expect(changeSpy).to.have.been.calledWith(category.category);
     });
 
     it('should render a list item', () => {

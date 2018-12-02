@@ -5,9 +5,9 @@ import Chance from "chance";
 import {ItemActions, mapDispatchToProps} from "../../src/components/ItemActions";
 import * as sinon from "sinon";
 import Category from "../../src/components/Category";
-import * as CATEGORIES from "../../src/constants/categories";
 import Icon from "../../src/components/Icon";
-import {changeNewCategory, removeItem} from "../../src/actions";
+import * as Actions from "../../src/actions";
+import {CATEGORIES} from "../../src/constants/categories";
 
 const chance = new Chance();
 const sandbox = sinon.createSandbox();
@@ -15,25 +15,35 @@ const sandbox = sinon.createSandbox();
 describe('Item Actions', () => {
 
     let wrapper,
-        id = chance.natural(),
-        color = chance.string(),
-        category = chance.string(),
-        categoryChange = chance.string,
-        changeCategorySpy,
-        removeItemSpy,
-        dispatchSpy;
+        id = chance.string(),
+        name = chance.string(),
+        category = {
+            associationId: chance.string(),
+            textColor: chance.string()
+        },
+        existingCategoryChange = chance.string,
+        newCategoryChange = chance.natural,
+        addNewCategorySpy,
+        updateExistingCategorySpy,
+        removeItemSpy;
 
-    beforeEach(() => {
-        changeCategorySpy = sandbox.stub().returns(categoryChange);
-        removeItemSpy = sandbox.spy();
-        dispatchSpy = sandbox.spy();
-
+    const whenComponentIsRendered = () => {
         wrapper = shallow(<ItemActions
             id={id}
-            color={color}
-            changeCategory={changeCategorySpy}
+            name={name}
+            category={category}
+            addNewCategory={addNewCategorySpy}
+            updateExistingCategory={updateExistingCategorySpy}
             removeItem={removeItemSpy}
         />)
+    };
+
+    beforeEach(() => {
+        addNewCategorySpy = sandbox.stub().returns(newCategoryChange);
+        updateExistingCategorySpy = sandbox.stub().returns(existingCategoryChange);
+        removeItemSpy = sandbox.spy();
+
+        whenComponentIsRendered()
     });
 
     afterEach(() => {
@@ -57,7 +67,7 @@ describe('Item Actions', () => {
         });
 
         it('should have an Icon', () => {
-            expect(wrapper.find(Icon).at(0)).to.have.prop('color', color);
+            expect(wrapper.find(Icon).at(0)).to.have.prop('color', category.textColor);
             expect(wrapper.find(Icon).at(0)).to.have.prop('type', 'cog');
         });
 
@@ -66,55 +76,24 @@ describe('Item Actions', () => {
             expect(wrapper.find('ul')).to.have.prop('aria-labelledby', `${id}dropDown`);
         });
 
-        it('should have a Produce Category', () => {
-            expect(wrapper.find(Category).at(0)).to.have.prop('change', categoryChange);
-            expect(wrapper.find(Category).at(0)).to.have.prop('category', CATEGORIES.PRODUCE);
+        it('should have a category for every category given', () => {
+            Object.keys(CATEGORIES).forEach((key, index) => {
+                expect(wrapper.find(Category).at(index)).to.have.prop('change', existingCategoryChange);
+                expect(wrapper.find(Category).at(index)).to.have.prop('category', CATEGORIES[key]);
+            })
         });
 
-        it('should have a Dairy Category', () => {
-            expect(wrapper.find(Category).at(1)).to.have.prop('change', categoryChange);
-            expect(wrapper.find(Category).at(1)).to.have.prop('category', CATEGORIES.DAIRY);
+        it('should call new category prop if current category does not exist', () => {
+            category.associationId = '';
+
+            whenComponentIsRendered();
+
+            Object.keys(CATEGORIES).forEach((key, index) => {
+                expect(wrapper.find(Category).at(index)).to.have.prop('change', newCategoryChange);
+                expect(wrapper.find(Category).at(index)).to.have.prop('category', CATEGORIES[key]);
+            })
         });
 
-        it('should have a Frozen Category', () => {
-            expect(wrapper.find(Category).at(2)).to.have.prop('change', categoryChange);
-            expect(wrapper.find(Category).at(2)).to.have.prop('category', CATEGORIES.FROZEN);
-        });
-
-        it('should have a Grains Category', () => {
-            expect(wrapper.find(Category).at(3)).to.have.prop('change', categoryChange);
-            expect(wrapper.find(Category).at(3)).to.have.prop('category', CATEGORIES.GRAINS);
-        });
-
-        it('should have a Meat Category', () => {
-            expect(wrapper.find(Category).at(4)).to.have.prop('change', categoryChange);
-            expect(wrapper.find(Category).at(4)).to.have.prop('category', CATEGORIES.MEAT);
-        });
-
-        it('should have a Canned Category', () => {
-            expect(wrapper.find(Category).at(5)).to.have.prop('change', categoryChange);
-            expect(wrapper.find(Category).at(5)).to.have.prop('category', CATEGORIES.CANNED);
-        });
-
-        it('should have a Dry Goods Category', () => {
-            expect(wrapper.find(Category).at(6)).to.have.prop('change', categoryChange);
-            expect(wrapper.find(Category).at(6)).to.have.prop('category', CATEGORIES.DRYGOODS);
-        });
-
-        it('should have a Household Category', () => {
-            expect(wrapper.find(Category).at(7)).to.have.prop('change', categoryChange);
-            expect(wrapper.find(Category).at(7)).to.have.prop('category', CATEGORIES.HOUSEHOLD);
-        });
-
-        it('should have an Other Category', () => {
-            expect(wrapper.find(Category).at(8)).to.have.prop('change', categoryChange);
-            expect(wrapper.find(Category).at(8)).to.have.prop('category', CATEGORIES.OTHER);
-        });
-
-        it('should have a None Category', () => {
-            expect(wrapper.find(Category).at(9)).to.have.prop('change', categoryChange);
-            expect(wrapper.find(Category).at(9)).to.have.prop('category', CATEGORIES.NONE);
-        });
     });
 
     describe('Delete Button', () => {
@@ -130,22 +109,40 @@ describe('Item Actions', () => {
         });
 
         it('should have an icon', () => {
-            expect(wrapper.find(Icon).at(1)).to.have.prop('color', color);
+            expect(wrapper.find(Icon).at(1)).to.have.prop('color', category.textColor);
             expect(wrapper.find(Icon).at(1)).to.have.prop('type', 'trash');
         });
     });
 
     describe('Redux', () => {
-        it('should map dispatch to props', () => {
-            const actualProps = mapDispatchToProps(dispatchSpy);
+        let dispatchSpy,
+            actualProps;
 
+        beforeEach(() => {
+            sandbox.stub(Actions, 'removeItem');
+            sandbox.stub(Actions, 'changeNewCategory').returns('fuck');
+            sandbox.stub(Actions, 'changeExistingCategory');
+            dispatchSpy = sandbox.spy();
+
+            actualProps = mapDispatchToProps(dispatchSpy);
+        });
+
+        afterEach(() => {
+            sandbox.restore();
+        });
+        it('should map removeItem', () => {
             actualProps.removeItem(id);
-            expect(dispatchSpy).to.have.been.calledWith(removeItem(id));
-            sandbox.restore();
+            expect(dispatchSpy).to.have.been.calledWith(Actions.removeItem());
+        });
 
-            actualProps.changeCategory(id)(category);
-            expect(dispatchSpy).to.have.been.calledWith(changeNewCategory(id, category));
-            sandbox.restore();
+        it('should map changeNewCategory', () => {
+            actualProps.addNewCategory(id, name)(category);
+            expect(dispatchSpy).to.have.been.calledWith('fuck');
+        });
+
+        it('should map updateExistingCategory', () => {
+            actualProps.updateExistingCategory(id, name)(category);
+            expect(dispatchSpy).to.have.been.calledWith(Actions.changeExistingCategory());
         })
     });
 });

@@ -4,8 +4,6 @@ import {connect} from "react-redux";
 import {changeExistingCategory, changeNewCategory, removeItem} from "../actions";
 import Category from "./Category";
 import PropTypes from "prop-types";
-import {compose} from "redux";
-import {firestoreConnect} from "react-redux-firebase";
 import {CATEGORIES} from "../constants/categories";
 
 export class ItemActions extends Component {
@@ -39,20 +37,23 @@ export class ItemActions extends Component {
 
 ItemActions.propTypes = {
     id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
     addNewCategory: PropTypes.func.isRequired,
     updateExistingCategory: PropTypes.func.isRequired,
-    removeItem: PropTypes.func.isRequired
+    removeItem: PropTypes.func.isRequired,
+    category: PropTypes.shape({
+        associationId: PropTypes.string
+    })
 };
 
 export const mapDispatchToProps = dispatch => ({
     removeItem: id => dispatch(removeItem(id)),
-    addNewCategory: (id, name) => category => dispatch(changeNewCategory(id, name, category)),
+    addNewCategory: (id, name) => {
+        return category => {
+            dispatch(changeNewCategory());
+        }
+    },
     updateExistingCategory: (id, name) => category => dispatch(changeExistingCategory(id, name, category))
 });
 
-export default compose(
-    connect(null, mapDispatchToProps),
-    firestoreConnect([
-        {collection: 'items'},
-        {collection: 'associations'}
-    ]))(ItemActions);
+export default connect(null, mapDispatchToProps)(ItemActions);

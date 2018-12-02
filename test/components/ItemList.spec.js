@@ -66,27 +66,28 @@ describe('Item List', () => {
                 category: 'Produce',
                 name: chance.string()
             }];
-            state = {firestore: {ordered: {items, associations}}};
+            state = {firestore: {data: {items, associations}, ordered: {items, associations}}};
         });
 
         it('should map state to props', () => {
             const actualProps = mapStateToProps(state);
 
-            expect(actualProps.items).to.deep.equal(state.firestore.ordered.items);
+            expect(actualProps.items).to.deep.equal(state.firestore.data.items);
         });
 
         it('should put together matching category and item', () => {
             items = [buildItem(0)()];
             associations = [{
                 category: 'Produce',
-                name: items[0].name
+                name: items[0].name,
+                id: chance.string()
             }];
 
-            state = {firestore: {ordered: {items, associations}}};
+            state = {firestore: {data: {items, associations}, ordered: {items, associations}}};
 
             const actualProps = mapStateToProps(state);
 
-            expect(actualProps.items[0].category).to.be.equal(PRODUCE);
+            expect(actualProps.items[0].category).to.deep.equal({...PRODUCE, associationId: associations[0].id});
         });
 
         it('should use none if it is unable to match category and name', () => {
@@ -96,7 +97,7 @@ describe('Item List', () => {
                 name: chance.string()
             }];
 
-            state = {firestore: {ordered: {items, associations}}};
+            state = {firestore: {data: {items, associations}, ordered: {items, associations}}};
 
             const actualProps = mapStateToProps(state);
 
@@ -107,18 +108,20 @@ describe('Item List', () => {
             items = [buildItem(0)(), buildItem(0)()];
             associations = [{
                 category: 'Produce',
-                name: items[0].name
+                name: items[0].name,
+                id: chance.string()
             }, {
                 category: 'Meat',
-                name: items[1].name
+                name: items[1].name,
+                id: chance.string()
             }];
 
-            state = {firestore: {ordered: {items, associations}}};
+            state = {firestore: {data: {items, associations}, ordered: {items, associations}}};
 
             const actualProps = mapStateToProps(state);
 
-            expect(actualProps.items[0].category).to.be.equal(PRODUCE);
-            expect(actualProps.items[1].category).to.be.equal(MEAT);
+            expect(actualProps.items[0].category).to.deep.equal({...PRODUCE, associationId: associations[0].id});
+            expect(actualProps.items[1].category).to.deep.equal({...MEAT, associationId: associations[1].id});
         })
     });
 

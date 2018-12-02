@@ -40,7 +40,8 @@ describe('Item', () => {
     });
 
     it('should render ItemActions', () => {
-        expect(wrapper.find(ItemActions)).to.have.prop('color', category.textColor);
+        expect(wrapper.find(ItemActions)).to.have.prop('category', category);
         expect(wrapper.find(ItemActions)).to.have.prop('id', id);
+        expect(wrapper.find(ItemActions)).to.have.prop('name', text);
     })
 });
