@@ -48,11 +48,7 @@ ItemActions.propTypes = {
 
 export const mapDispatchToProps = dispatch => ({
     removeItem: id => dispatch(removeItem(id)),
-    addNewCategory: (id, name) => {
-        return category => {
-            dispatch(changeNewCategory());
-        }
-    },
+    addNewCategory: (id, name) => category => dispatch(changeNewCategory(id, name, category)),
     updateExistingCategory: (id, name) => category => dispatch(changeExistingCategory(id, name, category))
 });
 
