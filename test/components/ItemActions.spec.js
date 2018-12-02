@@ -120,7 +120,7 @@ describe('Item Actions', () => {
 
         beforeEach(() => {
             sandbox.stub(Actions, 'removeItem');
-            sandbox.stub(Actions, 'changeNewCategory').returns('fuck');
+            sandbox.stub(Actions, 'changeNewCategory');
             sandbox.stub(Actions, 'changeExistingCategory');
             dispatchSpy = sandbox.spy();
 
@@ -137,7 +137,7 @@ describe('Item Actions', () => {
 
         it('should map changeNewCategory', () => {
             actualProps.addNewCategory(id, name)(category);
-            expect(dispatchSpy).to.have.been.calledWith('fuck');
+            expect(dispatchSpy).to.have.been.calledWith(Actions.changeNewCategory());
         });
 
         it('should map updateExistingCategory', () => {
