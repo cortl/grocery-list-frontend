@@ -14,7 +14,8 @@ describe('Item', () => {
         id = chance.natural(),
         category = {
             textColor: chance.string(),
-            backgroundColor: chance.string()
+            backgroundColor: chance.string(),
+            symbol: chance.string()
         };
 
     beforeEach(() => {
@@ -34,9 +35,14 @@ describe('Item', () => {
         expect(wrapper).to.have.className('list-group-item');
     });
 
+    it('should render the category symbol', () => {
+        expect(wrapper.find('span').at(0)).to.have.className('float-left mt-2');
+        expect(wrapper.find('span').at(0)).to.have.text(category.symbol);
+    });
+
     it('should render the item text', () => {
-        expect(wrapper.find('span')).to.have.className('float-left mt-2');
-        expect(wrapper.find('span')).to.have.text(text);
+        expect(wrapper.find('span').at(1)).to.have.className('float-left mt-2');
+        expect(wrapper.find('span').at(1)).to.have.text(text);
     });
 
     it('should render ItemActions', () => {

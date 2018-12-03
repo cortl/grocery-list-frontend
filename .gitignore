@@ -31,3 +31,8 @@ coverage.lcov
 .idea
 
 .env
+
+#Firebase
+.firebase/
+firestore.indexes.json
+firestore.rules

@@ -9,6 +9,7 @@ const Item = (props) => {
             color: props.category.textColor
         }} className='list-group-item'>
             <div className='clearfix'>
+                <span className='float-left mt-2 mr-2'>{props.category.symbol}</span>
                 <span className='float-left mt-2'>{props.text}</span>
                 <ItemActions
                     category={props.category}
