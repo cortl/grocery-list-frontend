@@ -97,22 +97,29 @@ export const fetchUser = () => dispatch => {
     });
 };
 
-
+export const SIGN_IN_ERROR = 'SIGN_IN_ERROR';
 export const signIn = () => dispatch => {
     authRef
         .signInWithPopup(provider)
         .then(result => {})
         .catch(error => {
-            console.log(error);
+            dispatch({
+                type: SIGN_IN_ERROR,
+                err
+            })
         });
 };
 
+export const SIGN_OUT_ERROR = 'SIGN_OUT_ERROR';
 export const signOut = () => dispatch => {
     authRef
         .signOut()
         .then(() => {
         })
         .catch(error => {
-            console.log(error);
+            dispatch({
+                type: SIGN_OUT_ERROR,
+                error
+            })
         });
 };
