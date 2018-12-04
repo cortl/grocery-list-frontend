@@ -3,14 +3,21 @@ import AddItem from './AddItem'
 import ItemList from "./enhancers/FireStoreItemList";
 import Header from "./Header";
 import SignOut from "./security/SignOut";
+import {compose} from "redux";
+import {firebaseConnect} from "react-redux-firebase";
+import {Spinner} from "./Spinner";
 
-const GroceryList = () => (
+export const GroceryList = (props) => (
     <div>
         <SignOut/>
         <Header/>
-        <ItemList/>
+        {props.auth.uid
+            ? <ItemList auth={props.auth.uid}/>
+            : <Spinner/>}
         <AddItem/>
     </div>
 );
 
-export default GroceryList
+export default compose(
+    firebaseConnect()
+)(GroceryList)

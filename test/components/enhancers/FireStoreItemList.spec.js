@@ -127,34 +127,4 @@ describe('Firestore Enhanced Item List', () => {
         expect(actualProps.items[0].category).to.deep.equal({...PRODUCE, associationId: associations[0].id});
         expect(actualProps.items[1].category).to.deep.equal({...MEAT, associationId: associations[1].id});
     });
-
-    it('should only return items that belong to the logged in user', () => {
-        items = [buildItemWithUserId(userId), buildItemWithUserId(chance.string())];
-
-        whenStateIsCreated();
-        const actualProps = mapStateToProps(state);
-
-        expect(actualProps.items).to.have.length(1);
-        expect(actualProps.items[0]).to.deep.equal(items[0]);
-    });
-
-    it('should only build items with associations that belong to the logged in user', () => {
-        associations = [{
-            category: 'Produce',
-            name: items[0].name,
-            id: chance.string(),
-            userId
-        }, {
-            category: 'Produce',
-            name: items[1].name,
-            id: chance.string(),
-            userId: chance.string()
-        }];
-
-        whenStateIsCreated();
-        const actualProps = mapStateToProps(state);
-
-        expect(actualProps.items[0].category).to.deep.equal({...PRODUCE, associationId: associations[0].id});
-        expect(actualProps.items[1].category).to.deep.equal({...NONE});
-    });
 });

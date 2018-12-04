@@ -19,19 +19,15 @@ const zipItemsAndAssociations = (item, categories) => {
     }
 };
 
-const getItemsFromList = (collection, userId) => {
-    const getItemsForUserId = (collection, userId) => {
-        return collection.filter((item) => item.userId === userId)
-    };
-
+const returnEmptyIfUndefined = (collection) => {
     return collection
-        ? getItemsForUserId(collection, userId)
+        ? collection
         : [];
 };
 
 export const mapStateToProps = state => {
-    const items = getItemsFromList(state.firestore.ordered.items, state.firebase.auth.uid);
-    const associations = getItemsFromList(state.firestore.ordered.associations, state.firebase.auth.uid);
+    const items = returnEmptyIfUndefined(state.firestore.ordered.items);
+    const associations = returnEmptyIfUndefined(state.firestore.ordered.associations);
     return {
         items: items.map((item) => {
             return zipItemsAndAssociations(item, associations)
@@ -41,7 +37,7 @@ export const mapStateToProps = state => {
 
 export default compose(
     connect(mapStateToProps),
-    firestoreConnect([
-        {collection: 'items'},
-        {collection: 'associations'}
-    ]))(ItemList)
+    firestoreConnect((props) => {
+        return [{collection: 'items', where: ['userId', '==', props.auth]},
+            {collection: 'associations', where: ['userId', '==', props.auth]}]
+    }))(ItemList)
