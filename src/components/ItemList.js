@@ -5,6 +5,7 @@ import {connect} from "react-redux";
 import {compose} from 'redux'
 import {firestoreConnect} from 'react-redux-firebase';
 import {CATEGORIES, NONE} from "../constants/categories";
+import {matchingCategory} from "../utils/categoryMatching";
 
 export const ItemList = (props) => {
     return (
@@ -29,10 +30,6 @@ ItemList.propTypes = {
         name: PropTypes.string.isRequired,
         category: PropTypes.object.isRequired
     }).isRequired)
-};
-
-const matchingCategory = (item) => (category) => {
-    return category.name.toUpperCase() === item.name.toUpperCase();
 };
 
 const zipItemsAndAssociations = (item, categories) => {
