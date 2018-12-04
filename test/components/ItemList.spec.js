@@ -12,7 +12,7 @@ describe('Item List', () => {
 
     const buildItem = () => ({
         id: chance.string(),
-        name: chance.string(),
+        name: chance.word(),
         userId: chance.string(),
         category: NONE
     });

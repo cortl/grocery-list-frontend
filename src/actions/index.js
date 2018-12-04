@@ -44,10 +44,10 @@ export const CHANGE_CATEGORY = 'CHANGE_CATEGORY';
 export const CHANGE_EXISTING_CATEGORY_ERROR = 'CHANGE_CATEGORY_ERROR';
 const CHANGE_NEW_CATEGORY_ERROR = 'CHANGE_CATEGORY_ERROR';
 
-export const changeExistingCategory = (id, name, category) => {
+export const changeExistingCategory = (id, userId, name, category) => {
     return (dispatch, getState, {getFirebase, getFirestore}) => {
         const firestore = getFirestore();
-        firestore.set({collection: 'associations', doc: id}, {name: name, category: category})
+        firestore.set({collection: 'associations', doc: id}, { name, category, userId})
             .then(dispatch({
                 type: CHANGE_CATEGORY,
                 id,

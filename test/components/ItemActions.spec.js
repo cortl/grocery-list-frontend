@@ -17,6 +17,7 @@ describe('Item Actions', () => {
     let wrapper,
         id = chance.string(),
         name = chance.string(),
+        userId = chance.string(),
         category = {
             associationId: chance.string(),
             textColor: chance.string()
@@ -136,12 +137,12 @@ describe('Item Actions', () => {
         });
 
         it('should map changeNewCategory', () => {
-            actualProps.addNewCategory(id, name)(category);
+            actualProps.addNewCategory(id, userId, name)(category);
             expect(dispatchSpy).to.have.been.calledWith(Actions.changeNewCategory());
         });
 
         it('should map updateExistingCategory', () => {
-            actualProps.updateExistingCategory(id, name)(category);
+            actualProps.updateExistingCategory(id, userId, name)(category);
             expect(dispatchSpy).to.have.been.calledWith(Actions.changeExistingCategory());
         })
     });

@@ -1,4 +1,4 @@
-import {matchingCategory} from "../../src/utils/categoryMatching";
+import {itemStripper, matchingCategory} from "../../src/utils/categoryMatching";
 import {expect} from "./chai";
 
 describe('Category Matching', () => {
@@ -15,52 +15,57 @@ describe('Category Matching', () => {
         expect(result).to.be.true;
     });
 
-    it('should match with quantifiers ex. 32lbs chicken, 2x chicken', () => {
-        result = whenMatchIsCalled('Apples', '32x Apples');
+    it('should match when item given has quantifiers', () => {
+       result = whenMatchIsCalled('32x Apples', 'APPLES');
 
-        expect(result).to.be.true;
-
-        result = whenMatchIsCalled('Apples', '32lbs Apples');
-
-        expect(result).to.be.true;
+       expect(result).to.be.true;
     });
 
-    it('spacing on quantifiers should not matter', () => {
-        result = whenMatchIsCalled('Apples', '32 x Apples');
+    describe('Item Stripper', () => {
+        it('should remove front quantifiers from name', () => {
+            expect(itemStripper('32x Chicken Breast')).to.be.equal('Chicken Breast');
+        });
 
-        expect(result).to.be.true;
+        it('should remove front quantifiers from name', () => {
+            expect(itemStripper('32 x Chicken Breast')).to.be.equal('Chicken Breast');
+        });
 
-        result = whenMatchIsCalled('Apples', 'Apples x 32');
+        it('should remove front quantifiers from name', () => {
+            expect(itemStripper('32lbs Chicken Breast')).to.be.equal('Chicken Breast');
+        });
 
-        expect(result).to.be.true;
+        it('should remove front quantifiers from name', () => {
+            expect(itemStripper('x 3 Chicken Breast')).to.be.equal('Chicken Breast');
+        });
 
-        result = whenMatchIsCalled('Apples', '16ozApples');
+        it('should remove front quantifiers from name', () => {
+            expect(itemStripper('Chicken Breast')).to.be.equal('Chicken Breast');
+        });
 
-        expect(result).to.be.true;
-    });
+        it('should remove rear quantifiers from name', () => {
+            expect(itemStripper('Chicken Breast x32')).to.be.equal('Chicken Breast');
+        });
 
-    it('should not match on non-matching names', () => {
-        result = whenMatchIsCalled('Apples', 'Bananas');
+        it('should remove rear quantifiers from name', () => {
+            expect(itemStripper('Chicken Breast x 32')).to.be.equal('Chicken Breast');
+        });
 
-        expect(result).to.be.false;
-    });
+        it('should remove rear quantifiers from name', () => {
+            expect(itemStripper('Chicken Breast 32lbs')).to.be.equal('Chicken Breast');
+        });
 
-    it('should not match on non-matching names with quantifiers', () => {
-        result = whenMatchIsCalled('Apples', '32x Bananas');
+        it('should remove rear quantifiers from name', () => {
+            expect(itemStripper('Chicken Breast 3x')).to.be.equal('Chicken Breast');
+        });
 
-        expect(result).to.be.false;
-    });
+        it('should not remove important details from name', () => {
+            expect(itemStripper('46oz x Evaporated Milk')).to.be.equal('Evaporated Milk');
+        });
 
-    it('should not match if the items are not the same', () => {
-        result = whenMatchIsCalled('Canned Milk', 'Milk');
+        it('should not remove important details from name', () => {
+            expect(itemStripper('Evaporated Milk')).to.be.equal('Evaporated Milk');
+        });
 
-        expect(result).to.be.false;
-    });
-
-    it('should not match if the items are not the same', () => {
-        result = whenMatchIsCalled('CannedMilk', 'Milk');
-
-        expect(result).to.be.false;
-    });
+    })
 
 });
