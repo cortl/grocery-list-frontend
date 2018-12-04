@@ -3,6 +3,6 @@ import {firestoreReducer} from 'redux-firestore';
 import {firebaseReducer} from "react-redux-firebase";
 
 export default combineReducers({
-    firestore: firestoreReducer,
-    firebase: firebaseReducer
+    firebase: firebaseReducer,
+    firestore: firestoreReducer
 })
