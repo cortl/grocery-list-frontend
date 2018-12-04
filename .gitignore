@@ -35,4 +35,3 @@ coverage.lcov
 #Firebase
 .firebase/
 firestore.indexes.json
-firestore.rules
