@@ -40,15 +40,19 @@ export class AddItem extends React.Component  {
     }
 
     addItemToList = () => {
-        this.props.addItem(this.state.value);
+        this.props.addItem(this.state.value, this.props.userId);
         this.setState({
             value: ''
         })
     };
 }
 
-export const mapDispatchToProps = dispatch => ({
-    addItem: (itemValue) => dispatch(addItem(itemValue))
+export const mapStateToProps = state => ({
+    userId: state.firebase.auth.uid
 });
 
-export default connect(null, mapDispatchToProps)(AddItem)
+export const mapDispatchToProps = dispatch => ({
+    addItem: (itemValue, userId) => dispatch(addItem(itemValue, userId))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddItem)

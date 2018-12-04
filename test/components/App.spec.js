@@ -1,10 +1,9 @@
 import {expect} from '../utils/chai'
-import {AddItem} from "../../src/components/AddItem";
 import React from "react";
 import {shallow} from "enzyme";
 import App from "../../src/components/App";
-import Header from "../../src/components/Header";
-import ItemList from "../../src/components/ItemList";
+import {BrowserRouter, Route} from "react-router-dom";
+import SignIn from "../../src/components/security/SignIn";
 
 describe('App', () => {
 
@@ -14,20 +13,23 @@ describe('App', () => {
         wrapper = shallow(<App/>)
     });
 
-    it('should render in a container', () => {
-        expect(wrapper).to.have.className('container');
+    it('should render in a BrowserRouter', () => {
+        expect(wrapper).to.have.type(BrowserRouter);
     });
 
-    it('should have a Header', () => {
-        expect(wrapper.find(Header)).to.be.present;
+    it('should have a container', () => {
+        expect(wrapper.find('div')).to.have.className('container');
     });
 
-    it('should have an ItemList', () => {
-        expect(wrapper.find(ItemList)).to.be.present;
+    it('should have a signIn route', () => {
+        expect(wrapper.find(Route).at(0)).to.have.prop('exact');
+        expect(wrapper.find(Route).at(0)).to.have.prop('path', '/');
     });
 
-    it('should have an AddItem', () => {
-        expect(wrapper.find(AddItem)).to.be.present;
+    it('should have an app route', () => {
+        expect(wrapper.find(Route).at(1)).to.have.prop('exact');
+        expect(wrapper.find(Route).at(1)).to.have.prop('path', '/signIn');
+        expect(wrapper.find(Route).at(1)).to.have.prop('component', SignIn);
     })
 
 });

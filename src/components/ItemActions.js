@@ -11,7 +11,7 @@ export class ItemActions extends Component {
     changeCategory = () => {
         return this.props.category.associationId
             ? this.props.updateExistingCategory(this.props.category.associationId, this.props.name)
-            : this.props.addNewCategory(this.props.id, this.props.name);
+            : this.props.addNewCategory(this.props.id, this.props.userId, this.props.name);
 
     };
 
@@ -46,10 +46,14 @@ ItemActions.propTypes = {
     })
 };
 
+export const mapStateToProps = state => ({
+    userId: state.firebase.auth.uid
+});
+
 export const mapDispatchToProps = dispatch => ({
     removeItem: id => dispatch(removeItem(id)),
-    addNewCategory: (id, name) => category => dispatch(changeNewCategory(id, name, category)),
+    addNewCategory: (id, userId, name) => category => dispatch(changeNewCategory(id, userId, name, category)),
     updateExistingCategory: (id, name) => category => dispatch(changeExistingCategory(id, name, category))
 });
 
-export default connect(null, mapDispatchToProps)(ItemActions);
+export default connect(mapStateToProps, mapDispatchToProps)(ItemActions);

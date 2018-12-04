@@ -10,13 +10,11 @@ const chance = new Chance();
 
 describe('Item List', () => {
 
-    const buildItem = (sortOrder) => () => ({
-        id: chance.natural(),
+    const buildItem = () => ({
+        id: chance.string(),
         name: chance.string(),
-        category: {
-            ...NONE,
-            sortOrder: sortOrder
-        }
+        userId: chance.string(),
+        category: NONE
     });
 
     const whenComponentIsRendered = () => {
@@ -26,7 +24,7 @@ describe('Item List', () => {
     };
 
     let wrapper,
-        items = chance.n(buildItem(0), chance.d10());
+        items = chance.n(buildItem, chance.d10());
 
     beforeEach(() => {
         whenComponentIsRendered();
@@ -47,7 +45,17 @@ describe('Item List', () => {
     });
 
     it('should sort items based off of category sort order', () => {
-        items = [buildItem(1)(), buildItem(0)()];
+        items = [{
+            ...buildItem(),
+            category: {
+                sortOrder: 1
+            }
+        }, {
+            ...buildItem(),
+            category: {
+                sortOrder: 0
+            }
+        }];
         const originalItems = [items[0], items[1]];
 
         whenComponentIsRendered();
@@ -58,15 +66,42 @@ describe('Item List', () => {
 
     describe('Redux', () => {
         let associations,
+            auth,
+            userId = chance.string(),
             state;
 
+        const buildItemWithUserId = (uid) => ({
+            ...buildItem(),
+            userId: uid
+        });
+
+        const whenStateIsCreated = () => {
+            state = {
+                firestore: {
+                    data: {
+                        items,
+                        associations
+                    },
+                    ordered: {
+                        items,
+                        associations
+                    }
+                },
+                firebase: {
+                    auth
+                }
+            };
+        };
+
         beforeEach(() => {
-            items = [buildItem(-1)(), buildItem(-1)()];
+            items = [buildItemWithUserId(userId), buildItemWithUserId(userId)];
             associations = [{
                 category: 'Produce',
-                name: chance.string()
+                name: chance.string(),
+                userId: userId
             }];
-            state = {firestore: {data: {items, associations}, ordered: {items, associations}}};
+            auth = {uid: userId};
+            whenStateIsCreated();
         });
 
         it('should map state to props', () => {
@@ -76,14 +111,15 @@ describe('Item List', () => {
         });
 
         it('should put together matching category and item', () => {
-            items = [buildItem(0)()];
+            items = [buildItemWithUserId(userId)];
             associations = [{
                 category: 'Produce',
                 name: items[0].name,
-                id: chance.string()
+                id: chance.string(),
+                userId
             }];
 
-            state = {firestore: {data: {items, associations}, ordered: {items, associations}}};
+            whenStateIsCreated();
 
             const actualProps = mapStateToProps(state);
 
@@ -91,13 +127,14 @@ describe('Item List', () => {
         });
 
         it('should use none if it is unable to match category and name', () => {
-            items = [buildItem(0)()];
+            items = [buildItemWithUserId(userId)];
             associations = [{
                 category: 'Produce',
-                name: chance.string()
+                name: chance.string(),
+                userId
             }];
 
-            state = {firestore: {data: {items, associations}, ordered: {items, associations}}};
+            whenStateIsCreated();
 
             const actualProps = mapStateToProps(state);
 
@@ -105,24 +142,56 @@ describe('Item List', () => {
         });
 
         it('should map multiple items and categories', () => {
-            items = [buildItem(0)(), buildItem(0)()];
+            items = [buildItemWithUserId(userId), buildItemWithUserId(userId)];
             associations = [{
                 category: 'Produce',
                 name: items[0].name,
-                id: chance.string()
+                id: chance.string(),
+                userId
             }, {
                 category: 'Meat',
                 name: items[1].name,
-                id: chance.string()
+                id: chance.string(),
+                userId
             }];
 
-            state = {firestore: {data: {items, associations}, ordered: {items, associations}}};
+            whenStateIsCreated();
 
             const actualProps = mapStateToProps(state);
 
             expect(actualProps.items[0].category).to.deep.equal({...PRODUCE, associationId: associations[0].id});
             expect(actualProps.items[1].category).to.deep.equal({...MEAT, associationId: associations[1].id});
-        })
+        });
+
+        it('should only return items that belong to the logged in user', () => {
+            items = [buildItemWithUserId(userId), buildItemWithUserId(chance.string())];
+
+            whenStateIsCreated();
+            const actualProps = mapStateToProps(state);
+
+            expect(actualProps.items).to.have.length(1);
+            expect(actualProps.items[0]).to.deep.equal(items[0]);
+        });
+
+        it('should only build items with associations that belong to the logged in user', () => {
+            associations = [{
+                category: 'Produce',
+                name: items[0].name,
+                id: chance.string(),
+                userId
+            }, {
+                category: 'Produce',
+                name: items[1].name,
+                id: chance.string(),
+                userId: chance.string()
+            }];
+
+            whenStateIsCreated();
+            const actualProps = mapStateToProps(state);
+
+            expect(actualProps.items[0].category).to.deep.equal({...PRODUCE, associationId: associations[0].id});
+            expect(actualProps.items[1].category).to.deep.equal({...NONE});
+        });
     });
 
 });

@@ -1,11 +1,14 @@
+import {authRef, provider} from "../config/fbConfig";
+
 export const ADD_ITEM = 'ADD_ITEM';
 export const ADD_ITEM_ERROR = 'ADD_ITEM_ERROR';
-export const addItem = name => {
+export const addItem = (name, userId) => {
     return (dispatch, getState, {getFirebase, getFirestore}) => {
         const firestore = getFirestore();
         firestore.add(
             {collection: 'items'}, {
-                name
+                name,
+                userId
             }).then(() => {
             dispatch({
                 type: ADD_ITEM,
@@ -57,11 +60,12 @@ export const changeExistingCategory = (id, name, category) => {
     }
 };
 
-export const changeNewCategory = (id, name, category) => {
+export const changeNewCategory = (id, userId, name, category) => {
     return (dispatch, getState, {getFirebase, getFirestore}) => {
         const firestore = getFirestore();
         firestore.add({collection: 'associations'}, {
             category,
+            userId,
             name
         })
             .then(dispatch({
@@ -74,4 +78,41 @@ export const changeNewCategory = (id, name, category) => {
                 dispatch({type: CHANGE_NEW_CATEGORY_ERROR, err})
             })
     }
+};
+
+export const FETCH_USER = 'FETCH_USER';
+export const fetchUser = () => dispatch => {
+    authRef.onAuthStateChanged(user => {
+        if (user) {
+            dispatch({
+                type: FETCH_USER,
+                payload: user
+            });
+        } else {
+            dispatch({
+                type: FETCH_USER,
+                payload: null
+            });
+        }
+    });
+};
+
+
+export const signIn = () => dispatch => {
+    authRef
+        .signInWithPopup(provider)
+        .then(result => {})
+        .catch(error => {
+            console.log(error);
+        });
+};
+
+export const signOut = () => dispatch => {
+    authRef
+        .signOut()
+        .then(() => {
+        })
+        .catch(error => {
+            console.log(error);
+        });
 };

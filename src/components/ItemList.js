@@ -45,10 +45,20 @@ const zipItemsAndAssociations = (item, categories) => {
     }
 };
 
+const getItemsForUserId = (collection, userId) => {
+    return collection.filter((item) => item.userId === userId)
+};
+
 export const mapStateToProps = state => {
+    const items = state.firestore.ordered.items
+        ? getItemsForUserId(state.firestore.ordered.items, state.firebase.auth.uid)
+        : [];
+    const associations = state.firestore.ordered.associations
+        ? getItemsForUserId(state.firestore.ordered.associations, state.firebase.auth.uid)
+        : [];
     return {
-        items: state.firestore.data.items && state.firestore.ordered.items.map((item) => {
-            return zipItemsAndAssociations(item, state.firestore.ordered.associations)
+        items: items.map((item) => {
+            return zipItemsAndAssociations(item, associations)
         })
     };
 };
