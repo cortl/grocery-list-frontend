@@ -1,6 +1,6 @@
 import React from 'react'
 import AddItem from './AddItem'
-import ItemList from "./ItemList";
+import ItemList from "./enhancers/FireStoreItemList";
 import Header from "./Header";
 import SignOut from "./security/SignOut";
 

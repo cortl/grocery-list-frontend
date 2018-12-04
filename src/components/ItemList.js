@@ -1,11 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Item from './Item'
-import {connect} from "react-redux";
-import {compose} from 'redux'
-import {firestoreConnect} from 'react-redux-firebase';
-import {CATEGORIES, NONE} from "../constants/categories";
-import {matchingCategory} from "../utils/categoryMatching";
 
 export const ItemList = (props) => {
     return (
@@ -31,42 +26,3 @@ ItemList.propTypes = {
         category: PropTypes.object.isRequired
     }).isRequired)
 };
-
-const zipItemsAndAssociations = (item, categories) => {
-    let foundCategory = categories
-        ? categories.find(matchingCategory(item))
-        : NONE;
-    foundCategory = foundCategory !== undefined ? {
-        ...CATEGORIES[foundCategory.category],
-        associationId: foundCategory.id
-    } : NONE;
-    return {
-        ...item,
-        category: foundCategory
-    }
-};
-
-const getItemsForUserId = (collection, userId) => {
-    return collection.filter((item) => item.userId === userId)
-};
-
-export const mapStateToProps = state => {
-    const items = state.firestore.ordered.items
-        ? getItemsForUserId(state.firestore.ordered.items, state.firebase.auth.uid)
-        : [];
-    const associations = state.firestore.ordered.associations
-        ? getItemsForUserId(state.firestore.ordered.associations, state.firebase.auth.uid)
-        : [];
-    return {
-        items: items.map((item) => {
-            return zipItemsAndAssociations(item, associations)
-        })
-    };
-};
-
-export default compose(
-    connect(mapStateToProps),
-    firestoreConnect([
-        {collection: 'items'},
-        {collection: 'associations'}
-    ]))(ItemList)
