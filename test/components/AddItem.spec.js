@@ -12,7 +12,7 @@ const sandbox = sinon.createSandbox();
 describe('Add Item', () => {
 
     let wrapper,
-        inputText = chance.string(),
+        inputText = chance.string({length: 49}),
         dispatchSpy,
         addItemSpy;
 
@@ -40,6 +40,7 @@ describe('Add Item', () => {
             expect(wrapper.find('input')).to.have.prop('placeholder', 'Apples...');
             expect(wrapper.find('input')).to.have.prop('aria-label', 'Grocery Item');
             expect(wrapper.find('input')).to.have.prop('aria-describedby', 'itemAddField');
+            expect(wrapper.find('input')).to.have.prop('maxLength', 50);
         });
 
         it('should handle on enter key press', () => {
@@ -49,6 +50,18 @@ describe('Add Item', () => {
             expect(addItemSpy).to.have.been.calledWith(inputText);
         });
 
+        it('should not add item if length is greater than 50', () => {
+            wrapper.find('input').simulate('change', {target: {value: chance.string({length: 51})}});
+            wrapper.find('input').simulate('keyPress', {key: 'Enter'});
+
+            expect(addItemSpy).to.not.have.been.called;
+        });
+
+        it('should not add item if nothing is inputted', () => {
+            wrapper.find('input').simulate('keyPress', {key: 'Enter'});
+
+            expect(addItemSpy).to.not.have.been.called;
+        })
     });
 
     describe('Button', () => {
@@ -64,7 +77,6 @@ describe('Add Item', () => {
             wrapper.find('button').simulate('click');
 
             expect(addItemSpy).to.have.been.calledWith(inputText);
-
         })
     });
 
