@@ -105,7 +105,7 @@ export const signIn = () => dispatch => {
         .catch(error => {
             dispatch({
                 type: SIGN_IN_ERROR,
-                err
+                error
             })
         });
 };
