@@ -37,7 +37,7 @@ describe('Sign In', () => {
         expect(signInSpy).to.have.been.calledOnce;
     });
 
-    it('should move the page to sign in if auth is empty', () => {
+    it('should move the page to app if page is signed', () => {
         const contextStub = {
             router: {
                 history: {
@@ -51,14 +51,14 @@ describe('Sign In', () => {
         };
 
         wrapper = mount(<SignIn
-            authenticated={auth}
+            auth={auth}
         />, {context: contextStub});
 
         auth = {
-            isEmpty: true
+            isEmpty: false
         };
 
-        wrapper.setProps({authenticated: auth});
+        wrapper.setProps({auth: auth});
 
 
         expect(contextStub.router.history.push).to.have.been.calledWith('/')
@@ -68,15 +68,13 @@ describe('Sign In', () => {
         it('should map state to props', () => {
             const state = {
                 firebase: {
-                    auth: {
-                        isEmpty: chance.string()
-                    }
+                    auth: chance.string()
                 }
             };
 
             const actualProps = mapStateToProps(state);
 
-            expect(actualProps.authenticated).to.be.equal(state.firebase.auth.isEmpty)
+            expect(actualProps.auth).to.be.equal(state.firebase.auth)
         });
     });
 

@@ -9,22 +9,22 @@ export default (ComposedComponent) => {
         };
 
         componentWillMount = () => {
-            if (!this.props.authenticated) {
+            if (!this.props.auth) {
                 this.context.router.history.push("/signIn");
             }
         };
 
         componentWillUpdate = (nextProps) => {
-            if (!nextProps.authenticated) {
+            if (!nextProps.auth) {
                 this.context.router.history.push("/signIn");
             }
         };
 
         render = () => {
-            // if (this.props.authenticated) {
+            if (this.props.auth) {
                 return <ComposedComponent {...this.props} />;
-            // }
-            // return null;
+            }
+            return null;
         }
     }
 
@@ -32,5 +32,5 @@ export default (ComposedComponent) => {
 }
 
 export const mapStateToProps = (state) => {
-    return { authenticated: state.firebase.auth.isEmpty};
+    return { auth: state.firebase.auth};
 };

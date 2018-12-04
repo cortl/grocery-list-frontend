@@ -9,7 +9,7 @@ export class SignIn extends Component {
     };
 
     componentWillUpdate(nextProps) {
-        if (nextProps.authenticated) {
+        if (!nextProps.auth.isEmpty) {
             this.context.router.history.push('/');
         }
     }
@@ -32,7 +32,7 @@ export class SignIn extends Component {
 }
 
 export const mapStateToProps = (state) => ({
-    authenticated: state.firebase.auth.isEmpty
+    auth: state.firebase.auth
 });
 
 export default connect(mapStateToProps, {signIn})(SignIn);
