@@ -126,6 +126,22 @@ describe('Item List', () => {
             expect(actualProps.items[0].category).to.deep.equal({...PRODUCE, associationId: associations[0].id});
         });
 
+        it('should match uppercase categories', () => {
+            items = [buildItemWithUserId(userId)];
+            associations = [{
+                category: 'Produce',
+                name: items[0].name.toUpperCase(),
+                id: chance.string(),
+                userId
+            }];
+
+            whenStateIsCreated();
+
+            const actualProps = mapStateToProps(state);
+
+            expect(actualProps.items[0].category).to.deep.equal({...PRODUCE, associationId: associations[0].id});
+        });
+
         it('should use none if it is unable to match category and name', () => {
             items = [buildItemWithUserId(userId)];
             associations = [{

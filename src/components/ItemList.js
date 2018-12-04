@@ -31,9 +31,13 @@ ItemList.propTypes = {
     }).isRequired)
 };
 
+const matchingCategory = (item) => (category) => {
+    return category.name.toUpperCase() === item.name.toUpperCase();
+};
+
 const zipItemsAndAssociations = (item, categories) => {
     let foundCategory = categories
-        ? categories.find(category => category.name === item.name)
+        ? categories.find(matchingCategory(item))
         : NONE;
     foundCategory = foundCategory !== undefined ? {
         ...CATEGORIES[foundCategory.category],
