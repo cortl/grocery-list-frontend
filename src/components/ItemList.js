@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 import {compose} from 'redux'
 import {firestoreConnect} from 'react-redux-firebase';
 import {CATEGORIES, NONE} from "../constants/categories";
-import {itemStripper, matchingCategory} from "../utils/categoryMatching";
+import {matchingCategory} from "../utils/categoryMatching";
 
 export const ItemList = (props) => {
     return (
