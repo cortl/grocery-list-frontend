@@ -4,6 +4,7 @@ import {mount, shallow} from "enzyme";
 import Chance from "chance";
 import * as sinon from "sinon";
 import {SignIn, mapStateToProps} from "../../../src/components/security/SignIn";
+import Header from "../../../src/components/Header";
 
 const sandbox = sinon.createSandbox();
 const chance = new Chance();
@@ -20,8 +21,7 @@ describe('Sign In', () => {
     });
 
     it('should have a sign in header', () => {
-       expect(wrapper.childAt(0)).to.have.className('mt-5 mb-5');
-       expect(wrapper.find('h1')).to.have.text('Sign In');
+       expect(wrapper.find(Header)).to.have.prop('text', 'Sign In');
     });
 
     it('should have a sign in link', () => {

@@ -2,13 +2,13 @@ import {authRef, provider} from "../config/fbConfig";
 
 export const ADD_ITEM = 'ADD_ITEM';
 export const ADD_ITEM_ERROR = 'ADD_ITEM_ERROR';
-export const addItem = (name, userId) => {
+export const addItem = (name, listId) => {
     return (dispatch, getState, {getFirebase, getFirestore}) => {
         const firestore = getFirestore();
         firestore.add(
             {collection: 'items'}, {
                 name,
-                userId
+                listId
             }).then(() => {
             dispatch({
                 type: ADD_ITEM,
@@ -47,7 +47,7 @@ const CHANGE_NEW_CATEGORY_ERROR = 'CHANGE_CATEGORY_ERROR';
 export const changeExistingCategory = (id, userId, name, category) => {
     return (dispatch, getState, {getFirebase, getFirestore}) => {
         const firestore = getFirestore();
-        firestore.set({collection: 'associations', doc: id}, { name, category, userId})
+        firestore.set({collection: 'associations', doc: id}, {name, category, userId})
             .then(dispatch({
                 type: CHANGE_CATEGORY,
                 id,
@@ -97,16 +97,49 @@ export const fetchUser = () => dispatch => {
     });
 };
 
+export const loadUser = (uid) => (dispatch, getState, {getFirebase, getFirestore}) => {
+    const firestore = getFirestore();
+    firestore.get({collection: 'users', doc: uid})
+        .then(userProfile => {
+            const userDoc = userProfile.docs[0].data();
+            dispatch({
+                type: 'SIGN_IN',
+                payload: {
+                    lists: userDoc.lists.map(list => list.id),
+                    ownList: userDoc.lists[0].id
+                }
+            })
+        });
+};
+
 export const SIGN_IN_ERROR = 'SIGN_IN_ERROR';
-export const signIn = () => dispatch => {
+export const signIn = () => (dispatch, getState, {getFirebase, getFirestore}) => {
+    const firestore = getFirestore();
     authRef
         .signInWithPopup(provider)
-        .then(result => {})
-        .catch(error => {
-            dispatch({
-                type: SIGN_IN_ERROR,
-                error
-            })
+        .then(result => {
+            const userId = result.user.uid;
+            firestore.get({collection: 'users', doc: userId})
+                .then(userProfile => {
+                    if (!userProfile.exists) {
+                        firestore.collection('lists').add({
+                            userId
+                        }).then(docId => {
+                            firestore.set({collection: 'users', doc: userId},
+                                {
+                                    lists: [docId]
+                                });
+                        });
+                    } else {
+                        dispatch({
+                            type: 'SIGN_IN',
+                            payload: {
+                                lists: userProfile.data().lists.map(list => list.id),
+                                ownList: userProfile.data().lists[0].id
+                            }
+                        });
+                    }
+                });
         });
 };
 
@@ -115,11 +148,8 @@ export const signOut = () => dispatch => {
     authRef
         .signOut()
         .then(() => {
-        })
-        .catch(error => {
             dispatch({
-                type: SIGN_OUT_ERROR,
-                error
+                type: 'RESET_USER'
             })
         });
 };

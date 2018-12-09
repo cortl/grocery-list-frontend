@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types';
 import {signIn} from "../../actions";
 import {connect} from "react-redux";
+import Header from "../Header";
 
 export class SignIn extends Component {
     static contextTypes = {
@@ -17,14 +18,16 @@ export class SignIn extends Component {
     render() {
         return (
             <div>
-                <div className='mt-5 mb-5'>
-                    <h1>Sign In</h1>
+                <Header text='Sign In'/>
+                <div className='card'>
+                    <div className='card-body'>
+                        {/*eslint-disable-next-line*/}
+                        <a href='#' onClick={this.props.signIn}>
+                            <i className='fab fa-google mr-2'/>
+                            Sign In With Google
+                        </a>
+                    </div>
                 </div>
-                {/*eslint-disable-next-line*/}
-                <a href='#' onClick={this.props.signIn}>
-                    <i className='fab fa-google mr-2'/>
-                    Sign In With Google
-                </a>
             </div>
         );
     }

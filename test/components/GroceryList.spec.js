@@ -2,27 +2,38 @@ import {expect} from '../utils/chai'
 import React from "react";
 import {shallow} from "enzyme";
 import {AddItem} from "../../src/components/AddItem";
-import {ItemList} from "../../src/components/ItemList";
 import Header from "../../src/components/Header";
 import {GroceryList} from "../../src/components/GroceryList";
 import SignOut from "../../src/components/security/SignOut";
 import Chance from "chance";
+import ItemList from "../../src/components/enhancers/FireStoreItemList";
 import {Spinner} from "../../src/components/Spinner";
+import * as sinon from "sinon";
 
 const chance = new Chance();
-
+const sandbox = sinon.createSandbox();
 describe('Grocery List', () => {
 
     let wrapper,
-        auth = {};
+        auth = {},
+        profile = {
+            lists: [chance.word()]
+        },
+        loadUserSpy = sandbox.spy();
 
     const whenComponentIsRendered = () => {
         wrapper = shallow(<GroceryList
+            loadUser={loadUserSpy}
+            profile={profile}
             auth={auth}/>)
     };
 
     beforeEach(() => {
         whenComponentIsRendered();
+    });
+
+    afterEach(() => {
+        sandbox.restore();
     });
 
     it('should render in a div', () => {
@@ -35,6 +46,7 @@ describe('Grocery List', () => {
 
     it('should have a header', () => {
         expect(wrapper.find(Header)).to.be.present;
+        expect(wrapper.find(Header)).to.have.prop('text', 'Grocery List');
     });
 
     it('should have an item list if uid exists', () => {
@@ -45,6 +57,8 @@ describe('Grocery List', () => {
         whenComponentIsRendered();
 
         expect(wrapper.find(ItemList)).to.be.present;
+        expect(wrapper.find(ItemList)).to.have.prop('listIds', profile.lists);
+        expect(wrapper.find(ItemList)).to.have.prop('auth', auth.uid);
         expect(wrapper.find(Spinner)).to.not.be.present;
     });
 

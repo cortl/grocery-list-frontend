@@ -42,7 +42,7 @@ export class AddItem extends React.Component {
 
     addItemToList = () => {
         if (this.state.value && this.state.value.length < 50) {
-            this.props.addItem(this.state.value, this.props.userId);
+            this.props.addItem(this.state.value, this.props.listId);
             this.setState({
                 value: ''
             })
@@ -51,11 +51,11 @@ export class AddItem extends React.Component {
 }
 
 export const mapStateToProps = state => ({
-    userId: state.firebase.auth.uid
+    listId: state.user.ownList
 });
 
 export const mapDispatchToProps = dispatch => ({
-    addItem: (itemValue, userId) => dispatch(addItem(itemValue, userId))
+    addItem: (itemValue, listId) => dispatch(addItem(itemValue, listId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddItem)

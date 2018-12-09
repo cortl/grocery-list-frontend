@@ -10,12 +10,14 @@ describe('Firestore Enhanced Item List', () => {
         auth,
         items,
         userId = chance.string(),
+        id1,
+        id2,
         state;
 
     const buildItem = () => ({
         id: chance.string(),
         name: chance.word(),
-        userId: chance.string(),
+        listId: chance.string(),
         category: NONE
     });
 
@@ -43,7 +45,11 @@ describe('Firestore Enhanced Item List', () => {
     };
 
     beforeEach(() => {
-        items = [buildItemWithUserId(userId), buildItemWithUserId(userId)];
+        items = {};
+        id1 = chance.word();
+        id2 = chance.word();
+        items[id1] = buildItemWithUserId(userId);
+        items[id2] = buildItemWithUserId(userId);
         associations = [{
             category: 'Produce',
             name: chance.string(),
@@ -56,7 +62,13 @@ describe('Firestore Enhanced Item List', () => {
     it('should map state to props', () => {
         const actualProps = mapStateToProps(state);
 
-        expect(actualProps.items).to.deep.equal(state.firestore.data.items);
+        expect(actualProps.items).to.deep.equal([{
+            ...items[id1],
+            id: id1
+        }, {
+            ...items[id2],
+            id: id2
+        }]);
     });
 
     it('should put together matching category and item', () => {

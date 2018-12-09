@@ -25,8 +25,21 @@ const returnEmptyIfUndefined = (collection) => {
         : [];
 };
 
+const collectItems = (items) => {
+    let itemList = [];
+    Object.keys(items).forEach(key => {
+        if(items[key]) {
+            itemList.push({
+                ...items[key],
+                id: key
+            });
+        }
+    });
+    return itemList;
+};
+
 export const mapStateToProps = state => {
-    const items = returnEmptyIfUndefined(state.firestore.ordered.items);
+    const items = collectItems(returnEmptyIfUndefined(state.firestore.data.items));
     const associations = returnEmptyIfUndefined(state.firestore.ordered.associations);
     return {
         items: items.map((item) => {
@@ -38,6 +51,14 @@ export const mapStateToProps = state => {
 export default compose(
     connect(mapStateToProps),
     firestoreConnect((props) => {
-        return [{collection: 'items', where: ['userId', '==', props.auth]},
-            {collection: 'associations', where: ['userId', '==', props.auth]}]
+        let queries = [];
+        props.listIds && props.listIds.forEach(listId => {
+            queries.push({
+                collection: 'items',
+                where: ['listId', '==', listId],
+                storeAs: 'items'
+            });
+        });
+        queries.push({collection: 'associations', where: ['userId', '==', props.auth]});
+        return queries
     }))(ItemList)
