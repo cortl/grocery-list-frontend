@@ -16,10 +16,7 @@ export class SignOut extends Component {
 
     render() {
         return (
-            <div>
-                {/*eslint-disable-next-line*/}
-                <a className='float-right mt-2' href='#' onClick={this.props.signOut}>Sign Out</a>
-            </div>
+            <a className='nav-link' href='#' onClick={this.props.signOut}>Sign Out</a> // eslint-disable-line
         );
     }
 

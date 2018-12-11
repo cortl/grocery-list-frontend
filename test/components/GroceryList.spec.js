@@ -9,6 +9,7 @@ import Chance from "chance";
 import ItemList from "../../src/components/enhancers/FireStoreItemList";
 import {Spinner} from "../../src/components/Spinner";
 import * as sinon from "sinon";
+import {MainNavigation} from "../../src/components/navigation/MainNavigation";
 
 const chance = new Chance();
 const sandbox = sinon.createSandbox();
@@ -40,8 +41,8 @@ describe('Grocery List', () => {
         expect(wrapper).to.have.type('div');
     });
 
-    it('should have a sign out', () => {
-        expect(wrapper.find(SignOut)).to.be.present;
+    it('should have a main navigation', () => {
+        expect(wrapper.find(MainNavigation)).to.be.present;
     });
 
     it('should have a header', () => {

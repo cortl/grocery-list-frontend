@@ -2,12 +2,12 @@ import React, {Component} from 'react'
 import AddItem from './AddItem'
 import ItemList from "./enhancers/FireStoreItemList";
 import Header from "./Header";
-import SignOut from "./security/SignOut";
 import {compose} from "redux";
 import {firebaseConnect} from "react-redux-firebase";
 import {Spinner} from "./Spinner";
 import {connect} from "react-redux";
 import {loadUser} from "../actions";
+import {MainNavigation} from "./navigation/MainNavigation";
 
 export class GroceryList extends Component {
     constructor(props) {
@@ -22,7 +22,7 @@ export class GroceryList extends Component {
     render = () => {
         return (
             <div>
-                <SignOut/>
+                <MainNavigation/>
                 <Header text='Grocery List'/>
                 {this.props.auth.uid
                     ? <ItemList
