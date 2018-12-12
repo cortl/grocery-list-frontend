@@ -20,7 +20,7 @@ describe('Sign Out', () => {
     });
 
     it('should have a sign out link', () => {
-        expect(wrapper.find('a')).to.have.className('float-right mt-2');
+        expect(wrapper.find('a')).to.have.className('nav-link');
         expect(wrapper.find('a')).to.have.prop('href', '#');
         expect(wrapper.find('a')).to.have.prop('onClick', signOutSpy);
         expect(wrapper.find('a')).to.have.text('Sign Out');
