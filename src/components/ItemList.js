@@ -17,7 +17,20 @@ export const ItemList = (props) => {
         </ul>)
 };
 
-export const sortByCategory = (itemA, itemB) => itemA.category.sortOrder - itemB.category.sortOrder;
+export const sortByCategory = (itemA, itemB) => {
+    const sortComparison = itemA.category.sortOrder - itemB.category.sortOrder;
+    return sortComparison === 0
+        ? stringSort(itemA, itemB)
+        : sortComparison;
+};
+
+const stringSort = (itemA, itemB) => {
+    if (itemA.name.toUpperCase() < itemB.name.toUpperCase())
+        return -1;
+    if (itemA.name.toUpperCase() > itemB.name.toUpperCase())
+        return 1;
+    return 0;
+};
 
 ItemList.propTypes = {
     items: PropTypes.arrayOf(PropTypes.shape({

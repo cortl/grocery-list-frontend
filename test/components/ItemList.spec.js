@@ -63,4 +63,26 @@ describe('Item List', () => {
         expect(wrapper.find(Item).at(0).props().id).to.be.equal(originalItems[1].id);
         expect(wrapper.find(Item).at(1).props().id).to.be.equal(originalItems[0].id);
     });
+
+    it('should sort items based on name after sorting by category', () => {
+        items = [{
+            ...buildItem(),
+            name: 'b',
+            category: {
+                sortOrder: 1
+            }
+        }, {
+            ...buildItem(),
+            name: 'a',
+            category: {
+                sortOrder: 1
+            }
+        }];
+        const originalItems = [items[0], items[1]];
+
+        whenComponentIsRendered();
+
+        expect(wrapper.find(Item).at(0).props().id).to.be.equal(originalItems[1].id);
+        expect(wrapper.find(Item).at(1).props().id).to.be.equal(originalItems[0].id);
+    });
 });
