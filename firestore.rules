@@ -14,5 +14,15 @@ service cloud.firestore {
         && request.auth.uid == resource.data.userId;
       allow create: if request.auth.uid != null
     }
+    match /users/{user} {
+      allow read: if request.auth.uid != null
+      allow create: if request.auth.uid != null
+      allow update, delete: if request.auth.uid != null
+    }
+    match /lists/{list} {
+      allow read: if request.auth.uid != null
+      allow create: if request.auth.uid != null
+      allow update, delete: if request.auth.uid != null
+    }
   }
 }
