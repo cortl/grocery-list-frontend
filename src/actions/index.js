@@ -127,7 +127,8 @@ export const signIn = () => (dispatch, getState, {getFirebase, getFirestore}) =>
                         }).then(docId => {
                             firestore.set({collection: 'users', doc: userId},
                                 {
-                                    lists: [docId]
+                                    lists: [docId],
+                                    email: result.user.email
                                 });
                         });
                     } else {
