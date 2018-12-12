@@ -20,7 +20,7 @@ describe('Header', () => {
 
     it('should be a header', () => {
         expect(wrapper).to.have.type('div');
-        expect(wrapper).to.have.className('mt-5 mb-5');
+        expect(wrapper).to.have.className('mb-5');
         expect(wrapper.childAt(0)).to.have.text(text);
     });
 });
