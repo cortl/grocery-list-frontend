@@ -33,7 +33,7 @@ export const mapStateToProps = (state) => ({
         .map(firestoreItem => ({
             ...firestoreItem,
             category: {
-                ...getMatchingCategory(firestoreItem.category, state.firestore.data.associations),
+                ...getMatchingCategory(firestoreItem.category, state.firestore.data.associations)
 
             }
 
