@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "grocery-list-73afe"
+    "default": "grocery-list-73afe",
+    "dev": "grocery-list-dev-fb8d8"
   }
 }

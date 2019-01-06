@@ -27,6 +27,7 @@ jobs:
     steps:
     - checkout
     - run: npm install
+    - run: npm install --prefix functions
     - run: npm run build
     - run:
         name: Deploy Master to Firebase
