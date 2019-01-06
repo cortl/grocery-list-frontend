@@ -2,7 +2,7 @@ import {shallow} from "enzyme/build";
 import React from "react";
 import {expect} from "../utils/chai";
 import Chance from "chance";
-import {ItemList, mapStateToProps} from "../../src/components/ItemList";
+import {ItemList} from "../../src/components/ItemList";
 import Item from "../../src/components/Item";
 import {NONE} from "../../src/constants/categories";
 
@@ -38,7 +38,7 @@ describe('Item List', () => {
     it('should have an Item for every item', () => {
         items.forEach((item, index) => {
             expect(wrapper.find(Item).at(index).key()).to.be.equal(item.id.toString());
-            expect(wrapper.find(Item).at(index).props().id).to.be.equal(item.id);
+            expect(wrapper.find(Item).at(index).props().itemId).to.be.equal(item.id);
             expect(wrapper.find(Item).at(index).props().text).to.be.equal(item.name);
             expect(wrapper.find(Item).at(index).props().category).to.be.equal(item.category);
         })
@@ -60,8 +60,8 @@ describe('Item List', () => {
 
         whenComponentIsRendered();
 
-        expect(wrapper.find(Item).at(0).props().id).to.be.equal(originalItems[1].id);
-        expect(wrapper.find(Item).at(1).props().id).to.be.equal(originalItems[0].id);
+        expect(wrapper.find(Item).at(0).props().itemId).to.be.equal(originalItems[1].id);
+        expect(wrapper.find(Item).at(1).props().itemId).to.be.equal(originalItems[0].id);
     });
 
     it('should sort items based on name after sorting by category', () => {
@@ -82,7 +82,7 @@ describe('Item List', () => {
 
         whenComponentIsRendered();
 
-        expect(wrapper.find(Item).at(0).props().id).to.be.equal(originalItems[1].id);
-        expect(wrapper.find(Item).at(1).props().id).to.be.equal(originalItems[0].id);
+        expect(wrapper.find(Item).at(0).props().itemId).to.be.equal(originalItems[1].id);
+        expect(wrapper.find(Item).at(1).props().itemId).to.be.equal(originalItems[0].id);
     });
 });

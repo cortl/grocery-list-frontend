@@ -9,9 +9,9 @@ export const MainNavigation = ({offMainPage}) => {
             {offMainPage && <li className="nav-item">
                 <NavButton id='goBackButton' location='/' text='Go Back'/>
             </li>}
-            {!offMainPage && <li className="nav-item">
+            {/* {!offMainPage && <li className="nav-item">
                 <NavButton id='settingsButton' location='/settings' text='Settings'/>
-            </li>}
+            </li>} */}
             <li className="nav-item">
                 <SignOut/>
             </li>

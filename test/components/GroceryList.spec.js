@@ -58,8 +58,7 @@ describe('Grocery List', () => {
         whenComponentIsRendered();
 
         expect(wrapper.find(ItemList)).to.be.present;
-        expect(wrapper.find(ItemList)).to.have.prop('listIds', profile.lists);
-        expect(wrapper.find(ItemList)).to.have.prop('auth', auth.uid);
+        expect(wrapper.find(ItemList)).to.have.prop('auth', auth);
         expect(wrapper.find(Spinner)).to.not.be.present;
     });
 

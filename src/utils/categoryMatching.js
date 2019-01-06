@@ -1,7 +1,3 @@
-export const matchingCategory = item => (category) => {
-    return category.name.toUpperCase() === itemStripper(item.name.toUpperCase());
-};
-
 export const itemStripper = name => {
     return name.split(' ')
         .filter((item) => !hasNumber(item))

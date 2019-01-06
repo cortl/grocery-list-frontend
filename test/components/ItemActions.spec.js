@@ -19,29 +19,26 @@ describe('Item Actions', () => {
         name = chance.string(),
         userId = chance.string(),
         category = {
+            categoryId: chance.string(),
             associationId: chance.string(),
             textColor: chance.string()
         },
-        existingCategoryChange = chance.string,
-        newCategoryChange = chance.natural,
-        addNewCategorySpy,
-        updateExistingCategorySpy,
+        categoryChange = chance.string,
+        changeCategorySpy,
         removeItemSpy;
 
     const whenComponentIsRendered = () => {
         wrapper = shallow(<ItemActions
-            id={id}
+            itemId={id}
             name={name}
             category={category}
-            addNewCategory={addNewCategorySpy}
-            updateExistingCategory={updateExistingCategorySpy}
+            changeCategory={changeCategorySpy}
             removeItem={removeItemSpy}
         />)
     };
 
     beforeEach(() => {
-        addNewCategorySpy = sandbox.stub().returns(newCategoryChange);
-        updateExistingCategorySpy = sandbox.stub().returns(existingCategoryChange);
+        changeCategorySpy = sandbox.stub().returns(categoryChange);
         removeItemSpy = sandbox.spy();
 
         whenComponentIsRendered()
@@ -79,7 +76,7 @@ describe('Item Actions', () => {
 
         it('should have a category for every category given', () => {
             Object.keys(CATEGORIES).forEach((key, index) => {
-                expect(wrapper.find(Category).at(index)).to.have.prop('change', existingCategoryChange);
+                expect(wrapper.find(Category).at(index)).to.have.prop('change', categoryChange);
                 expect(wrapper.find(Category).at(index)).to.have.prop('category', CATEGORIES[key]);
             })
         });
@@ -90,7 +87,7 @@ describe('Item Actions', () => {
             whenComponentIsRendered();
 
             Object.keys(CATEGORIES).forEach((key, index) => {
-                expect(wrapper.find(Category).at(index)).to.have.prop('change', newCategoryChange);
+                expect(wrapper.find(Category).at(index)).to.have.prop('change', categoryChange);
                 expect(wrapper.find(Category).at(index)).to.have.prop('category', CATEGORIES[key]);
             })
         });
@@ -121,8 +118,7 @@ describe('Item Actions', () => {
 
         beforeEach(() => {
             sandbox.stub(Actions, 'removeItem');
-            sandbox.stub(Actions, 'changeNewCategory');
-            sandbox.stub(Actions, 'changeExistingCategory');
+            sandbox.stub(Actions, 'changeCategory');
             dispatchSpy = sandbox.spy();
 
             actualProps = mapDispatchToProps(dispatchSpy);
@@ -136,14 +132,9 @@ describe('Item Actions', () => {
             expect(dispatchSpy).to.have.been.calledWith(Actions.removeItem());
         });
 
-        it('should map changeNewCategory', () => {
-            actualProps.addNewCategory(id, userId, name)(category);
-            expect(dispatchSpy).to.have.been.calledWith(Actions.changeNewCategory());
-        });
-
-        it('should map updateExistingCategory', () => {
-            actualProps.updateExistingCategory(id, userId, name)(category);
-            expect(dispatchSpy).to.have.been.calledWith(Actions.changeExistingCategory());
+        it('should map changeCategory', () => {
+            actualProps.changeCategory(id, userId, name)(category);
+            expect(dispatchSpy).to.have.been.calledWith(Actions.changeCategory());
         })
     });
 });

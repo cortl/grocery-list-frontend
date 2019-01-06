@@ -13,7 +13,8 @@ const Item = (props) => {
                 <span className='float-left mt-2'>{props.text}</span>
                 <ItemActions
                     category={props.category}
-                    id={props.id}
+                    categoryId={props.category.categoryId}
+                    itemId={props.itemId}
                     name={props.text}
                 />
             </div>
@@ -21,9 +22,9 @@ const Item = (props) => {
 };
 
 Item.propTypes = {
+    itemId: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
-    category: PropTypes.object
+    category: PropTypes.object.isRequired
 };
 
 export default Item

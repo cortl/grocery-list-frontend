@@ -1,25 +1,9 @@
-import {itemStripper, matchingCategory} from "../../src/utils/categoryMatching";
+import {itemStripper} from "../../src/utils/categoryMatching";
 import {expect} from "./chai";
 
 describe('Category Matching', () => {
 
     let result;
-
-    const whenMatchIsCalled = (item, association) => {
-        return matchingCategory({name: item})({name: association});
-    };
-
-    it('should match on any case', () => {
-        result = whenMatchIsCalled('Apples', 'APPLES');
-
-        expect(result).to.be.true;
-    });
-
-    it('should match when item given has quantifiers', () => {
-       result = whenMatchIsCalled('32x Apples', 'APPLES');
-
-       expect(result).to.be.true;
-    });
 
     describe('Item Stripper', () => {
         it('should remove front quantifiers from name', () => {

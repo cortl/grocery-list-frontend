@@ -8,7 +8,7 @@ export const ItemList = (props) => {
             {props.items && props.items.sort(sortByCategory).map(item => {
                     return (<Item
                         key={item.id}
-                        id={item.id}
+                        itemId={item.id}
                         text={item.name}
                         category={item.category}
                     />)

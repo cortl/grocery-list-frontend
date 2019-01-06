@@ -13,6 +13,7 @@ describe('Item', () => {
         text = chance.string(),
         id = chance.string(),
         category = {
+            categoryId: chance.string(),
             textColor: chance.string(),
             backgroundColor: chance.string(),
             symbol: chance.string()
@@ -21,7 +22,7 @@ describe('Item', () => {
     beforeEach(() => {
         wrapper = shallow(<Item
             category={category}
-            id={id}
+            itemId={id}
             text={text}
         />)
     });
@@ -47,7 +48,8 @@ describe('Item', () => {
 
     it('should render ItemActions', () => {
         expect(wrapper.find(ItemActions)).to.have.prop('category', category);
-        expect(wrapper.find(ItemActions)).to.have.prop('id', id);
+        expect(wrapper.find(ItemActions)).to.have.prop('categoryId', category.categoryId);
+        expect(wrapper.find(ItemActions)).to.have.prop('itemId', id);
         expect(wrapper.find(ItemActions)).to.have.prop('name', text);
     })
 });

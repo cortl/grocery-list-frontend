@@ -6,18 +6,13 @@ import {compose} from "redux";
 import {firebaseConnect} from "react-redux-firebase";
 import {Spinner} from "./Spinner";
 import {connect} from "react-redux";
-import {loadUser} from "../actions";
 import {MainNavigation} from "./navigation/MainNavigation";
+import PropTypes from 'prop-types'
 
 export class GroceryList extends Component {
-    constructor(props) {
-        super(props);
-
-        if (!props.auth.uid) {
-            props.loadUser(props.auth.uid)
-        }
-    }
-
+    static contextTypes = {
+        store: PropTypes.object.isRequired
+    };
 
     render = () => {
         return (
@@ -26,8 +21,7 @@ export class GroceryList extends Component {
                 <Header text='Grocery List'/>
                 {this.props.auth.uid
                     ? <ItemList
-                        listIds={this.props.profile.lists}
-                        auth={this.props.auth.uid}/>
+                        auth={this.props.auth}/>
                     : <Spinner/>}
                 <AddItem/>
             </div>
@@ -36,15 +30,10 @@ export class GroceryList extends Component {
 }
 
 const mapStateToProps = state => ({
-    profile: state.user
+    auth: state.firebase.auth
 });
-
-const mapDispatchToProps = dispatch => ({
-    loadUser: (uid) => dispatch(loadUser(uid))
-});
-
 
 export default compose(
     firebaseConnect(),
-    connect(mapStateToProps, mapDispatchToProps)
+    connect(mapStateToProps)
 )(GroceryList)
