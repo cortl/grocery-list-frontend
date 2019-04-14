@@ -16,7 +16,7 @@ export class GroceryList extends Component {
 
     render = () => {
         return (
-            <div>
+            <div className='container'>
                 <MainNavigation/>
                 <Header text='Grocery List'/>
                 {this.props.auth.uid

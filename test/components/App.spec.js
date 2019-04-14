@@ -17,10 +17,6 @@ describe('App', () => {
         expect(wrapper).to.have.type(BrowserRouter);
     });
 
-    it('should have a container', () => {
-        expect(wrapper.find('div')).to.have.className('container');
-    });
-
     it('should have a signIn route', () => {
         expect(wrapper.find(Route).at(0)).to.have.prop('exact');
         expect(wrapper.find(Route).at(0)).to.have.prop('path', '/');

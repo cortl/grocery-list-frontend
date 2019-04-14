@@ -3,7 +3,7 @@ import Header from "../Header";
 import {MainNavigation} from "../navigation/MainNavigation";
 
 export const Settings = () => (
-    <div>
+    <div className='container'>
         <MainNavigation offMainPage={true}/>
         <Header text='Settings'/>
     </div>
