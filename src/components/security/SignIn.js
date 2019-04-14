@@ -17,7 +17,6 @@ export class SignIn extends Component {
     }
 
     render() {
-        console.log(!isLoaded(this.props.auth))
         return (
             <React.Fragment>
                 <div style={{
