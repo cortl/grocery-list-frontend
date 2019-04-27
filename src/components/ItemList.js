@@ -4,7 +4,7 @@ import Item from './Item'
 
 export const ItemList = (props) => {
     return (
-        <ul className='list-group'>
+        <ul className='list-group mt-4'>
             {props.items && props.items.sort(sortByCategory).map(item => {
                     return (<Item
                         key={item.id}

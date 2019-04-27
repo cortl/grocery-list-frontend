@@ -45,11 +45,6 @@ describe('Grocery List', () => {
         expect(wrapper.find(MainNavigation)).to.be.present;
     });
 
-    it('should have a header', () => {
-        expect(wrapper.find(Header)).to.be.present;
-        expect(wrapper.find(Header)).to.have.prop('text', 'Grocery List');
-    });
-
     it('should have an item list if uid exists', () => {
         auth = {
             uid: chance.string()

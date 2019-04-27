@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import AddItem from './AddItem'
 import ItemList from "./enhancers/FireStoreItemList";
-import Header from "./Header";
 import {compose} from "redux";
 import {firebaseConnect} from "react-redux-firebase";
 import {Spinner} from "./Spinner";
@@ -18,7 +17,6 @@ export class GroceryList extends Component {
         return (
             <div className='container'>
                 <MainNavigation/>
-                <Header text='Grocery List'/>
                 {this.props.auth.uid
                     ? <ItemList
                         auth={this.props.auth}/>
