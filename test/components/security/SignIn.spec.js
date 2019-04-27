@@ -3,7 +3,7 @@ import React from "react";
 import { mount, shallow } from "enzyme";
 import Chance from "chance";
 import * as sinon from "sinon";
-import { SignIn, mapStateToProps } from "../../../src/components/security/SignIn";
+import { backgroundStyle, SignIn, mapStateToProps } from "../../../src/components/security/SignIn";
 import { Spinner } from '../../../src/components/Spinner';
 
 const sandbox = sinon.createSandbox();
@@ -31,18 +31,7 @@ describe('Sign In', () => {
     }
 
     it('should have a blurry background image', () => {
-        expect(wrapper.childAt(0)).to.have.style({
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-            backgroundSize: 'cover',
-            height: '100%',
-            filter: 'blur(5px)',
-            display: 'block',
-            position: 'fixed',
-            left: 0,
-            right: 0,
-            zIndex: 1
-        });
+        expect(wrapper.childAt(0)).to.have.style(backgroundStyle);
     });
 
     it('should have a spinner when authentication has not been loaded', () => {

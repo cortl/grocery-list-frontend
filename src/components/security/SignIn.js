@@ -5,6 +5,34 @@ import { connect } from "react-redux";
 import { isLoaded, isEmpty } from 'react-redux-firebase';
 import { Spinner } from '../Spinner';
 
+const backgroundStyle = {
+    backgroundImage: `url(${require('../../media/wall.jpg')})`,
+    backgroundSize: 'cover',
+    display:' block',
+    left: '-5px',
+    top:'-5px',
+    bottom:'-5px',
+    position: 'fixed',
+    right: '-5px',
+    zIndex: '1',
+    WebkitFilter: 'blur(5px)',
+    MozFilter: 'blur(5px)',
+    OFilter: 'blur(5px)',
+    MSFilter: 'blur(5px)',
+    filter: 'blur(5px)',
+    WebkitBackgroundSize: 'cover',
+    MozBackgroundSize: 'cover',
+    OBackgroundSize: 'cover',
+    margin:'-5px'
+}
+
+const contentStyle = {
+    position: 'fixed',
+    left: 0,
+    right: 0,
+    zIndex: 9999
+}
+
 export class SignIn extends Component {
     static contextTypes = {
         router: PropTypes.object
@@ -19,26 +47,9 @@ export class SignIn extends Component {
     render() {
         return (
             <React.Fragment>
-                <div style={{
-                    backgroundImage: `url(${require('../../media/wall.jpg')})`,
-                    backgroundPosition: 'center',
-                    backgroundRepeat: 'no-repeat',
-                    backgroundSize: 'cover',
-                    height: '100%',
-                    filter: 'blur(5px)',
-                    display: 'block',
-                    position: 'fixed',
-                    left: 0,
-                    right: 0,
-                    zIndex: 1
-                }}></div>
+                <div style={backgroundStyle}></div>
                 <div
-                    style={{
-                        position: 'fixed',
-                        left: 0,
-                        right: 0,
-                        zIndex: 9999
-                    }}>
+                    style={contentStyle}>
                     <div className='container text-center'>
                         <h1 className='display-3 mt-5 mb-5 text-white'>Grocery List</h1>
                         <div className='text-center'>
