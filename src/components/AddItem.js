@@ -30,7 +30,6 @@ export class AddItem extends React.Component {
                 />
                 <div className="input-group-append">
                     <button
-                        style={{zIndex: 0}}
                         onClick={(e) => this.addItemToList()}
                         className="btn btn-outline-secondary"
                         type="button"

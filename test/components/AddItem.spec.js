@@ -66,7 +66,6 @@ describe('Add Item', () => {
 
     describe('Button', () => {
         it('should have a button', () => {
-            expect(wrapper.find('button')).to.have.style({zIndex: 0});
             expect(wrapper.find('button')).to.have.className('btn btn-outline-secondary');
             expect(wrapper.find('button')).to.have.prop('type', 'button');
             expect(wrapper.find('button')).to.have.text('+');
