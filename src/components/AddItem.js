@@ -13,7 +13,7 @@ export class AddItem extends React.Component {
 
     render() {
         return (
-            <div className="input-group mb-3 mt-3">
+            <div className="input-group mb-3 mt-3 pl-0 col-md-8 offset-md-2">
                 <input type="text"
                        className="form-control"
                        placeholder="Apples..."

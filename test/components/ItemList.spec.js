@@ -32,7 +32,7 @@ describe('Item List', () => {
 
     it('should have a list', () => {
         expect(wrapper).to.have.type('ul');
-        expect(wrapper).to.have.className('list-group mt-4');
+        expect(wrapper).to.have.className('list-group mt-4 col-md-8 offset-md-2');
     });
 
     it('should have an Item for every item', () => {
