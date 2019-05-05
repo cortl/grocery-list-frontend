@@ -15,33 +15,8 @@ const hasNumber = string => {
     return /\d/.test(string);
 };
 
-const matchingCategory = item => (category) => {
-    return category.name.toUpperCase() === itemStripper(item.name.toUpperCase());
-};
-
-const getCategoryForItem = (item, categories) => {
-    return categories.find(matchingCategory(item));
-}
-
-const getCategories = (firestore, userId) => {
-    return firestore.collection('associations').where('userId', '==', userId).get()
-        .then(categoryQuerySnapshot => {
-            let categories = [];
-            categoryQuerySnapshot.forEach(categoryDocumentSnapshot => {
-                categories.push({
-                    id: categoryDocumentSnapshot.id,
-                    category: categoryDocumentSnapshot.data().category,
-                    name: categoryDocumentSnapshot.data().name,
-                    ref: categoryDocumentSnapshot.ref
-                });
-            });
-            return categories;
-        })
-}
-
 exports.addItem = functions.https.onRequest((req, res) => {
     const firestore = admin.firestore();
-
     const newItem = req.body
 
     return firestore.collection('items').add(newItem).then(documentReference => {
@@ -58,27 +33,35 @@ exports.addItem = functions.https.onRequest((req, res) => {
 exports.addItemFirestore = functions.firestore.document('items/{item}').onCreate((snap, context) => {
     const firestore = admin.firestore();
     const item = snap.data();
+    const normalizedItemName = itemStripper(item.name)
 
-    return getCategories(firestore, item.userId).then(categories => {
-        const matchingCategory = getCategoryForItem(item, categories);
-        console.log(`found matching category ${matchingCategory}`)
-        return matchingCategory
-            ? snap.ref.set({
-                userId: item.userId,
-                name: item.name,
-                category: matchingCategory.ref
-            })
-            : firestore.collection('associations').add({
-                category: 'None',
-                name: item.name,
-                userId: item.userId
-            }).then(categoryDocRef => {
-                console.log('had to create a category for this')
-                return snap.ref.set({
-                    userId: item.userId,
-                    name: item.name,
-                    category: categoryDocRef
+    return firestore.collection('associations')
+        .where('userId', '==', item.userId)
+        .where('name', '==', normalizedItemName)
+        .get()
+        .then(categories => {
+            if (categories.size > 0) {
+                console.info(`Category found for user: ${item.userId} and item: ${item.name}`)
+                return categories.forEach(category => {
+                    return snap.ref.set({
+                        userId: item.userId,
+                        name: item.name,
+                        category: category.ref
+                    });
                 })
-            });
-    });
+            } else {
+                console.log(`Category not found for user: ${item.userId} and item: ${item.name}`)
+                return firestore.collection('associations').add({
+                    category: 'None',
+                    name: item.name,
+                    userId: item.userId
+                }).then(categoryDocRef => {
+                    return snap.ref.set({
+                        userId: item.userId,
+                        name: item.name,
+                        category: categoryDocRef
+                    });
+                });
+            }
+        });
 });
