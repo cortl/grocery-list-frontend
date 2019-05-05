@@ -1,7 +1,7 @@
 import React from 'react'
 import { BrowserRouter, Route } from 'react-router-dom';
 import GroceryList from "./GroceryList";
-import requireAuth from "./security/requireAuth";
+import requireAuth from "../enhancers/requireAuth";
 import SignIn from "./security/SignIn";
 import { Settings } from "./settings/Settings";
 

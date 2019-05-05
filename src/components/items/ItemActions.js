@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
-import Icon from './Icon';
+import Icon from '../Icon';
 import { connect } from "react-redux";
-import { changeCategory, removeItem } from "../actions";
+import { changeCategory, removeItem } from "../../actions";
 import Category from "./Category";
 import PropTypes from "prop-types";
-import { CATEGORIES } from "../constants/categories";
-import { itemStripper } from "../utils/categoryMatching";
+import { CATEGORIES } from "../../constants/categories";
+import { itemStripper } from "../../utils/categoryMatching";
 
 export class ItemActions extends Component {
     render() {

@@ -3,7 +3,7 @@ import React from "react";
 import {expect} from "../utils/chai";
 import Chance from "chance";
 import {ItemList} from "../../src/components/ItemList";
-import Item from "../../src/components/Item";
+import Item from "../../src/components/items/Item";
 import {NONE} from "../../src/constants/categories";
 
 const chance = new Chance();

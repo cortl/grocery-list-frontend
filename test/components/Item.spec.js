@@ -2,8 +2,8 @@ import {shallow} from "enzyme/build";
 import React from "react";
 import {expect} from "../utils/chai";
 import Chance from "chance";
-import Item from "../../src/components/Item";
-import ItemActions from "../../src/components/ItemActions";
+import Item from "../../src/components/items/Item";
+import ItemActions from "../../src/components/items/ItemActions";
 
 const chance = new Chance();
 

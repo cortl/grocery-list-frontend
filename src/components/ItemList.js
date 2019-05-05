@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Item from './Item'
+import Item from './items/Item'
 
 export const ItemList = (props) => {
     return (

@@ -1,11 +1,7 @@
 import {expect} from '../utils/chai'
-import {AddItem} from "../../src/components/AddItem";
 import React from "react";
 import {shallow} from "enzyme";
-import App from "../../src/components/App";
-import Header from "../../src/components/Header";
-import ItemList from "../../src/components/ItemList";
-import Category from "../../src/components/Category";
+import Category from "../../src/components/items/Category";
 import Chance from "chance";
 import sinon from "sinon";
 

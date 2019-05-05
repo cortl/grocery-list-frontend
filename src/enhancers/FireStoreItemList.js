@@ -1,7 +1,7 @@
-import { CATEGORIES, NONE } from "../../constants/categories";
+import { CATEGORIES, NONE } from "../constants/categories";
 import { firestoreConnect } from "react-redux-firebase";
 import { withFirestore } from "react-redux-firebase";
-import { ItemList } from "../ItemList";
+import { ItemList } from "../components/ItemList";
 import { connect } from "react-redux";
 import { compose } from 'recompose'
 

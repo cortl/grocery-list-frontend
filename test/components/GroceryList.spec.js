@@ -4,7 +4,7 @@ import { shallow } from "enzyme";
 import { AddItem } from "../../src/components/AddItem";
 import { GroceryList } from "../../src/components/GroceryList";
 import Chance from "chance";
-import ItemList from "../../src/components/enhancers/FireStoreItemList";
+import ItemList from "../../src/enhancers/FireStoreItemList";
 import { Spinner } from "../../src/components/Spinner";
 import * as sinon from "sinon";
 import { MainNavigation } from "../../src/components/navigation/MainNavigation";

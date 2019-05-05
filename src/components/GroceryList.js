@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import AddItem from './AddItem'
-import ItemList from "./enhancers/FireStoreItemList";
+import ItemList from "../enhancers/FireStoreItemList";
 import {compose} from "redux";
 import {firebaseConnect} from "react-redux-firebase";
 import {Spinner} from "./Spinner";
