@@ -42,6 +42,9 @@ export const mapStateToProps = (state) => ({
 
 export default compose(
     connect(mapStateToProps),
-    firestoreConnect(props => [{ collection: 'items', where: ['userId', '==', props.auth.uid] }, { collection: 'associations' }]),
+    firestoreConnect(props => [
+        { collection: 'items', where: ['userId', '==', props.auth.uid] },
+        { collection: 'associations', where: ['userId', '==', props.auth.uid] }
+    ]),
     withFirestore
 )(ItemList)
