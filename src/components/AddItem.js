@@ -32,6 +32,7 @@ export class AddItem extends React.Component {
                     <button
                         onClick={(e) => this.addItemToList()}
                         className="btn btn-outline-secondary"
+                        style={{zIndex: 0}}
                         type="button"
                         id="itemAddField">+
                     </button>

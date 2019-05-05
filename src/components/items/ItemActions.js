@@ -16,7 +16,7 @@ export class ItemActions extends Component {
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         <Icon color={this.props.category.textColor} type='cog' />
                     </button>}
-                <ul className="dropdown-menu" aria-labelledby={`${this.props.itemId}dropDown`}>
+                <ul style={{zIndex: 99}} className="dropdown-menu" aria-labelledby={`${this.props.itemId}dropDown`}>
                     {Object.keys(CATEGORIES).map((key) => {
                         return <Category
                             key={key}
