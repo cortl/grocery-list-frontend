@@ -1,3 +1,4 @@
+/* global require */
 import React, { Component } from 'react'
 import PropTypes from 'prop-types';
 import { signIn } from "../../actions";
@@ -71,6 +72,11 @@ export class SignIn extends Component {
         );
     }
 
+}
+
+SignIn.propTypes = {
+    auth: PropTypes.object,
+    signIn: PropTypes.func.isRequired
 }
 
 export const mapStateToProps = (state) => ({

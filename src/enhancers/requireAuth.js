@@ -21,16 +21,24 @@ export default (ComposedComponent) => {
         };
 
         render = () => {
-            if (this.props.auth) {
+            if (!this.props.auth.isEmpty) {
                 return <ComposedComponent {...this.props} />;
             }
             return null;
         }
     }
 
+    Authentication.propTypes = {
+        auth: PropTypes.shape({
+            isEmpty: PropTypes.bool
+        })
+    }
+
     return connect(mapStateToProps)(Authentication);
 }
 
+
+
 export const mapStateToProps = (state) => {
-    return { auth: state.firebase.auth};
+    return { auth: state.firebase.auth };
 };

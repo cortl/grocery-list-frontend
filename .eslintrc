@@ -2,6 +2,10 @@
   "plugins": [
     "react"
   ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
   "parser": "babel-eslint",
   "parserOptions": {
     "ecmaFeatures": {
@@ -47,6 +51,6 @@
       2,
       "smart-tabs"
     ],
-
+    "react/no-deprecated": 1
   }
 }

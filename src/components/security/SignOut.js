@@ -22,6 +22,12 @@ export class SignOut extends Component {
 
 }
 
+SignOut.propTypes = {
+    auth: PropTypes.shape({
+        isEmpty: PropTypes.bool
+    })
+}
+
 export const mapStateToProps = (state) => ({
     auth: state.firebase.auth
 });

@@ -16,7 +16,7 @@ export class ItemActions extends Component {
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         <Icon color={this.props.category.textColor} type='cog' />
                     </button>}
-                <ul style={{zIndex: 99}} className="dropdown-menu" aria-labelledby={`${this.props.itemId}dropDown`}>
+                <ul className="dropdown-menu" aria-labelledby={`${this.props.itemId}dropDown`}>
                     {Object.keys(CATEGORIES).map((key) => {
                         return <Category
                             key={key}
@@ -25,7 +25,7 @@ export class ItemActions extends Component {
                     })}
                 </ul>
                 <button
-                    onClick={(e) => this.props.removeItem(this.props.itemId)}
+                    onClick={() => this.props.removeItem(this.props.itemId)}
                     type='button' className='btn btn-link'>
                     <Icon color={this.props.category.textColor} type='trash' />
                 </button>
@@ -39,8 +39,11 @@ ItemActions.propTypes = {
     categoryId: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     category: PropTypes.shape({
-        associationId: PropTypes.string
+        associationId: PropTypes.string,
+        textColor: PropTypes.string,
+        categoryId: PropTypes.string
     }),
+    userId: PropTypes.string.isRequired,
     changeCategory: PropTypes.func.isRequired,
     removeItem: PropTypes.func.isRequired
 };

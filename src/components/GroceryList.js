@@ -27,6 +27,12 @@ export class GroceryList extends Component {
     }
 }
 
+GroceryList.propTypes = {
+    auth: PropTypes.shape({
+        uid: PropTypes.string.isRequired
+    })
+}
+
 const mapStateToProps = state => ({
     auth: state.firebase.auth
 });

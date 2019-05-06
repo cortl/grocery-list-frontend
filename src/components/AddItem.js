@@ -1,6 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {addItem} from '../actions/index'
+import PropTypes from 'prop-types'
 
 export class AddItem extends React.Component {
 
@@ -30,7 +31,7 @@ export class AddItem extends React.Component {
                 />
                 <div className="input-group-append">
                     <button
-                        onClick={(e) => this.addItemToList()}
+                        onClick={() => this.addItemToList()}
                         className="btn btn-outline-secondary"
                         style={{zIndex: 0}}
                         type="button"
@@ -48,6 +49,11 @@ export class AddItem extends React.Component {
             })
         }
     };
+}
+
+AddItem.propTypes = {
+    addItem: PropTypes.func.isRequired,
+    userId: PropTypes.string.isRequired
 }
 
 export const mapStateToProps = state => ({

@@ -1,2 +1,2 @@
 import React from 'react'
-export const Spinner = (props) => <div className="fa fa-spinner fa-spin"/>;
+export const Spinner = () => <div className="fa fa-spinner fa-spin"/>;
