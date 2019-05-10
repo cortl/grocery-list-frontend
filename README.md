@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/cortl/grocery-list-frontend.svg?style=svg)](https://circleci.com/gh/cortl/grocery-list)
+[![CircleCI](https://circleci.com/gh/cortl/grocery-list.svg?style=svg)](https://circleci.com/gh/cortl/grocery-list)
 
 # 🍎 Grocery List  🍞 
 
