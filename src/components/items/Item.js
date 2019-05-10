@@ -3,11 +3,13 @@ import PropTypes from 'prop-types'
 import ItemActions from './ItemActions'
 
 const Item = (props) => {
+    const listStyle = {
+        backgroundColor: props.category.backgroundColor,
+        color: props.category.textColor
+    }
+
     return (
-        <li style={{
-            backgroundColor: props.category.backgroundColor,
-            color: props.category.textColor
-        }} className='list-group-item'>
+        <li style={listStyle} className='list-group-item'>
             <div className='clearfix'>
                 <span className='float-left mt-2 mr-2'>{props.category.symbol}</span>
                 <span className='float-left mt-2'>{props.text}</span>

@@ -30,7 +30,7 @@ describe('Add Item', () => {
 
     it('should render in a div', () => {
         expect(wrapper).to.have.type('div');
-        expect(wrapper).to.have.className('input-group mb-3 mt-3 pl-0 col-md-8 offset-md-2');
+        expect(wrapper).to.have.className('input-group mb-3 mt-3 pl-0 pr-0 col-md-8 offset-md-2');
     });
 
     describe('Input', () => {
