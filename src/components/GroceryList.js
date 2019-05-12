@@ -29,7 +29,7 @@ export class GroceryList extends Component {
 
 GroceryList.propTypes = {
     auth: PropTypes.shape({
-        uid: PropTypes.string.isRequired
+        uid: PropTypes.string
     })
 }
 

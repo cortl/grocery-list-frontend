@@ -25,10 +25,6 @@ export const changeCategory = (id, userId, name, category) => {
     }
 };
 
-export const signIn = () => () => {
-    authRef.signInWithPopup(provider)
-};
+export const signIn = () => () => authRef.signInWithPopup(provider);
 
-export const signOut = () => () => {
-    authRef.signOut()
-};
+export const signOut = () => () => authRef.signOut();

@@ -8,20 +8,22 @@ export default (ComposedComponent) => {
             router: PropTypes.object
         };
 
+        isLoggedIn = () => this.props.auth.isLoaded
+
         componentWillMount = () => {
-            if (!this.props.auth) {
+            if (!this.isLoggedIn()) {
                 this.context.router.history.push("/signIn");
             }
         };
 
-        componentWillUpdate = (nextProps) => {
-            if (!nextProps.auth) {
+        componentDidUpdate = () => {
+            if (!this.isLoggedIn()) {
                 this.context.router.history.push("/signIn");
             }
-        };
+        }
 
         render = () => {
-            if (!this.props.auth.isEmpty) {
+            if (this.isLoggedIn()) {
                 return <ComposedComponent {...this.props} />;
             }
             return null;
@@ -30,7 +32,8 @@ export default (ComposedComponent) => {
 
     Authentication.propTypes = {
         auth: PropTypes.shape({
-            isEmpty: PropTypes.bool
+            isEmpty: PropTypes.bool,
+            isLoaded: PropTypes.bool
         })
     }
 

@@ -53,7 +53,7 @@ export class AddItem extends React.Component {
 
 AddItem.propTypes = {
     addItem: PropTypes.func.isRequired,
-    userId: PropTypes.string.isRequired
+    userId: PropTypes.string
 }
 
 export const mapStateToProps = state => ({
