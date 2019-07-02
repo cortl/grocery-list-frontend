@@ -6,8 +6,10 @@
 <h3 align="center">Grocery List</h3>
 
 <div align="center">
+
     [![CircleCI](https://circleci.com/gh/cortl/grocery-list.svg?style=svg)](https://circleci.com/gh/cortl/grocery-list)
     [![License](https://img.shields.io/github/license/cortl/grocery-list.svg)](/LICENSE)
+    
 </div>
 
 ---
