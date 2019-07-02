@@ -1,15 +1,31 @@
-[![CircleCI](https://circleci.com/gh/cortl/grocery-list.svg?style=svg)](https://circleci.com/gh/cortl/grocery-list)
+<p align="center">
+  <a href="" rel="noopener">
+ <img width=200px height=200px src="./public/favicon.png" alt="Project logo"></a>
+</p>
 
-# 🍎 Grocery List  🍞 
+<h3 align="center">Grocery List</h3>
 
-Running demo at [groceries.cortlan.co](https://groceries.cortlan.co)
+<div align="center">
+    [![CircleCI](https://circleci.com/gh/cortl/grocery-list.svg?style=svg)](https://circleci.com/gh/cortl/grocery-list)
+    [![License](https://img.shields.io/github/license/cortl/grocery-list.svg)](/LICENSE)
+</div>
 
-## Developing Your Own Grocery List
+---
+
+<p align="center"> Smart grocery list that autocategorizes your items based on your preferences
+    <br> 
+</p>
+
+## 🚀 Usage
+
+Running over at [https://groceries.cortlan.co](https://groceries.cortlan.co)
+
+## 🔧 Getting Started
 1. [Configuring Firebase](#configuring-firebase)
 2. [Setting up your local environment](#setting-up-your-local-environment)
 
 ### Configuring Firebase
-- [Spin up a new project](https://console.firebase.google.com)
+- [Create a new project](https://console.firebase.google.com)
 - Go to Authentication page and get ApiKey, SenderId, etc. and copy them into a .env file in the cloned project directory
 
 ```dotenv
