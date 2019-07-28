@@ -40,6 +40,7 @@ describe('Add Item', () => {
             expect(wrapper.find('input')).to.have.prop('placeholder', 'Apples...');
             expect(wrapper.find('input')).to.have.prop('aria-label', 'Grocery Item');
             expect(wrapper.find('input')).to.have.prop('aria-describedby', 'itemAddField');
+            expect(wrapper.find('input')).to.have.prop('autoFocus', true);
             expect(wrapper.find('input')).to.have.prop('maxLength', 50);
         });
 

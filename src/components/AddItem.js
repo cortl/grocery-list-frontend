@@ -21,6 +21,7 @@ export class AddItem extends React.Component {
                        aria-label="Grocery Item"
                        aria-describedby="itemAddField"
                        value={this.state.value}
+                       autoFocus
                        maxLength={50}
                        onChange={e => this.setState({value: e.target.value})}
                        onKeyPress={(e) => {
