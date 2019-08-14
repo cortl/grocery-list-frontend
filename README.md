@@ -47,6 +47,6 @@ REACT_APP_MESSAGING_SENDER_ID_DEV="<your-sender-id>"
 - On the Firebase console authentication page, turn on Google Sign on method
 - On the Firebase console Database page, turn on Firestore
 
-### Setting up your local environment
+### 💻  Setting up your local environment
 - `npm install`
 - `npm start`
