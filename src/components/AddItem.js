@@ -1,7 +1,8 @@
 import React from 'react'
-import {connect} from 'react-redux'
-import {addItem} from '../actions/index'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import { addItem } from '../actions/index'
+import { Input } from 'semantic-ui-react';
 
 export class AddItem extends React.Component {
 
@@ -14,32 +15,24 @@ export class AddItem extends React.Component {
 
     render() {
         return (
-            <div className="input-group mb-3 mt-3 pl-0 pr-0 col-md-8 offset-md-2">
-                <input type="text"
-                       className="form-control"
-                       placeholder="Apples..."
-                       aria-label="Grocery Item"
-                       aria-describedby="itemAddField"
-                       value={this.state.value}
-                       autoFocus
-                       maxLength={50}
-                       onChange={e => this.setState({value: e.target.value})}
-                       onKeyPress={(e) => {
-                           if (e.key === 'Enter') {
-                               this.addItemToList();
-                           }
-                       }}
-                />
-                <div className="input-group-append">
-                    <button
-                        onClick={() => this.addItemToList()}
-                        className="btn btn-outline-secondary"
-                        style={{zIndex: 0}}
-                        type="button"
-                        id="itemAddField">+
-                    </button>
-                </div>
-            </div>)
+            <Input
+                action={{
+                    content: '+',
+                    onClick: () => this.addItemToList()
+                }}
+                fluid
+                style={{ marginTop: '1em' }}
+                placeholder='Add item...'
+                maxLength={50}
+                onChange={e => this.setState({ value: e.target.value })}
+                onKeyPress={(e) => {
+                    if (e.key === 'Enter') {
+                        this.addItemToList();
+                    }
+                }}
+                value={this.state.value}
+            />
+        );
     }
 
     addItemToList = () => {

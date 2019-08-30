@@ -1,35 +1,46 @@
 import React, { Component } from 'react'
-import Icon from '../Icon';
+// import Icon from '../Icon';
 import { connect } from "react-redux";
 import { changeCategory, removeItem } from "../../actions";
-import Category from "./Category";
 import PropTypes from "prop-types";
 import { CATEGORIES } from "../../constants/categories";
 import { itemStripper } from "../../utils/categoryMatching";
+import { Menu, Dropdown, Loader } from 'semantic-ui-react';
 
 export class ItemActions extends Component {
     render() {
         return (
-            <div className='float-right'>
-                {this.props.category.categoryId
-                    && <button type='button' className='btn btn-link' id={`${this.props.itemId}dropDown`}
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        <Icon color={this.props.category.textColor} type='cog' />
-                    </button>}
-                <ul className="dropdown-menu" aria-labelledby={`${this.props.itemId}dropDown`}>
-                    {Object.keys(CATEGORIES).map((key) => {
-                        return <Category
-                            key={key}
-                            change={this.props.changeCategory(this.props.categoryId, this.props.userId, this.props.name)}
-                            category={CATEGORIES[key]} />
-                    })}
-                </ul>
-                <button
-                    onClick={() => this.props.removeItem(this.props.itemId)}
-                    type='button' className='btn btn-link'>
-                    <Icon color={this.props.category.textColor} type='trash' />
-                </button>
-            </div>
+            <React.Fragment>
+                <Menu
+                    secondary
+                    icon
+                    floated='right'>
+                    {this.props.categoryId
+                        ? <Dropdown
+                            button
+                            item
+                            icon='cog'
+                            compact>
+                            <Dropdown.Menu>
+                                {Object.keys(CATEGORIES).map((key) => (
+                                    <Dropdown.Item
+                                        key={key}
+                                        onClick={() => {
+                                            this.props.changeCategory(this.props.categoryId, this.props.userId, this.props.name)(CATEGORIES[key].category)
+                                        }}
+                                        text={`${CATEGORIES[key].symbol} ${CATEGORIES[key].category}`}
+                                    />
+                                ))}
+                            </Dropdown.Menu>
+                        </Dropdown>
+                        : <Loader active inline size='small' style={{marginTop: '.5em'}}/>
+                    }
+                    <Menu.Item
+                        icon='trash'
+                        onClick={() => this.props.removeItem(this.props.itemId)}
+                    />
+                </Menu>
+            </React.Fragment>
         )
     }
 }

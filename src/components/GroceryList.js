@@ -1,12 +1,12 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import AddItem from './AddItem'
 import ItemList from "../enhancers/FireStoreItemList";
-import {compose} from "redux";
-import {firebaseConnect} from "react-redux-firebase";
-import {Spinner} from "./Spinner";
-import {connect} from "react-redux";
-import {MainNavigation} from "./navigation/MainNavigation";
+import { compose } from "redux";
+import { firebaseConnect } from "react-redux-firebase";
+import { connect } from "react-redux";
+import { MainNavigation } from "./navigation/MainNavigation";
 import PropTypes from 'prop-types'
+import { Container, Loader, Grid } from 'semantic-ui-react';
 
 export class GroceryList extends Component {
     static contextTypes = {
@@ -15,14 +15,28 @@ export class GroceryList extends Component {
 
     render = () => {
         return (
-            <div className='container'>
-                <MainNavigation/>
+            <Container>
+                <MainNavigation />
                 {this.props.auth.uid
-                    ? <ItemList
-                        auth={this.props.auth}/>
-                    : <Spinner/>}
-                <AddItem/>
-            </div>
+                    ? this.buildList()
+                    : <Loader active />}
+            </Container>
+        )
+    }
+
+    buildList = () => {
+        return (
+            <Grid container centered columns={1}>
+                <Grid.Column computer='8' mobile='16'>
+                    <Grid.Row>
+                        <ItemList auth={this.props.auth} />
+                    </Grid.Row>
+                    <Grid.Row>
+                        <AddItem />
+                    </Grid.Row>
+                </Grid.Column>
+
+            </Grid>
         )
     }
 }

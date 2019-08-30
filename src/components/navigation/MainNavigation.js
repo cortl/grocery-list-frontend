@@ -2,20 +2,16 @@ import React from 'react'
 import SignOut from "../security/SignOut";
 import NavButton from "./NavButton";
 import * as PropTypes from 'prop-types'
+import { Menu } from 'semantic-ui-react';
 
-export const MainNavigation = ({offMainPage}) => {
+export const MainNavigation = ({ offMainPage }) => {
     return (
-        <ul className="nav justify-content-end">
-            {offMainPage && <li className="nav-item">
-                <NavButton id='goBackButton' location='/' text='Go Back'/>
-            </li>}
-            {/* {!offMainPage && <li className="nav-item">
-                <NavButton id='settingsButton' location='/settings' text='Settings'/>
-            </li>} */}
-            <li className="nav-item">
-                <SignOut/>
-            </li>
-        </ul>
+        <Menu secondary>
+            {offMainPage && <Menu.Item position='right'>
+                <NavButton id='goBackButton' location='/' text='Go Back' />
+            </Menu.Item>}
+            <SignOut />
+        </Menu>
     )
 };
 

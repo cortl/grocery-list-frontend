@@ -1,20 +1,21 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Item from './items/Item'
+import GroceryItem from './items/Item'
+import { List } from 'semantic-ui-react';
 
 export const ItemList = (props) => {
     return (
-        <ul className='list-group mt-4 pr-0 col-md-8 offset-md-2'>
+        <List divided relaxed fluid>
             {props.items && props.items.sort(sortByCategory).map(item => {
-                    return (<Item
-                        key={item.id}
-                        itemId={item.id}
-                        text={item.name}
-                        category={item.category}
-                    />)
-                }
+                return (<GroceryItem
+                    key={item.id}
+                    itemId={item.id}
+                    text={item.name}
+                    category={item.category}
+                />)
+            }
             )}
-        </ul>)
+        </List>);
 };
 
 export const sortByCategory = (itemA, itemB) => {

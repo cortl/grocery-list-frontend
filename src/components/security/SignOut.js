@@ -2,13 +2,14 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types';
 import {signOut} from "../../actions";
 import {connect} from "react-redux";
+import { Menu } from 'semantic-ui-react';
 
 export class SignOut extends Component {
     static contextTypes = {
         router: PropTypes.object
     };
 
-    componentWillUpdate(nextProps) {
+    UNSAFE_componentWillUpdate(nextProps) {
         if (nextProps.auth.isEmpty) {
             this.context.router.history.push('/signIn');
         }
@@ -16,7 +17,7 @@ export class SignOut extends Component {
 
     render() {
         return (
-            <a className='nav-link' href='#' onClick={this.props.signOut}>Sign Out</a> // eslint-disable-line
+            <Menu.Item position='right' onClick={this.props.signOut}>Sign Out</Menu.Item>
         );
     }
 
@@ -25,7 +26,8 @@ export class SignOut extends Component {
 SignOut.propTypes = {
     auth: PropTypes.shape({
         isEmpty: PropTypes.bool
-    })
+    }),
+    signOut: PropTypes.func
 }
 
 export const mapStateToProps = (state) => ({
