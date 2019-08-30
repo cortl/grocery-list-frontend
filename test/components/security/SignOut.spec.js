@@ -1,8 +1,9 @@
-import {expect} from '../../utils/chai'
+import { expect } from '../../utils/chai'
 import React from "react";
-import {mount, shallow} from "enzyme";
-import {mapStateToProps, SignOut} from "../../../src/components/security/SignOut";
+import { mount, shallow } from "enzyme";
+import { mapStateToProps, SignOut } from "../../../src/components/security/SignOut";
 import Chance from "chance";
+import { Menu } from 'semantic-ui-react';
 import * as sinon from "sinon";
 
 const sandbox = sinon.createSandbox();
@@ -15,60 +16,82 @@ describe('Sign Out', () => {
 
     beforeEach(() => {
         wrapper = shallow(<SignOut
+            auth={{
+                isEmpty: false
+            }}
             signOut={signOutSpy}
         />)
     });
 
-    it('should have a sign out link', () => {
-        expect(wrapper.find('a')).to.have.className('nav-link');
-        expect(wrapper.find('a')).to.have.prop('href', '#');
-        expect(wrapper.find('a')).to.have.prop('onClick', signOutSpy);
-        expect(wrapper.find('a')).to.have.text('Sign Out');
+    it('should be a sign out button', () => {
+        expect(wrapper).to.have.type(Menu.Item);
+        expect(wrapper.childAt(0)).to.have.text('Sign Out');
     });
 
-    it('should call sign out spy when link is clicked', () => {
-        wrapper.find('a').simulate('click');
+    describe('when sign out is clicked', () => {
+        beforeEach(() => {
+            wrapper.simulate('click');
+        });
 
-        expect(signOutSpy).to.have.been.calledOnce;
+        it('should call sign out', () => {
+            expect(signOutSpy).to.have.been.calledOnce;
+        });
     });
 
-    it('should move the page to sign in if auth is empty', () => {
-        const contextStub = {
-            router: {
-                history: {
-                    push: sinon.spy()
+    describe('when auth is not empty', () => {
+        let context,
+            auth;
+
+        beforeEach(() => {
+            context = {
+                router: {
+                    history: {
+                        push: sinon.spy()
+                    }
                 }
-            }
-        };
-        let auth = {
-            isEmpty: false
-        };
+            };
+            auth = {
+                isEmpty: false
+            };
 
-        wrapper = mount(<SignOut
-            auth
-        />, {context: contextStub});
+            wrapper = mount(<SignOut
+                auth={auth}
+            />, { context });
+        })
 
-        auth = {
-            isEmpty: true
-        };
+        it('should not push the user to the signIn page', () => {
+            expect(context.router.history.push).to.have.not.been.calledWith('/signIn')
+        });
 
-        wrapper.setProps({auth: auth});
+        describe('when the auth becomes empty', () => {
+            beforeEach(() => {
+                auth = {
+                    isEmpty: true
+                };
 
+                wrapper.setProps({ auth: auth });
+            });
 
-        expect(contextStub.router.history.push).to.have.been.calledWith('/signIn')
+            it('should push the user to the signIn page', () => {
+                expect(context.router.history.push).to.have.been.calledWith('/signIn')
+            });
+        });
     });
 
     describe('Redux', () => {
-        it('should map state to props', () => {
-            const state = {
+        let props,
+            state;
+        beforeEach(() => {
+            state = {
                 firebase: {
                     auth: chance.string()
                 }
             };
+            props = mapStateToProps(state);
+        });
 
-            const actualProps = mapStateToProps(state);
-
-            expect(actualProps.auth).to.be.equal(state.firebase.auth)
+        it('should map state to props', () => {
+            expect(props.auth).to.be.equal(state.firebase.auth)
         });
     });
 

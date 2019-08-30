@@ -1,10 +1,11 @@
 import Chance from 'chance';
 import sinon from 'sinon'
-import {expect} from '../utils/chai'
-import {AddItem, mapDispatchToProps} from "../../src/components/AddItem";
+import { expect } from '../utils/chai'
+import { AddItem, mapDispatchToProps } from "../../src/components/AddItem";
 import React from "react";
-import {shallow} from "enzyme";
+import { shallow } from "enzyme";
 import * as Actions from "../../src/actions";
+import { Input } from 'semantic-ui-react';
 
 const chance = new Chance();
 const sandbox = sinon.createSandbox();
@@ -12,13 +13,12 @@ const sandbox = sinon.createSandbox();
 describe('Add Item', () => {
 
     let wrapper,
-        inputText = chance.string({length: 49}),
-        dispatchSpy,
+        item,
         addItemSpy;
 
     beforeEach(() => {
         addItemSpy = sandbox.spy();
-        dispatchSpy = sandbox.spy();
+        item = chance.word();
         wrapper = shallow(<AddItem
             addItem={addItemSpy}
         />)
@@ -28,66 +28,113 @@ describe('Add Item', () => {
         sandbox.restore();
     });
 
-    it('should render in a div', () => {
-        expect(wrapper).to.have.type('div');
-        expect(wrapper).to.have.className('input-group mb-3 mt-3 pl-0 pr-0 col-md-8 offset-md-2');
+    it('should be an input', () => {
+        expect(wrapper).to.have.type(Input);
+
+        expect(wrapper.props().action.content).to.be.equal('+');
+
+        expect(wrapper).to.have.prop('fluid', true);
+        expect(wrapper.props().style).to.be.eql({ marginTop: '1em' });
+        expect(wrapper).to.have.prop('placeholder', 'Add item...');
+        expect(wrapper).to.have.prop('maxLength', 50);
     });
 
-    describe('Input', () => {
-        it('should have an input', () => {
-            expect(wrapper.find('input')).to.have.prop('type', 'text');
-            expect(wrapper.find('input')).to.have.className('form-control');
-            expect(wrapper.find('input')).to.have.prop('placeholder', 'Apples...');
-            expect(wrapper.find('input')).to.have.prop('aria-label', 'Grocery Item');
-            expect(wrapper.find('input')).to.have.prop('aria-describedby', 'itemAddField');
-            expect(wrapper.find('input')).to.have.prop('autoFocus', true);
-            expect(wrapper.find('input')).to.have.prop('maxLength', 50);
+    describe('when an item is entered', () => {
+        beforeEach(() => {
+            item = chance.word();
+            wrapper.simulate('change', { target: { value: item } });
         });
 
-        it('should handle on enter key press', () => {
-            wrapper.find('input').simulate('change', {target: {value: inputText}});
-            wrapper.find('input').simulate('keyPress', {key: 'Enter'});
+        describe('when enter is pressed', () => {
+            beforeEach(() => {
+                wrapper.simulate('keyPress', { key: 'Enter' });
+            })
 
-            expect(addItemSpy).to.have.been.calledWith(inputText);
-        });
-
-        it('should not add item if length is greater than 50', () => {
-            wrapper.find('input').simulate('change', {target: {value: chance.string({length: 51})}});
-            wrapper.find('input').simulate('keyPress', {key: 'Enter'});
-
-            expect(addItemSpy).to.not.have.been.called;
-        });
-
-        it('should not add item if nothing is inputted', () => {
-            wrapper.find('input').simulate('keyPress', {key: 'Enter'});
-
-            expect(addItemSpy).to.not.have.been.called;
+            it('should add the item', () => {
+                expect(addItemSpy).to.have.been.calledWith(item);
+            })
         })
+
+        describe('when the add button action is clicked', () => {
+            beforeEach(() => {
+                wrapper.props().action.onClick();
+            })
+
+            it('should add the item', () => {
+                expect(addItemSpy).to.have.been.calledWith(item);
+            });
+        });
     });
 
-    describe('Button', () => {
-        it('should have a button', () => {
-            expect(wrapper.find('button')).to.have.className('btn btn-outline-secondary');
-            expect(wrapper.find('button')).to.have.prop('type', 'button');
-            expect(wrapper.find('button')).to.have.text('+');
+    describe('when an item has more than 50 characters', () => {
+        beforeEach(() => {
+            item = chance.string({ length: 51 });
+            wrapper.simulate('change', { target: { value: item } });
         });
 
-        it('should add item if button is clicked', () => {
-            wrapper.find('input').simulate('change', {target: {value: inputText}});
-            wrapper.find('button').simulate('click');
+        describe('when enter is pressed', () => {
+            beforeEach(() => {
+                wrapper.simulate('keyPress', { key: 'Enter' });
+            });
 
-            expect(addItemSpy).to.have.been.calledWith(inputText);
-        })
+            it('should not add the item', () => {
+                expect(addItemSpy).to.have.not.been.calledWith(item);
+            });
+        });
+
+        describe('when the add button action is clicked', () => {
+            beforeEach(() => {
+                wrapper.props().action.onClick();
+            })
+
+            it('should not add the item', () => {
+                expect(addItemSpy).to.have.not.been.calledWith(item);
+            });
+        });
+    });
+
+    describe('when no text is entered', () => {
+        beforeEach(() => {
+            item = '';
+            wrapper.simulate('change', { target: { value: item } });
+        });
+
+        describe('when enter is pressed', () => {
+            beforeEach(() => {
+                wrapper.simulate('keyPress', { key: 'Enter' });
+            });
+
+            it('should not add the item', () => {
+                expect(addItemSpy).to.have.not.been.calledWith(item);
+            });
+        });
+
+        describe('when the add button action is clicked', () => {
+            beforeEach(() => {
+                wrapper.props().action.onClick();
+            })
+
+            it('should not add the item', () => {
+                expect(addItemSpy).to.have.not.been.calledWith(item);
+            });
+        });
     });
 
     describe('Redux', () => {
+        let dispatchSpy;
+
+        beforeEach(() => {
+            addItemSpy = sandbox.spy();
+            dispatchSpy = sandbox.spy();
+        });
+
         it('should map dispatch to props', () => {
             const actualProps = mapDispatchToProps(dispatchSpy);
             sandbox.stub(Actions, 'addItem');
 
-            actualProps.addItem(inputText);
+            actualProps.addItem(item);
 
-            expect(dispatchSpy).to.have.been.calledWith(Actions.addItem(inputText))
+            expect(dispatchSpy).to.have.been.calledWith(Actions.addItem(item))
         });
     });
 });

@@ -1,13 +1,12 @@
-import {shallow} from "enzyme/build";
+import { shallow } from "enzyme/build";
 import React from "react";
-import {expect} from "../utils/chai";
+import { expect } from "../utils/chai";
 import Chance from "chance";
-import {ItemActions, mapDispatchToProps} from "../../src/components/items/ItemActions";
+import { ItemActions, mapDispatchToProps } from "../../src/components/items/ItemActions";
 import * as sinon from "sinon";
-import Category from "../../src/components/items/Category";
-import Icon from "../../src/components/Icon";
 import * as Actions from "../../src/actions";
-import {CATEGORIES} from "../../src/constants/categories";
+import { CATEGORIES } from "../../src/constants/categories";
+import { Menu, Dropdown, Loader } from "semantic-ui-react";
 
 const chance = new Chance();
 const sandbox = sinon.createSandbox();
@@ -15,31 +14,27 @@ const sandbox = sinon.createSandbox();
 describe('Item Actions', () => {
 
     let wrapper,
-        id = chance.string(),
-        name = chance.string(),
-        userId = chance.string(),
-        category = {
-            categoryId: chance.string(),
-            associationId: chance.string(),
-            textColor: chance.string()
-        },
-        categoryChange = chance.string,
-        changeCategorySpy,
-        removeItemSpy;
+        givenProps;
 
     const whenComponentIsRendered = () => {
         wrapper = shallow(<ItemActions
-            itemId={id}
-            name={name}
-            category={category}
-            changeCategory={changeCategorySpy}
-            removeItem={removeItemSpy}
+            {...givenProps}
         />)
     };
 
     beforeEach(() => {
-        changeCategorySpy = sandbox.stub().returns(categoryChange);
-        removeItemSpy = sandbox.spy();
+        givenProps = {
+            itemId: chance.guid(),
+            categoryId: chance.pickone([chance.guid(), '']),
+            name: chance.string(),
+            category: {
+                associationId: chance.guid(),
+                categoryId: chance.string()
+            },
+            userId: chance.guid(),
+            changeCategory: sandbox.stub(),
+            removeItem: sandbox.spy()
+        }
 
         whenComponentIsRendered()
     });
@@ -48,75 +43,105 @@ describe('Item Actions', () => {
         sandbox.restore();
     });
 
-    it('should render in a div', () => {
-        expect(wrapper).to.have.type('div');
-        expect(wrapper).to.have.className('float-right');
+    it('should render a menu', () => {
+        expect(wrapper).to.have.type(Menu);
+        expect(wrapper).to.have.prop('secondary', true);
+        expect(wrapper).to.have.prop('icon', true);
+        expect(wrapper).to.have.prop('floated', 'right');
     });
 
-    describe('Category Button', () => {
+    it('should render a trash button', () => {
+        expect(wrapper.find(Menu.Item)).to.have.prop('icon', 'trash');
+    })
 
-        it('should have a button', () => {
-            expect(wrapper.find('button').at(0)).to.have.prop('type', 'button');
-            expect(wrapper.find('button').at(0)).to.have.className('btn btn-link');
-            expect(wrapper.find('button').at(0)).to.have.prop('id', `${id}dropDown`);
-            expect(wrapper.find('button').at(0)).to.have.prop('data-toggle', 'dropdown');
-            expect(wrapper.find('button').at(0)).to.have.prop('aria-haspopup', 'true');
-            expect(wrapper.find('button').at(0)).to.have.prop('aria-expanded', 'true');
-        });
+    describe('when trash button is clicked', () => {
+        beforeEach(() => {
+            wrapper.find(Menu.Item).simulate('click');
+        })
 
-        it('should have an Icon', () => {
-            expect(wrapper.find(Icon).at(0)).to.have.prop('color', category.textColor);
-            expect(wrapper.find(Icon).at(0)).to.have.prop('type', 'cog');
+        it('should call the remove item action', () => {
+            expect(givenProps.removeItem).to.have.been.calledOnceWithExactly(givenProps.itemId);
         });
+    });
+
+    describe('when a category id is given', () => {
+        beforeEach(() => {
+            givenProps.categoryId = chance.guid();
+            whenComponentIsRendered();
+        })
+
+        it('should not have a loader', () => {
+            expect(wrapper.find(Loader)).to.not.exist;
+        })
 
         it('should have a dropdown', () => {
-            expect(wrapper.find('ul')).to.have.className('dropdown-menu');
-            expect(wrapper.find('ul')).to.have.prop('aria-labelledby', `${id}dropDown`);
+            expect(wrapper.find(Dropdown)).to.have.prop('button', true);
+            expect(wrapper.find(Dropdown)).to.have.prop('item', true);
+            expect(wrapper.find(Dropdown)).to.have.prop('icon', 'cog');
+            expect(wrapper.find(Dropdown)).to.have.prop('compact', true);
         });
 
-        it('should have a category for every category given', () => {
-            Object.keys(CATEGORIES).forEach((key, index) => {
-                expect(wrapper.find(Category).at(index)).to.have.prop('change', categoryChange);
-                expect(wrapper.find(Category).at(index)).to.have.prop('category', CATEGORIES[key]);
-            })
-        });
-
-        it('should call new category prop if current category does not exist', () => {
-            category.associationId = '';
-
-            whenComponentIsRendered();
+        it('should have a dropdown menu', () => {
+            expect(wrapper.find(Dropdown.Menu)).to.be.present;
 
             Object.keys(CATEGORIES).forEach((key, index) => {
-                expect(wrapper.find(Category).at(index)).to.have.prop('change', categoryChange);
-                expect(wrapper.find(Category).at(index)).to.have.prop('category', CATEGORIES[key]);
-            })
+                expect(wrapper.find(Dropdown.Item).at(index)).to.have.prop('text', `${CATEGORIES[key].symbol} ${CATEGORIES[key].category}`)
+            });
         });
 
+        describe('when one of the categories is picked', () => {
+            let category,
+                index,
+                categoryChange;
+
+            beforeEach(() => {
+                categoryChange = sandbox.spy();
+                givenProps.changeCategory.returns(categoryChange);
+                
+                const pickedId = chance.pickone(Object.keys(CATEGORIES))
+                category = CATEGORIES[pickedId];
+                index = Object.keys(CATEGORIES).findIndex((id) => id === pickedId);
+
+                whenComponentIsRendered();
+
+                wrapper.find(Dropdown.Item).at(index).simulate('click');
+            })
+
+            it('should call the change category', () => {
+                expect(givenProps.changeCategory).to.have.been.calledOnceWithExactly(givenProps.categoryId, givenProps.userId, givenProps.name);
+                expect(categoryChange).to.have.been.calledOnceWithExactly(category.category);
+            })
+        })
     });
 
-    describe('Delete Button', () => {
-        it('should have a button', () => {
-            expect(wrapper.find('button').at(1)).to.have.prop('type', 'button');
-            expect(wrapper.find('button').at(1)).to.have.className('btn btn-link');
+    describe('when a category id is not given', () => {
+        beforeEach(() => {
+            givenProps.categoryId = '';
+            whenComponentIsRendered();
+        })
+
+        it('should have a loader', () => {
+            expect(wrapper.find(Loader)).to.have.prop('active', true);
         });
 
-        it('should call removeItem when clicked', () => {
-            wrapper.find('button').at(1).simulate('click');
-
-            expect(removeItemSpy).to.have.been.calledWith(id);
-        });
-
-        it('should have an icon', () => {
-            expect(wrapper.find(Icon).at(1)).to.have.prop('color', category.textColor);
-            expect(wrapper.find(Icon).at(1)).to.have.prop('type', 'trash');
+        it('should not have a category dropdown', () => {
+            expect(wrapper.find(Dropdown)).to.not.be.present;
         });
     });
 
     describe('Redux', () => {
         let dispatchSpy,
+            id,
+            userId,
+            category,
+            name,
             actualProps;
 
         beforeEach(() => {
+            id = chance.guid();
+            userId = chance.guid();
+            name = chance.string();
+            category = chance.string();
             sandbox.stub(Actions, 'removeItem');
             sandbox.stub(Actions, 'changeCategory');
             dispatchSpy = sandbox.spy();

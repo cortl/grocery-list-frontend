@@ -15,7 +15,7 @@ export class SignIn extends Component {
         router: PropTypes.object
     };
 
-    componentWillUpdate(nextProps) {
+    UNSAFE_componentWillUpdate(nextProps) {
         if (!isEmpty(nextProps.auth)) {
             this.context.router.history.push('/');
         }
@@ -31,7 +31,7 @@ export class SignIn extends Component {
                 {
                     !isLoaded(this.props.auth)
                         ? <Loader active />
-                        : <Grid verticalAlign='middle' style={{marginTop: '5em'}}>
+                        : <Grid verticalAlign='middle' style={{ marginTop: '5em' }}>
                             <Grid.Row>
                                 <Grid.Column
                                     stlye=''

@@ -22,15 +22,10 @@ describe('App', () => {
         expect(wrapper.find(Route).at(0)).to.have.prop('path', '/');
     });
 
-    it('should have a Settings route', () => {
-        expect(wrapper.find(Route).at(1)).to.have.prop('exact');
-        expect(wrapper.find(Route).at(1)).to.have.prop('path', '/settings');
-    });
-
     it('should have an app route', () => {
-        expect(wrapper.find(Route).at(2)).to.have.prop('exact');
-        expect(wrapper.find(Route).at(2)).to.have.prop('path', '/signIn');
-        expect(wrapper.find(Route).at(2)).to.have.prop('component', SignIn);
+        expect(wrapper.find(Route).at(1)).to.have.prop('exact');
+        expect(wrapper.find(Route).at(1)).to.have.prop('path', '/signIn');
+        expect(wrapper.find(Route).at(1)).to.have.prop('component', SignIn);
     })
 
 });

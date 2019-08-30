@@ -10,7 +10,7 @@ export default (ComposedComponent) => {
 
         isLoggedIn = () => this.props.auth.isLoaded
 
-        componentWillMount = () => {
+        UNSAFE_componentWillMount = () => {
             if (!this.isLoggedIn()) {
                 this.context.router.history.push("/signIn");
             }

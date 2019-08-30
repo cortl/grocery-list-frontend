@@ -3,8 +3,8 @@ import React from "react";
 import { mount, shallow } from "enzyme";
 import Chance from "chance";
 import * as sinon from "sinon";
-import { backgroundStyle, SignIn, mapStateToProps } from "../../../src/components/security/SignIn";
-import { Spinner } from '../../../src/components/Spinner';
+import { SignIn, mapStateToProps } from "../../../src/components/security/SignIn";
+import { Header, Container, Image, Loader, Grid } from 'semantic-ui-react';
 
 const sandbox = sinon.createSandbox();
 const chance = new Chance();
@@ -15,94 +15,114 @@ describe('Sign In', () => {
         givenProps = {
             signIn: signInSpy,
             auth: {
-                isLoaded: false,
-                isEmpty: true
+                [chance.word()]: chance.word()
             }
         }
 
     beforeEach(() => {
-        whenComponentIsRendered(givenProps);
+        whenComponentIsRendered();
     });
 
-    const whenComponentIsRendered = (props) => {
+    const whenComponentIsRendered = () => {
         wrapper = shallow(<SignIn
-            {...props}
+            {...givenProps}
         />)
     }
 
-    it('should have a blurry background image', () => {
-        expect(wrapper.childAt(0)).to.have.style(backgroundStyle);
+    it('should be in a container', () => {
+        expect(wrapper).to.have.type(Container);
+    })
+
+    it('should have a logo', () => {
+        expect(wrapper.find(Image).props().src).to.be.eql({});
+        expect(wrapper.find(Image)).to.have.prop('alt', 'logo');
     });
 
-    it('should have a spinner when authentication has not been loaded', () => {
-        expect(wrapper.find(Spinner)).to.be.present();
+    it('should have a header', () => {
+        expect(wrapper.find(Header)).to.have.prop('textAlign', 'center');
+        expect(wrapper.find(Header)).to.have.prop('size', 'large');
+        expect(wrapper.find(Header)).to.have.prop('icon', true);
+
+        expect(wrapper.find(Header.Content).childAt(0)).to.have.text('Grocery List');
     });
 
-    it('should have a sign in header', () => {
-        expect(wrapper.find('h1')).to.have.className('display-3 mt-5 mb-5 text-white');
-        expect(wrapper.find('h1')).to.have.text('Grocery List');
+    describe('when the auth is not loaded', () => {
+        beforeEach(() => {
+            givenProps.auth.isLoaded = false;
+            whenComponentIsRendered();
+        });
+
+        it('should have a loader', () => {
+            expect(wrapper.find(Loader)).to.have.prop('active', true);
+        });
     });
 
-    it('should have a sign in link', () => {
-        givenProps.auth.isEmpty = false;
-        givenProps.auth.isLoaded = true;
-        
-        whenComponentIsRendered(givenProps);
+    describe('when the auth is loaded', () => {
+        beforeEach(() => {
+            givenProps.auth.isLoaded = true;
+            whenComponentIsRendered();
+        });
 
-        expect(wrapper.find('button')).to.have.prop('onClick', signInSpy);
-        expect(wrapper.find('button')).to.have.text('Sign In With Google');
-        expect(wrapper.find('button').childAt(0)).to.have.className('fab fa-google mr-2')
+        it('should not have a loader', () => {
+            expect(wrapper.find(Loader)).to.not.exist;
+        });
+
+        it('should have a grid', () => {
+            expect(wrapper.find(Grid)).to.have.prop('verticalAlign', 'middle');
+            expect(wrapper.find(Grid).props().style).to.eql({ marginTop: '5em' });
+        });
     });
 
-    it('should call sign in spy when link is clicked', () => {
-        givenProps.auth.isEmpty = false;
-        givenProps.auth.isLoaded = true;
-        
-        whenComponentIsRendered(givenProps);
-        
-        wrapper.find('button').simulate('click');
+    describe('when auth is empty', () => {
+        let context;
 
-        expect(signInSpy).to.have.been.calledOnce;
-    });
-
-    it('should move the page to app if page is signed', () => {
-        const contextStub = {
-            router: {
-                history: {
-                    push: sinon.spy()
+        beforeEach(() => {
+            context = {
+                router: {
+                    history: {
+                        push: sinon.spy()
+                    }
                 }
-            }
-        };
+            };
+            givenProps.auth.isEmpty = false;
 
-        let auth = {
-            isEmpty: false
-        };
+            wrapper = mount(<SignIn
+                {...givenProps}
+            />, { context });
+        })
 
-        wrapper = mount(<SignIn
-            auth={auth}
-        />, { context: contextStub });
+        it('should not push the user to the home page', () => {
+            expect(context.router.history.push).to.have.not.been.calledWith('/')
+        });
 
-        auth = {
-            isEmpty: false
-        };
+        describe('when the auth is not empty', () => {
+            beforeEach(() => {
+                givenProps.auth.isEmpty = false;
 
-        wrapper.setProps({ auth: auth });
+                wrapper.setProps({ ...givenProps });
+            });
 
-
-        expect(contextStub.router.history.push).to.have.been.calledWith('/')
+            it('should push the user to the home page', () => {
+                expect(context.router.history.push).to.have.been.calledWith('/')
+            });
+        });
     });
 
     describe('Redux', () => {
-        it('should map state to props', () => {
-            const state = {
+        let state,
+            props;
+
+        beforeEach(() => {
+            state = {
                 firebase: {
                     auth: chance.string()
                 }
             };
+            props = mapStateToProps(state);
+        });
 
-            const actualProps = mapStateToProps(state);
-
-            expect(actualProps.auth).to.be.equal(state.firebase.auth)
+        it('should map state to props', () => {
+            expect(props.auth).to.be.equal(state.firebase.auth)
         });
     });
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import GroceryItem from './items/Item'
+import GroceryItem from './items/GroceryItem'
 import { List } from 'semantic-ui-react';
 
 export const ItemList = (props) => {

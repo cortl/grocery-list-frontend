@@ -1,7 +1,7 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types';
-import {signOut} from "../../actions";
-import {connect} from "react-redux";
+import { signOut } from "../../actions";
+import { connect } from "react-redux";
 import { Menu } from 'semantic-ui-react';
 
 export class SignOut extends Component {
@@ -34,4 +34,4 @@ export const mapStateToProps = (state) => ({
     auth: state.firebase.auth
 });
 
-export default connect(mapStateToProps, {signOut})(SignOut);
+export default connect(mapStateToProps, { signOut })(SignOut);

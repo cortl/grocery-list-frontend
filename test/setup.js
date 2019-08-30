@@ -17,7 +17,3 @@ export const settingsStub = {
 sinon.stub(firebase, 'initializeApp');
 sinon.stub(firebase, 'firestore').returns(settingsStub);
 sinon.stub(firebase, 'auth').returns(authRefStub);
-
-require.extensions['.jpg'] = function () {
-    return null;
-};

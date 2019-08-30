@@ -9,10 +9,6 @@ import PropTypes from 'prop-types'
 import { Container, Loader, Grid } from 'semantic-ui-react';
 
 export class GroceryList extends Component {
-    static contextTypes = {
-        store: PropTypes.object.isRequired
-    };
-
     render = () => {
         return (
             <Container>
