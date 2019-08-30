@@ -16,7 +16,7 @@ export const ItemActions = (props) => {
             floated='right'
             icon
             secondary>
-            {this.props.categoryId
+            {props.categoryId
                 ? (
                     <Dropdown
                         button

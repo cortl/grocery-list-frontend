@@ -1,6 +1,27 @@
 {
-  "presets": [
-    "babel-preset-env", "react"
+  "env": {
+    "test": {
+      "plugins": [
+        "istanbul"
+      ]
+    }
+  },
+  "plugins": [
+    "@babel/plugin-proposal-class-properties",
+    [
+      "@babel/plugin-transform-runtime",
+      {
+        "regenerator": true
+      }
+    ]
   ],
-  "plugins": ["transform-object-rest-spread", "transform-class-properties"]
+  "presets": [
+    "@babel/react",
+    [
+      "@babel/env",
+      {
+        "useBuiltIns": "usage"
+      }
+    ]
+  ]
 }
