@@ -1,16 +1,16 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
-import { addItem } from '../actions/index'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { addItem } from '../actions/index';
 import { Input } from 'semantic-ui-react';
 
-export class AddItem extends React.Component {
+export class AddItem extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             value: ''
-        }
+        };
     }
 
     render() {
@@ -21,18 +21,22 @@ export class AddItem extends React.Component {
                     onClick: () => this.addItemToList()
                 }}
                 fluid
-                style={{ marginTop: '1em' }}
-                placeholder='Add item...'
                 maxLength={50}
-                onChange={e => this.setState({ value: e.target.value })}
-                onKeyPress={(e) => {
-                    if (e.key === 'Enter') {
-                        this.addItemToList();
-                    }
-                }}
+                onChange={this.onChange}
+                onKeyPress={this.onEnter}
+                placeholder='Add item...'
+                style={{ marginTop: '1em' }}
                 value={this.state.value}
             />
         );
+    }
+
+    onChange = e => this.setState({ value: e.target.value })
+
+    onEnter = (e) => {
+        if (e.key === 'Enter') {
+            this.addItemToList();
+        }
     }
 
     addItemToList = () => {
@@ -40,7 +44,7 @@ export class AddItem extends React.Component {
             this.props.addItem(this.state.value, this.props.userId);
             this.setState({
                 value: ''
-            })
+            });
         }
     };
 }
@@ -48,7 +52,7 @@ export class AddItem extends React.Component {
 AddItem.propTypes = {
     addItem: PropTypes.func.isRequired,
     userId: PropTypes.string
-}
+};
 
 export const mapStateToProps = state => ({
     userId: state.firebase.auth.uid
@@ -58,4 +62,4 @@ export const mapDispatchToProps = dispatch => ({
     addItem: (itemValue, userId) => dispatch(addItem(itemValue, userId))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddItem)
+export default connect(mapStateToProps, mapDispatchToProps)(AddItem);

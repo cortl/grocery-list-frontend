@@ -1,47 +1,48 @@
-import React, { Component } from 'react'
-// import Icon from '../Icon';
-import { connect } from "react-redux";
-import { changeCategory, removeItem } from "../../actions";
-import PropTypes from "prop-types";
-import { CATEGORIES } from "../../constants/categories";
-import { itemStripper } from "../../utils/categoryMatching";
+import React from 'react';
+import { connect } from 'react-redux';
+import { changeCategory, removeItem } from '../../actions';
+import PropTypes from 'prop-types';
+import { CATEGORIES } from '../../constants/categories';
+import { itemStripper } from '../../utils/categoryMatching';
 import { Menu, Dropdown, Loader } from 'semantic-ui-react';
 
-export class ItemActions extends Component {
-    render() {
-        return (
-            <Menu
-                secondary
-                icon
-                floated='right'>
-                {this.props.categoryId
-                    ? <Dropdown
+
+export const ItemActions = (props) => {
+    const removeOnClick = () => () => props.removeItem(props.itemId);
+    const changeOnClick = (key) => () => props.changeCategory(props.categoryId, props.userId, props.name)(CATEGORIES[key].category);
+
+    return (
+        <Menu
+            floated='right'
+            icon
+            secondary>
+            {this.props.categoryId
+                ? (
+                    <Dropdown
                         button
-                        item
+                        compact
                         icon='cog'
-                        compact>
+                        item>
                         <Dropdown.Menu>
                             {Object.keys(CATEGORIES).map((key) => (
                                 <Dropdown.Item
                                     key={key}
-                                    onClick={() => {
-                                        this.props.changeCategory(this.props.categoryId, this.props.userId, this.props.name)(CATEGORIES[key].category)
-                                    }}
+                                    onClick={changeOnClick(key)}
                                     text={`${CATEGORIES[key].symbol} ${CATEGORIES[key].category}`}
                                 />
                             ))}
                         </Dropdown.Menu>
                     </Dropdown>
-                    : <Loader active inline size='small' style={{ marginTop: '.5em' }} />
-                }
-                <Menu.Item
-                    icon='trash'
-                    onClick={() => this.props.removeItem(this.props.itemId)}
-                />
-            </Menu>
-        )
-    }
-}
+                )
+                : <Loader active inline size='small' style={{ marginTop: '.5em' }}/>
+            }
+            <Menu.Item
+                icon='trash'
+                onClick={removeOnClick()}
+            />
+        </Menu>
+    );
+};
 
 ItemActions.propTypes = {
     itemId: PropTypes.string.isRequired,

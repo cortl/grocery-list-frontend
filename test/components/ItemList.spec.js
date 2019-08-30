@@ -1,11 +1,11 @@
-import {shallow} from "enzyme/build";
-import React from "react";
-import {expect} from "../utils/chai";
-import Chance from "chance";
-import {ItemList} from "../../src/components/ItemList";
-import GroceryItem from "../../src/components/items/GroceryItem";
-import {NONE} from "../../src/constants/categories";
-import { List } from "semantic-ui-react";
+import { shallow } from 'enzyme/build';
+import React from 'react';
+import { expect } from '../utils/chai';
+import Chance from 'chance';
+import { ItemList } from '../../src/components/ItemList';
+import GroceryItem from '../../src/components/items/GroceryItem';
+import { NONE } from '../../src/constants/categories';
+import { List } from 'semantic-ui-react';
 
 const chance = new Chance();
 
@@ -18,14 +18,14 @@ describe('Item List', () => {
         category: NONE
     });
 
+    let wrapper,
+        items = chance.n(buildItem, chance.d10());
+
     const whenComponentIsRendered = () => {
         wrapper = shallow(<ItemList
             items={items}
-        />)
+        />);
     };
-
-    let wrapper,
-        items = chance.n(buildItem, chance.d10());
 
     beforeEach(() => {
         whenComponentIsRendered();
@@ -44,21 +44,23 @@ describe('Item List', () => {
             expect(wrapper.find(GroceryItem).at(index).props().itemId).to.be.equal(item.id);
             expect(wrapper.find(GroceryItem).at(index).props().text).to.be.equal(item.name);
             expect(wrapper.find(GroceryItem).at(index).props().category).to.be.equal(item.category);
-        })
+        });
     });
 
     it('should sort items based off of category sort order', () => {
-        items = [{
-            ...buildItem(),
-            category: {
-                sortOrder: 1
+        items = [
+            {
+                ...buildItem(),
+                category: {
+                    sortOrder: 1
+                }
+            }, {
+                ...buildItem(),
+                category: {
+                    sortOrder: 0
+                }
             }
-        }, {
-            ...buildItem(),
-            category: {
-                sortOrder: 0
-            }
-        }];
+        ];
         const originalItems = [items[0], items[1]];
 
         whenComponentIsRendered();
@@ -68,19 +70,21 @@ describe('Item List', () => {
     });
 
     it('should sort items based on name after sorting by category', () => {
-        items = [{
-            ...buildItem(),
-            name: 'b',
-            category: {
-                sortOrder: 1
+        items = [
+            {
+                ...buildItem(),
+                name: 'b',
+                category: {
+                    sortOrder: 1
+                }
+            }, {
+                ...buildItem(),
+                name: 'a',
+                category: {
+                    sortOrder: 1
+                }
             }
-        }, {
-            ...buildItem(),
-            name: 'a',
-            category: {
-                sortOrder: 1
-            }
-        }];
+        ];
         const originalItems = [items[0], items[1]];
 
         whenComponentIsRendered();

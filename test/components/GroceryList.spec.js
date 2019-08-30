@@ -1,12 +1,12 @@
-import { expect } from '../utils/chai'
-import React from "react";
-import { shallow } from "enzyme";
-import AddItem from "../../src/components/AddItem";
-import { GroceryList } from "../../src/components/GroceryList";
-import Chance from "chance";
-import ItemList from "../../src/enhancers/FireStoreItemList";
-import { Grid, Loader, Container } from 'semantic-ui-react';
-import { MainNavigation } from '../../src/components/navigation/MainNavigation';
+import {expect} from '../utils/chai';
+import React from 'react';
+import {shallow} from 'enzyme';
+import AddItem from '../../src/components/AddItem';
+import {GroceryList} from '../../src/components/GroceryList';
+import Chance from 'chance';
+import ItemList from '../../src/enhancers/FireStoreItemList';
+import {Grid, Loader, Container} from 'semantic-ui-react';
+import {MainNavigation} from '../../src/components/navigation/MainNavigation';
 
 const chance = new Chance();
 
@@ -16,7 +16,7 @@ describe('Grocery List', () => {
         givenProps;
 
     const whenComponentIsRendered = () => {
-        wrapper = shallow(<GroceryList {...givenProps} />)
+        wrapper = shallow(<GroceryList {...givenProps}/>);
     };
 
     beforeEach(() => {
@@ -24,13 +24,13 @@ describe('Grocery List', () => {
             auth: {
                 uid: chance.pickone([chance.guid(), ''])
             }
-        }
+        };
         whenComponentIsRendered();
     });
 
     it('should render in a container', () => {
         expect(wrapper).to.have.type(Container);
-    })
+    });
 
     it('should have a navigation', () => {
         expect(wrapper.childAt(0)).to.have.type(MainNavigation);

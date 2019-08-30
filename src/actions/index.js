@@ -1,4 +1,4 @@
-import {authRef, provider} from "../config/fbConfig";
+import {authRef, provider} from '../config/fbConfig';
 
 export const addItem = (name, userId) => {
     return (_dispatch, _getState, {getFirestore}) => {
@@ -21,8 +21,8 @@ export const removeItem = id => {
 
 export const changeCategory = (id, userId, name, category) => {
     return (_dispatch, _getState, {getFirestore}) => {
-        getFirestore().set({collection: 'associations', doc: id}, {name, category, userId})
-    }
+        getFirestore().set({collection: 'associations', doc: id}, {name, category, userId});
+    };
 };
 
 export const signIn = () => () => authRef.signInWithPopup(provider);

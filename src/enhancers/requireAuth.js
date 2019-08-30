@@ -1,6 +1,6 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 export default (ComposedComponent) => {
     class Authentication extends Component {
@@ -10,21 +10,22 @@ export default (ComposedComponent) => {
 
         isLoggedIn = () => this.props.auth.isLoaded
 
+        // eslint-disable-next-line camelcase
         UNSAFE_componentWillMount = () => {
             if (!this.isLoggedIn()) {
-                this.context.router.history.push("/signIn");
+                this.context.router.history.push('/signIn');
             }
         };
 
         componentDidUpdate = () => {
             if (!this.isLoggedIn()) {
-                this.context.router.history.push("/signIn");
+                this.context.router.history.push('/signIn');
             }
         }
 
         render = () => {
             if (this.isLoggedIn()) {
-                return <ComposedComponent {...this.props} />;
+                return <ComposedComponent {...this.props}/>;
             }
             return null;
         }
@@ -35,11 +36,11 @@ export default (ComposedComponent) => {
             isEmpty: PropTypes.bool,
             isLoaded: PropTypes.bool
         })
-    }
+    };
 
+    // eslint-disable-next-line no-use-before-define
     return connect(mapStateToProps)(Authentication);
-}
-
+};
 
 
 export const mapStateToProps = (state) => {

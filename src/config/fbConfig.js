@@ -1,7 +1,6 @@
-/* global process */
-import * as firebase from "firebase/app";
-import 'firebase/firestore'
-import 'firebase/auth'
+import * as firebase from 'firebase/app';
+import 'firebase/firestore';
+import 'firebase/auth';
 
 const config = process.env.NODE_ENV === 'development'
     ? {

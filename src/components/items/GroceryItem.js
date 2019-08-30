@@ -1,7 +1,7 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import ItemActions from './ItemActions'
-import { List } from 'semantic-ui-react';
+import React from 'react';
+import PropTypes from 'prop-types';
+import ItemActions from './ItemActions';
+import {List} from 'semantic-ui-react';
 
 const GroceryItem = ({category, text, itemId}) => {
     return (
@@ -18,7 +18,8 @@ const GroceryItem = ({category, text, itemId}) => {
                     name={text}
                 />
             </List.Content>
-        </List.Item >)
+        </List.Item>
+);
 };
 
 GroceryItem.propTypes = {
@@ -27,4 +28,4 @@ GroceryItem.propTypes = {
     category: PropTypes.object.isRequired
 };
 
-export default GroceryItem
+export default GroceryItem;

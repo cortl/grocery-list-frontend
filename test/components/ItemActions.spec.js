@@ -1,12 +1,12 @@
-import { shallow } from "enzyme/build";
-import React from "react";
-import { expect } from "../utils/chai";
-import Chance from "chance";
-import { ItemActions, mapDispatchToProps } from "../../src/components/items/ItemActions";
-import * as sinon from "sinon";
-import * as Actions from "../../src/actions";
-import { CATEGORIES } from "../../src/constants/categories";
-import { Menu, Dropdown, Loader } from "semantic-ui-react";
+import {shallow} from 'enzyme/build';
+import React from 'react';
+import {expect} from '../utils/chai';
+import Chance from 'chance';
+import {ItemActions, mapDispatchToProps} from '../../src/components/items/ItemActions';
+import * as sinon from 'sinon';
+import * as Actions from '../../src/actions';
+import {CATEGORIES} from '../../src/constants/categories';
+import {Menu, Dropdown, Loader} from 'semantic-ui-react';
 
 const chance = new Chance();
 const sandbox = sinon.createSandbox();
@@ -19,7 +19,7 @@ describe('Item Actions', () => {
     const whenComponentIsRendered = () => {
         wrapper = shallow(<ItemActions
             {...givenProps}
-        />)
+        />);
     };
 
     beforeEach(() => {
@@ -34,9 +34,9 @@ describe('Item Actions', () => {
             userId: chance.guid(),
             changeCategory: sandbox.stub(),
             removeItem: sandbox.spy()
-        }
+        };
 
-        whenComponentIsRendered()
+        whenComponentIsRendered();
     });
 
     afterEach(() => {
@@ -52,12 +52,12 @@ describe('Item Actions', () => {
 
     it('should render a trash button', () => {
         expect(wrapper.find(Menu.Item)).to.have.prop('icon', 'trash');
-    })
+    });
 
     describe('when trash button is clicked', () => {
         beforeEach(() => {
             wrapper.find(Menu.Item).simulate('click');
-        })
+        });
 
         it('should call the remove item action', () => {
             expect(givenProps.removeItem).to.have.been.calledOnceWithExactly(givenProps.itemId);
@@ -68,11 +68,11 @@ describe('Item Actions', () => {
         beforeEach(() => {
             givenProps.categoryId = chance.guid();
             whenComponentIsRendered();
-        })
+        });
 
         it('should not have a loader', () => {
             expect(wrapper.find(Loader)).to.not.exist;
-        })
+        });
 
         it('should have a dropdown', () => {
             expect(wrapper.find(Dropdown)).to.have.prop('button', true);
@@ -85,7 +85,7 @@ describe('Item Actions', () => {
             expect(wrapper.find(Dropdown.Menu)).to.be.present;
 
             Object.keys(CATEGORIES).forEach((key, index) => {
-                expect(wrapper.find(Dropdown.Item).at(index)).to.have.prop('text', `${CATEGORIES[key].symbol} ${CATEGORIES[key].category}`)
+                expect(wrapper.find(Dropdown.Item).at(index)).to.have.prop('text', `${CATEGORIES[key].symbol} ${CATEGORIES[key].category}`);
             });
         });
 
@@ -98,27 +98,27 @@ describe('Item Actions', () => {
                 categoryChange = sandbox.spy();
                 givenProps.changeCategory.returns(categoryChange);
                 
-                const pickedId = chance.pickone(Object.keys(CATEGORIES))
+                const pickedId = chance.pickone(Object.keys(CATEGORIES));
                 category = CATEGORIES[pickedId];
                 index = Object.keys(CATEGORIES).findIndex((id) => id === pickedId);
 
                 whenComponentIsRendered();
 
                 wrapper.find(Dropdown.Item).at(index).simulate('click');
-            })
+            });
 
             it('should call the change category', () => {
                 expect(givenProps.changeCategory).to.have.been.calledOnceWithExactly(givenProps.categoryId, givenProps.userId, givenProps.name);
                 expect(categoryChange).to.have.been.calledOnceWithExactly(category.category);
-            })
-        })
+            });
+        });
     });
 
     describe('when a category id is not given', () => {
         beforeEach(() => {
             givenProps.categoryId = '';
             whenComponentIsRendered();
-        })
+        });
 
         it('should have a loader', () => {
             expect(wrapper.find(Loader)).to.have.prop('active', true);
@@ -160,6 +160,6 @@ describe('Item Actions', () => {
         it('should map changeCategory', () => {
             actualProps.changeCategory(id, userId, name)(category);
             expect(dispatchSpy).to.have.been.calledWith(Actions.changeCategory());
-        })
+        });
     });
 });

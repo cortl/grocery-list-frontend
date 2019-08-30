@@ -1,21 +1,14 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import GroceryItem from './items/GroceryItem'
+import React from 'react';
+import PropTypes from 'prop-types';
+import GroceryItem from './items/GroceryItem';
 import { List } from 'semantic-ui-react';
 
-export const ItemList = (props) => {
-    return (
-        <List divided relaxed fluid>
-            {props.items && props.items.sort(sortByCategory).map(item => {
-                return (<GroceryItem
-                    key={item.id}
-                    itemId={item.id}
-                    text={item.name}
-                    category={item.category}
-                />)
-            }
-            )}
-        </List>);
+const stringSort = (itemA, itemB) => {
+    if (itemA.name.toUpperCase() < itemB.name.toUpperCase())
+        return -1;
+    if (itemA.name.toUpperCase() > itemB.name.toUpperCase())
+        return 1;
+    return 0;
 };
 
 export const sortByCategory = (itemA, itemB) => {
@@ -25,12 +18,22 @@ export const sortByCategory = (itemA, itemB) => {
         : sortComparison;
 };
 
-const stringSort = (itemA, itemB) => {
-    if (itemA.name.toUpperCase() < itemB.name.toUpperCase())
-        return -1;
-    if (itemA.name.toUpperCase() > itemB.name.toUpperCase())
-        return 1;
-    return 0;
+export const ItemList = (props) => {
+    return (
+        <List divided fluid relaxed>
+            {props.items && props.items.sort(sortByCategory).map(item => {
+                return (
+                    <GroceryItem
+                        category={item.category}
+                        itemId={item.id}
+                        key={item.id}
+                        text={item.name}
+                    />
+                );
+            }
+            )}
+        </List>
+    );
 };
 
 ItemList.propTypes = {

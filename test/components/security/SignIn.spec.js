@@ -1,9 +1,9 @@
-import { expect } from '../../utils/chai'
-import React from "react";
-import { mount, shallow } from "enzyme";
-import Chance from "chance";
-import * as sinon from "sinon";
-import { SignIn, mapStateToProps } from "../../../src/components/security/SignIn";
+import { expect } from '../../utils/chai';
+import React from 'react';
+import { mount, shallow } from 'enzyme';
+import Chance from 'chance';
+import * as sinon from 'sinon';
+import { SignIn, mapStateToProps } from '../../../src/components/security/SignIn';
 import { Header, Container, Image, Loader, Grid } from 'semantic-ui-react';
 
 const sandbox = sinon.createSandbox();
@@ -11,27 +11,30 @@ const chance = new Chance();
 
 describe('Sign In', () => {
     let wrapper,
-        signInSpy = sandbox.spy(),
-        givenProps = {
-            signIn: signInSpy,
-            auth: {
-                [chance.word()]: chance.word()
-            }
-        }
-
-    beforeEach(() => {
-        whenComponentIsRendered();
-    });
+        givenProps;
 
     const whenComponentIsRendered = () => {
         wrapper = shallow(<SignIn
             {...givenProps}
-        />)
-    }
+        />);
+    };
+
+    beforeEach(() => {
+        givenProps = {
+            signIn: sandbox.spy(),
+            auth: {
+                [chance.word()]: chance.word()
+            }
+        };
+
+        whenComponentIsRendered();
+    });
+
+    afterEach(() => sandbox.restore());
 
     it('should be in a container', () => {
         expect(wrapper).to.have.type(Container);
-    })
+    });
 
     it('should have a logo', () => {
         expect(wrapper.find(Image).props().src).to.be.eql({});
@@ -89,10 +92,10 @@ describe('Sign In', () => {
             wrapper = mount(<SignIn
                 {...givenProps}
             />, { context });
-        })
+        });
 
         it('should not push the user to the home page', () => {
-            expect(context.router.history.push).to.have.not.been.calledWith('/')
+            expect(context.router.history.push).to.have.not.been.calledWith('/');
         });
 
         describe('when the auth is not empty', () => {
@@ -103,7 +106,7 @@ describe('Sign In', () => {
             });
 
             it('should push the user to the home page', () => {
-                expect(context.router.history.push).to.have.been.calledWith('/')
+                expect(context.router.history.push).to.have.been.calledWith('/');
             });
         });
     });
@@ -122,7 +125,7 @@ describe('Sign In', () => {
         });
 
         it('should map state to props', () => {
-            expect(props.auth).to.be.equal(state.firebase.auth)
+            expect(props.auth).to.be.equal(state.firebase.auth);
         });
     });
 

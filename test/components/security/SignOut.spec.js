@@ -1,10 +1,10 @@
-import { expect } from '../../utils/chai'
-import React from "react";
-import { mount, shallow } from "enzyme";
-import { mapStateToProps, SignOut } from "../../../src/components/security/SignOut";
-import Chance from "chance";
-import { Menu } from 'semantic-ui-react';
-import * as sinon from "sinon";
+import {expect} from '../../utils/chai';
+import React from 'react';
+import {mount, shallow} from 'enzyme';
+import {mapStateToProps, SignOut} from '../../../src/components/security/SignOut';
+import Chance from 'chance';
+import {Menu} from 'semantic-ui-react';
+import sinon from 'sinon';
 
 const sandbox = sinon.createSandbox();
 const chance = new Chance();
@@ -12,16 +12,19 @@ const chance = new Chance();
 describe('Sign Out', () => {
 
     let wrapper,
-        signOutSpy = sandbox.spy();
+        signOutSpy;
 
     beforeEach(() => {
+        signOutSpy = sandbox.spy();
         wrapper = shallow(<SignOut
             auth={{
                 isEmpty: false
             }}
             signOut={signOutSpy}
-        />)
+        />);
     });
+
+    afterEach(() => sandbox.restore());
 
     it('should be a sign out button', () => {
         expect(wrapper).to.have.type(Menu.Item);
@@ -46,7 +49,7 @@ describe('Sign Out', () => {
             context = {
                 router: {
                     history: {
-                        push: sinon.spy()
+                        push: sandbox.spy()
                     }
                 }
             };
@@ -56,11 +59,11 @@ describe('Sign Out', () => {
 
             wrapper = mount(<SignOut
                 auth={auth}
-            />, { context });
-        })
+            />, {context});
+        });
 
         it('should not push the user to the signIn page', () => {
-            expect(context.router.history.push).to.have.not.been.calledWith('/signIn')
+            expect(context.router.history.push).to.have.not.been.calledWith('/signIn');
         });
 
         describe('when the auth becomes empty', () => {
@@ -69,11 +72,11 @@ describe('Sign Out', () => {
                     isEmpty: true
                 };
 
-                wrapper.setProps({ auth: auth });
+                wrapper.setProps({auth: auth});
             });
 
             it('should push the user to the signIn page', () => {
-                expect(context.router.history.push).to.have.been.calledWith('/signIn')
+                expect(context.router.history.push).to.have.been.calledWith('/signIn');
             });
         });
     });
@@ -91,7 +94,7 @@ describe('Sign Out', () => {
         });
 
         it('should map state to props', () => {
-            expect(props.auth).to.be.equal(state.firebase.auth)
+            expect(props.auth).to.be.equal(state.firebase.auth);
         });
     });
 

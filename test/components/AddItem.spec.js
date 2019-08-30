@@ -1,11 +1,11 @@
 import Chance from 'chance';
-import sinon from 'sinon'
-import { expect } from '../utils/chai'
-import { AddItem, mapDispatchToProps } from "../../src/components/AddItem";
-import React from "react";
-import { shallow } from "enzyme";
-import * as Actions from "../../src/actions";
-import { Input } from 'semantic-ui-react';
+import sinon from 'sinon';
+import {expect} from '../utils/chai';
+import {AddItem, mapDispatchToProps} from '../../src/components/AddItem';
+import React from 'react';
+import {shallow} from 'enzyme';
+import * as Actions from '../../src/actions';
+import {Input} from 'semantic-ui-react';
 
 const chance = new Chance();
 const sandbox = sinon.createSandbox();
@@ -21,7 +21,7 @@ describe('Add Item', () => {
         item = chance.word();
         wrapper = shallow(<AddItem
             addItem={addItemSpy}
-        />)
+        />);
     });
 
     afterEach(() => {
@@ -34,7 +34,7 @@ describe('Add Item', () => {
         expect(wrapper.props().action.content).to.be.equal('+');
 
         expect(wrapper).to.have.prop('fluid', true);
-        expect(wrapper.props().style).to.be.eql({ marginTop: '1em' });
+        expect(wrapper.props().style).to.be.eql({marginTop: '1em'});
         expect(wrapper).to.have.prop('placeholder', 'Add item...');
         expect(wrapper).to.have.prop('maxLength', 50);
     });
@@ -42,23 +42,23 @@ describe('Add Item', () => {
     describe('when an item is entered', () => {
         beforeEach(() => {
             item = chance.word();
-            wrapper.simulate('change', { target: { value: item } });
+            wrapper.simulate('change', {target: {value: item}});
         });
 
         describe('when enter is pressed', () => {
             beforeEach(() => {
-                wrapper.simulate('keyPress', { key: 'Enter' });
-            })
+                wrapper.simulate('keyPress', {key: 'Enter'});
+            });
 
             it('should add the item', () => {
                 expect(addItemSpy).to.have.been.calledWith(item);
-            })
-        })
+            });
+        });
 
         describe('when the add button action is clicked', () => {
             beforeEach(() => {
                 wrapper.props().action.onClick();
-            })
+            });
 
             it('should add the item', () => {
                 expect(addItemSpy).to.have.been.calledWith(item);
@@ -68,13 +68,13 @@ describe('Add Item', () => {
 
     describe('when an item has more than 50 characters', () => {
         beforeEach(() => {
-            item = chance.string({ length: 51 });
-            wrapper.simulate('change', { target: { value: item } });
+            item = chance.string({length: 51});
+            wrapper.simulate('change', {target: {value: item}});
         });
 
         describe('when enter is pressed', () => {
             beforeEach(() => {
-                wrapper.simulate('keyPress', { key: 'Enter' });
+                wrapper.simulate('keyPress', {key: 'Enter'});
             });
 
             it('should not add the item', () => {
@@ -85,7 +85,7 @@ describe('Add Item', () => {
         describe('when the add button action is clicked', () => {
             beforeEach(() => {
                 wrapper.props().action.onClick();
-            })
+            });
 
             it('should not add the item', () => {
                 expect(addItemSpy).to.have.not.been.calledWith(item);
@@ -96,12 +96,12 @@ describe('Add Item', () => {
     describe('when no text is entered', () => {
         beforeEach(() => {
             item = '';
-            wrapper.simulate('change', { target: { value: item } });
+            wrapper.simulate('change', {target: {value: item}});
         });
 
         describe('when enter is pressed', () => {
             beforeEach(() => {
-                wrapper.simulate('keyPress', { key: 'Enter' });
+                wrapper.simulate('keyPress', {key: 'Enter'});
             });
 
             it('should not add the item', () => {
@@ -112,7 +112,7 @@ describe('Add Item', () => {
         describe('when the add button action is clicked', () => {
             beforeEach(() => {
                 wrapper.props().action.onClick();
-            })
+            });
 
             it('should not add the item', () => {
                 expect(addItemSpy).to.have.not.been.calledWith(item);
@@ -134,7 +134,7 @@ describe('Add Item', () => {
 
             actualProps.addItem(item);
 
-            expect(dispatchSpy).to.have.been.calledWith(Actions.addItem(item))
+            expect(dispatchSpy).to.have.been.calledWith(Actions.addItem(item));
         });
     });
 });

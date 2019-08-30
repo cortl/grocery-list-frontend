@@ -1,10 +1,10 @@
-import { shallow } from "enzyme/build";
-import React from "react";
-import { expect } from "../utils/chai";
-import Chance from "chance";
-import ItemActions from "../../src/components/items/ItemActions";
-import GroceryItem from "../../src/components/items/GroceryItem";
-import { List } from "semantic-ui-react";
+import {shallow} from 'enzyme/build';
+import React from 'react';
+import {expect} from '../utils/chai';
+import Chance from 'chance';
+import ItemActions from '../../src/components/items/ItemActions';
+import GroceryItem from '../../src/components/items/GroceryItem';
+import {List} from 'semantic-ui-react';
 
 const chance = new Chance();
 
@@ -21,8 +21,8 @@ describe('Grocery Item', () => {
                 categoryId: chance.string(),
                 symbol: chance.string()
             }
-        }
-        wrapper = shallow(<GroceryItem {...givenProps} />)
+        };
+        wrapper = shallow(<GroceryItem {...givenProps}/>);
     });
 
     it('should render in a list item', () => {
@@ -41,5 +41,5 @@ describe('Grocery Item', () => {
         expect(wrapper.find(ItemActions)).to.have.prop('categoryId', givenProps.category.categoryId);
         expect(wrapper.find(ItemActions)).to.have.prop('itemId', givenProps.itemId);
         expect(wrapper.find(ItemActions)).to.have.prop('name', givenProps.text);
-    })
+    });
 });

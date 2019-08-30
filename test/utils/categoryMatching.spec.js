@@ -1,9 +1,7 @@
-import {itemStripper} from "../../src/utils/categoryMatching";
-import {expect} from "./chai";
+import {itemStripper} from '../../src/utils/categoryMatching';
+import {expect} from './chai';
 
 describe('Category Matching', () => {
-
-    let result;
 
     describe('Item Stripper', () => {
         it('should remove front quantifiers from name', () => {
@@ -50,6 +48,6 @@ describe('Category Matching', () => {
             expect(itemStripper('Evaporated Milk')).to.be.equal('Evaporated Milk');
         });
 
-    })
+    });
 
 });
