@@ -2,7 +2,7 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 
 admin.initializeApp();
-admin.firestore().settings({})
+admin.firestore().settings({timestampsInSnapshots: true})
 
 const itemStripper = name => {
     return name.split(' ')
