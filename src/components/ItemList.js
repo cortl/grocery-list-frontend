@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import GroceryItem from './items/GroceryItem';
-import { Loader, Header, Grid, Divider } from 'semantic-ui-react';
+import { Loader, Header, Grid, Divider, Segment } from 'semantic-ui-react';
 import { CATEGORIES } from '../constants/categories';
 
 const sortCategory = (catA, catB) => CATEGORIES[catA].sortOrder - CATEGORIES[catB].sortOrder;
@@ -15,24 +15,33 @@ const buildLists = (items) => {
             {
                 categories.map((category, index) => (
                     <div key={index}>
-                        <Header as='h3' style={{ marginBottom: '.75em' , marginTop: '1em'}}>
+                        <Header as='h3' attached='top'>
                             {`${category} ${CATEGORIES[category].symbol}`}
                         </Header>
-                        <Grid columns={2} padded={false} style={{ marginBottom: '.5em' }}>
-                            {items.filter(byCategory(category))
-                                .map(item => (
-                                    <>
+                        {/* <Grid columns={2} padded={false} style={{ marginBottom: '.5em' }}> */}
+                        {items.filter(byCategory(category))
+                            .map((item, index) => {
+                                const isNotBottom = items.filter(byCategory(category)).length !== index + 1;
+                                const style = {
+                                    marginBottom: isNotBottom ? '0px' : '1em'
+                                };
+                                return (
+                                    <Segment
+                                        compact
+                                        attached={isNotBottom ? 'middle' : 'bottom'}
+                                        style={style}
+                                    >
                                         <GroceryItem
                                             category={item.category}
                                             itemId={item.id}
                                             key={item.id}
                                             text={item.name}
                                         />
-                                        <Divider fitted style={{marginTop: '0', marginBottom: '0'}}/>
-                                    </>
-                                ))
-                            }
-                        </Grid>
+                                    </Segment>
+                                )
+                            })
+                        }
+                        {/* </Grid> */}
                     </div>
                 ))
             }
@@ -44,7 +53,7 @@ export const ItemList = (props) => {
     return (
         props.items
             ? buildLists(props.items)
-            : <Loader active/>
+            : <Loader active />
 
     );
 };
