@@ -4,7 +4,7 @@ import { changeCategory, removeItem } from '../../actions';
 import PropTypes from 'prop-types';
 import { CATEGORIES } from '../../constants/categories';
 import { itemStripper } from '../../utils/categoryMatching';
-import { Menu, Dropdown, Loader } from 'semantic-ui-react';
+import { Menu, Dropdown, Button } from 'semantic-ui-react';
 
 
 export const ItemActions = (props) => {
@@ -34,7 +34,7 @@ export const ItemActions = (props) => {
                         </Dropdown.Menu>
                     </Dropdown>
                 )
-                : <Loader active inline size='small' style={{ marginTop: '.5em' }}/>
+                : <Button basic disabled icon='tag' loading/>
             }
             <Menu.Item
                 icon='trash'

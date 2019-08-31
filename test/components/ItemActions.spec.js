@@ -6,7 +6,7 @@ import {ItemActions, mapDispatchToProps} from '../../src/components/items/ItemAc
 import * as sinon from 'sinon';
 import * as Actions from '../../src/actions';
 import {CATEGORIES} from '../../src/constants/categories';
-import {Menu, Dropdown, Loader} from 'semantic-ui-react';
+import {Menu, Dropdown, Button} from 'semantic-ui-react';
 
 const chance = new Chance();
 const sandbox = sinon.createSandbox();
@@ -71,7 +71,7 @@ describe('Item Actions', () => {
         });
 
         it('should not have a loader', () => {
-            expect(wrapper.find(Loader)).to.not.exist;
+            expect(wrapper.find(Button)).to.not.exist;
         });
 
         it('should have a dropdown', () => {
@@ -120,8 +120,11 @@ describe('Item Actions', () => {
             whenComponentIsRendered();
         });
 
-        it('should have a loader', () => {
-            expect(wrapper.find(Loader)).to.have.prop('active', true);
+        it('should have a loading button', () => {
+            expect(wrapper.find(Button)).to.have.prop('disabled', true);
+            expect(wrapper.find(Button)).to.have.prop('basic', true);
+            expect(wrapper.find(Button)).to.have.prop('loading', true);
+            expect(wrapper.find(Button)).to.have.prop('icon', 'tag');
         });
 
         it('should not have a category dropdown', () => {
