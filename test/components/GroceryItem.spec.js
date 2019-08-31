@@ -4,7 +4,7 @@ import {expect} from '../utils/chai';
 import Chance from 'chance';
 import ItemActions from '../../src/components/items/ItemActions';
 import GroceryItem from '../../src/components/items/GroceryItem';
-import {List} from 'semantic-ui-react';
+import {Grid} from 'semantic-ui-react';
 
 const chance = new Chance();
 
@@ -26,14 +26,13 @@ describe('Grocery Item', () => {
     });
 
     it('should render in a list item', () => {
-        expect(wrapper).to.have.type(List.Item);
+        expect(wrapper).to.have.type(Grid.Row);
+        expect(wrapper.props().style).to.be.eql({paddingTop: '0px', paddingBottom: '0px'});
     });
 
     it('should render in list content', () => {
-        expect(wrapper.find(List.Content)).to.have.prop('size', 'tiny');
-        expect(wrapper.find(List.Content)).to.have.prop('verticalAlign', 'middle');
-
-        expect(wrapper.find(List.Content).childAt(0)).to.have.text(givenProps.text);
+        expect(wrapper.find(Grid.Column).at(0)).to.have.prop('verticalAlign', 'middle');
+        expect(wrapper.find(Grid.Column).at(0).childAt(0)).to.have.text(givenProps.text);
     });
 
     it('should render ItemActions', () => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import GroceryItem from './items/GroceryItem';
-import { List, Loader, Header } from 'semantic-ui-react';
+import { Loader, Header, Grid, Divider } from 'semantic-ui-react';
 import { CATEGORIES } from '../constants/categories';
 
 const sortCategory = (catA, catB) => CATEGORIES[catA].sortOrder - CATEGORIES[catB].sortOrder;
@@ -15,21 +15,24 @@ const buildLists = (items) => {
             {
                 categories.map((category, index) => (
                     <div key={index}>
-                        <Header as='h3' style={{marginBottom: '.25em'}}>
+                        <Header as='h3' style={{ marginBottom: '.75em' }}>
                             {`${category} ${CATEGORIES[category].symbol}`}
                         </Header>
-                        <List bulleted style={{marginTop: '0px', marginBottom: '1.5em'}}>
+                        <Grid columns={2} padded={false} style={{ marginBottom: '.5em' }}>
                             {items.filter(byCategory(category))
                                 .map(item => (
-                                    <GroceryItem
-                                        category={item.category}
-                                        itemId={item.id}
-                                        key={item.id}
-                                        text={item.name}
-                                    />
+                                    <>
+                                        <GroceryItem
+                                            category={item.category}
+                                            itemId={item.id}
+                                            key={item.id}
+                                            text={item.name}
+                                        />
+                                        <Divider fitted style={{marginTop: '0', marginBottom: '0'}}/>
+                                    </>
                                 ))
                             }
-                        </List>
+                        </Grid>
                     </div>
                 ))
             }
@@ -41,7 +44,7 @@ export const ItemList = (props) => {
     return (
         props.items
             ? buildLists(props.items)
-            : <Loader active/>
+            : <Loader active />
 
     );
 };

@@ -21,7 +21,7 @@ export const ItemActions = (props) => {
                     <Dropdown
                         button
                         compact
-                        icon='cog'
+                        icon='tag'
                         item>
                         <Dropdown.Menu>
                             {Object.keys(CATEGORIES).map((key) => (

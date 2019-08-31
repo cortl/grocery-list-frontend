@@ -1,24 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ItemActions from './ItemActions';
-import { List } from 'semantic-ui-react';
+import { Grid } from 'semantic-ui-react';
 
 const GroceryItem = ({ category, text, itemId }) => {
     return (
-        <List.Item>
-            <List.Content
-                size='tiny'
-                verticalAlign='middle'
-            >
-                {text}
+        <Grid.Row style={{paddingTop: '0px', paddingBottom: '0px'}}>
+            <Grid.Column verticalAlign='middle'>
+                {`${text}`}
+            </Grid.Column>
+            <Grid.Column>
                 <ItemActions
                     category={category}
                     categoryId={category.categoryId}
                     itemId={itemId}
                     name={text}
                 />
-            </List.Content>
-        </List.Item>
+            </Grid.Column>
+        </Grid.Row>
     );
 };
 

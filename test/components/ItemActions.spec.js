@@ -77,7 +77,7 @@ describe('Item Actions', () => {
         it('should have a dropdown', () => {
             expect(wrapper.find(Dropdown)).to.have.prop('button', true);
             expect(wrapper.find(Dropdown)).to.have.prop('item', true);
-            expect(wrapper.find(Dropdown)).to.have.prop('icon', 'cog');
+            expect(wrapper.find(Dropdown)).to.have.prop('icon', 'tag');
             expect(wrapper.find(Dropdown)).to.have.prop('compact', true);
         });
 
