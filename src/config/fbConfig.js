@@ -24,7 +24,7 @@ const config = process.env.NODE_ENV === 'development'
 
 firebase.initializeApp(config);
 
-firebase.firestore().settings({timestampsInSnapshots: true});
+firebase.firestore().settings({});
 
 export const authRef = firebase.auth();
 export const provider = new firebase.auth.GoogleAuthProvider();
