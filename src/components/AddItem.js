@@ -18,6 +18,7 @@ export class AddItem extends Component {
             <Input
                 action={{
                     content: '+',
+                    color: 'teal',
                     onClick: () => this.addItemToList()
                 }}
                 fluid

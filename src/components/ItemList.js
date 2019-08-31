@@ -15,7 +15,7 @@ const buildLists = (items) => {
             {
                 categories.map((category, index) => (
                     <div key={index}>
-                        <Header as='h3' style={{ marginBottom: '.75em' }}>
+                        <Header as='h3' style={{ marginBottom: '.75em' , marginTop: '1em'}}>
                             {`${category} ${CATEGORIES[category].symbol}`}
                         </Header>
                         <Grid columns={2} padded={false} style={{ marginBottom: '.5em' }}>
@@ -44,7 +44,7 @@ export const ItemList = (props) => {
     return (
         props.items
             ? buildLists(props.items)
-            : <Loader active />
+            : <Loader active/>
 
     );
 };
