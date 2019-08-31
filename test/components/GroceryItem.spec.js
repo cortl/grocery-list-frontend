@@ -33,7 +33,7 @@ describe('Grocery Item', () => {
         expect(wrapper.find(List.Content)).to.have.prop('size', 'tiny');
         expect(wrapper.find(List.Content)).to.have.prop('verticalAlign', 'middle');
 
-        expect(wrapper.find(List.Content).childAt(0)).to.have.text(`${givenProps.category.symbol} ${givenProps.text}`);
+        expect(wrapper.find(List.Content).childAt(0)).to.have.text(givenProps.text);
     });
 
     it('should render ItemActions', () => {

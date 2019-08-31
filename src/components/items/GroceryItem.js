@@ -1,16 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ItemActions from './ItemActions';
-import {List} from 'semantic-ui-react';
+import { List } from 'semantic-ui-react';
 
-const GroceryItem = ({category, text, itemId}) => {
+const GroceryItem = ({ category, text, itemId }) => {
     return (
         <List.Item>
             <List.Content
                 size='tiny'
                 verticalAlign='middle'
             >
-                {`${category.symbol} ${text}`}
+                {text}
                 <ItemActions
                     category={category}
                     categoryId={category.categoryId}
@@ -19,7 +19,7 @@ const GroceryItem = ({category, text, itemId}) => {
                 />
             </List.Content>
         </List.Item>
-);
+    );
 };
 
 GroceryItem.propTypes = {

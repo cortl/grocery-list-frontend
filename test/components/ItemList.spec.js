@@ -4,8 +4,8 @@ import { expect } from '../utils/chai';
 import Chance from 'chance';
 import { ItemList } from '../../src/components/ItemList';
 import GroceryItem from '../../src/components/items/GroceryItem';
-import { NONE } from '../../src/constants/categories';
-import { List } from 'semantic-ui-react';
+import { CATEGORIES } from '../../src/constants/categories';
+import { List, Loader, Header } from 'semantic-ui-react';
 
 const chance = new Chance();
 
@@ -15,81 +15,67 @@ describe('Item List', () => {
         id: chance.string(),
         name: chance.word(),
         userId: chance.string(),
-        category: NONE
+        category: CATEGORIES[chance.pickone(Object.keys(CATEGORIES))]
     });
 
     let wrapper,
-        items = chance.n(buildItem, chance.d10());
+        givenProps;
 
     const whenComponentIsRendered = () => {
-        wrapper = shallow(<ItemList
-            items={items}
-        />);
+        wrapper = shallow(<ItemList {...givenProps}/>);
     };
 
     beforeEach(() => {
+        givenProps = {
+            items: []
+        };
+
         whenComponentIsRendered();
     });
 
-    it('should have a list', () => {
-        expect(wrapper).to.have.type(List);
-        expect(wrapper).to.have.prop('divided', true);
-        expect(wrapper).to.have.prop('relaxed', true);
-        expect(wrapper).to.have.prop('fluid', true);
-    });
+    describe('when items exist', () => {
+        let categories;
 
-    it('should have an Item for every item', () => {
-        items.forEach((item, index) => {
-            expect(wrapper.find(GroceryItem).at(index).key()).to.be.equal(item.id.toString());
-            expect(wrapper.find(GroceryItem).at(index).props().itemId).to.be.equal(item.id);
-            expect(wrapper.find(GroceryItem).at(index).props().text).to.be.equal(item.name);
-            expect(wrapper.find(GroceryItem).at(index).props().category).to.be.equal(item.category);
+        const byCategory = category => item => item.category.category === category;
+
+        beforeEach(() => {
+            givenProps.items = chance.n(buildItem, chance.d10());
+
+            categories = Array.from(new Set(givenProps.items.map(item => item.category)));
+            categories = categories.sort((catA, catB) => catA.sortOrder - catB.sortOrder);
+
+            whenComponentIsRendered();
+        });
+
+        it('should have a list for each category', () => {
+            categories.forEach((category, index) => {
+                expect(wrapper.find(Header).at(index)).to.have.prop('as', 'h3');
+                expect(wrapper.find(Header).at(index).childAt(0)).to.have.text(`${category.category} ${category.symbol}`);
+                expect(wrapper.find(List).at(index)).to.be.present;
+            });
+        });
+
+        it('should have items in each category', () => {
+            categories.forEach((category, listIndex) => {
+                const items = givenProps.items.filter(byCategory(category.category));
+                const list = wrapper.find(List).at(listIndex);
+                items.forEach((item, index) => {
+                    expect(list.find(GroceryItem).at(index)).to.have.prop('category', item.category);
+                    expect(list.find(GroceryItem).at(index)).to.have.prop('itemId', item.id);
+                    expect(list.find(GroceryItem).at(index)).to.have.prop('text', item.name);
+                });
+            });
         });
     });
 
-    it('should sort items based off of category sort order', () => {
-        items = [
-            {
-                ...buildItem(),
-                category: {
-                    sortOrder: 1
-                }
-            }, {
-                ...buildItem(),
-                category: {
-                    sortOrder: 0
-                }
-            }
-        ];
-        const originalItems = [items[0], items[1]];
+    describe('when items do not exist', () => {
+        beforeEach(() => {
+            givenProps.items = undefined;
+            whenComponentIsRendered();
+        });
 
-        whenComponentIsRendered();
-
-        expect(wrapper.find(GroceryItem).at(0).props().itemId).to.be.equal(originalItems[1].id);
-        expect(wrapper.find(GroceryItem).at(1).props().itemId).to.be.equal(originalItems[0].id);
-    });
-
-    it('should sort items based on name after sorting by category', () => {
-        items = [
-            {
-                ...buildItem(),
-                name: 'b',
-                category: {
-                    sortOrder: 1
-                }
-            }, {
-                ...buildItem(),
-                name: 'a',
-                category: {
-                    sortOrder: 1
-                }
-            }
-        ];
-        const originalItems = [items[0], items[1]];
-
-        whenComponentIsRendered();
-
-        expect(wrapper.find(GroceryItem).at(0).props().itemId).to.be.equal(originalItems[1].id);
-        expect(wrapper.find(GroceryItem).at(1).props().itemId).to.be.equal(originalItems[0].id);
+        it('should have a loader', () => {
+            expect(wrapper).to.have.type(Loader);
+        });
     });
 });
