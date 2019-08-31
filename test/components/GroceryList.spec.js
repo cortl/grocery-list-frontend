@@ -28,12 +28,17 @@ describe('Grocery List', () => {
         whenComponentIsRendered();
     });
 
-    it('should render in a container', () => {
-        expect(wrapper).to.have.type(Container);
+    it('should render in a grid', () => {
+        expect(wrapper).to.have.type(Grid);
+        expect(wrapper.find(Grid)).to.have.prop('centered', true);
+        expect(wrapper.find(Grid)).to.have.prop('columns', 1);
+
+        expect(wrapper.find(Grid.Column)).to.have.prop('computer', '10');
+        expect(wrapper.find(Grid.Column)).to.have.prop('mobile', '16');
     });
 
     it('should have a navigation', () => {
-        expect(wrapper.childAt(0)).to.have.type(MainNavigation);
+        expect(wrapper.find(MainNavigation)).to.be.present();
     });
 
     describe('when auth is not loaded', () => {
@@ -54,15 +59,7 @@ describe('Grocery List', () => {
         });
 
         it('should not have a loader', () => {
-            expect(wrapper.find(Loader)).to.not.be.present;
-        });
-
-        it('should render a grocery list', () => {
-            expect(wrapper.find(Grid)).to.have.prop('centered', true);
-            expect(wrapper.find(Grid)).to.have.prop('columns', 1);
-
-            expect(wrapper.find(Grid.Column)).to.have.prop('computer', '8');
-            expect(wrapper.find(Grid.Column)).to.have.prop('mobile', '16');
+            expect(wrapper.find(Loader)).to.not.be.present();
         });
 
         it('should have an item list', () => {
@@ -70,7 +67,7 @@ describe('Grocery List', () => {
         });
 
         it('should have an add item', () => {
-            expect(wrapper.find(AddItem)).to.be.present;
+            expect(wrapper.find(AddItem)).to.be.present();
         });
     });
 });
