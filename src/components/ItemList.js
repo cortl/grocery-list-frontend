@@ -14,7 +14,7 @@ const buildLists = (items) => {
         <>
             {
                 categories.map((category, index) => (
-                    <div key={index}>
+                    <div key={`${index}div`}>
                         <Header as='h3' style={{ marginBottom: '.75em' , marginTop: '1em'}}>
                             {`${category} ${CATEGORIES[category].symbol}`}
                         </Header>
@@ -28,7 +28,7 @@ const buildLists = (items) => {
                                             key={item.id}
                                             text={item.name}
                                         />
-                                        <Divider fitted style={{marginTop: '0', marginBottom: '0'}}/>
+                                        <Divider fitted key={`${item.id}divider`} style={{marginTop: '0', marginBottom: '0'}}/>
                                     </>
                                 ))
                             }

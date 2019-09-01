@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { signIn } from '../../actions';
+import { login } from '../../actions';
 import { connect } from 'react-redux';
 import { isLoaded, isEmpty } from 'react-redux-firebase';
 import { Container, Header, Image, Button, Icon, Grid, Loader } from 'semantic-ui-react';
@@ -15,9 +15,8 @@ export class SignIn extends Component {
         router: PropTypes.object
     };
 
-    // eslint-disable-next-line camelcase
-    UNSAFE_componentWillUpdate(nextProps) {
-        if (!isEmpty(nextProps.auth)) {
+    componentDidUpdate() {
+        if (!isEmpty(this.props.auth)) {
             this.context.router.history.push('/');
         }
     }
@@ -40,7 +39,7 @@ export class SignIn extends Component {
                                         textAlign='center'>
                                         <Button color='google plus'
                                             inline='centered'
-                                            onClick={this.props.signIn}>
+                                            onClick={this.props.login}>
                                             <Icon name='google'/>
                                             {'Google'}
                                         </Button>
@@ -56,11 +55,11 @@ export class SignIn extends Component {
 
 SignIn.propTypes = {
     auth: PropTypes.object,
-    signIn: PropTypes.func.isRequired
+    login: PropTypes.func.isRequired
 };
 
 export const mapStateToProps = (state) => ({
     auth: state.firebase.auth
 });
 
-export default connect(mapStateToProps, { signIn })(SignIn);
+export default connect(mapStateToProps, { login })(SignIn);

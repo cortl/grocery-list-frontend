@@ -1,11 +1,11 @@
 import {shallow} from 'enzyme/build';
 import React from 'react';
-import {expect} from '../utils/chai';
+import {expect} from '../../utils/chai';
 import Chance from 'chance';
-import {ItemActions, mapDispatchToProps} from '../../src/components/items/ItemActions';
+import {ItemActions, mapDispatchToProps} from '../../../src/components/items/ItemActions';
 import * as sinon from 'sinon';
-import * as Actions from '../../src/actions';
-import {CATEGORIES} from '../../src/constants/categories';
+import * as Actions from '../../../src/actions';
+import {CATEGORIES} from '../../../src/constants/categories';
 import {Menu, Dropdown, Button} from 'semantic-ui-react';
 
 const chance = new Chance();

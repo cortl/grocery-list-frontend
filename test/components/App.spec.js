@@ -17,14 +17,14 @@ describe('App', () => {
         expect(wrapper).to.have.type(BrowserRouter);
     });
 
-    it('should have a signIn route', () => {
+    it('should have a login route', () => {
         expect(wrapper.find(Route).at(0)).to.have.prop('exact');
         expect(wrapper.find(Route).at(0)).to.have.prop('path', '/');
     });
 
     it('should have an app route', () => {
         expect(wrapper.find(Route).at(1)).to.have.prop('exact');
-        expect(wrapper.find(Route).at(1)).to.have.prop('path', '/signIn');
+        expect(wrapper.find(Route).at(1)).to.have.prop('path', '/login');
         expect(wrapper.find(Route).at(1)).to.have.prop('component', SignIn);
     });
 

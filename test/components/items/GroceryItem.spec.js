@@ -1,9 +1,9 @@
 import {shallow} from 'enzyme/build';
 import React from 'react';
-import {expect} from '../utils/chai';
+import {expect} from '../../utils/chai';
 import Chance from 'chance';
-import ItemActions from '../../src/components/items/ItemActions';
-import GroceryItem from '../../src/components/items/GroceryItem';
+import ItemActions from '../../../src/components/items/ItemActions';
+import GroceryItem from '../../../src/components/items/GroceryItem';
 import {Grid} from 'semantic-ui-react';
 
 const chance = new Chance();

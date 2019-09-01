@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {signOut} from '../../actions';
 import {connect} from 'react-redux';
+import { isEmpty } from 'react-redux-firebase';
 import {Menu} from 'semantic-ui-react';
 
 export class SignOut extends Component {
@@ -9,12 +10,12 @@ export class SignOut extends Component {
         router: PropTypes.object
     };
 
-    // eslint-disable-next-line camelcase
-    UNSAFE_componentWillUpdate(nextProps) {
-        if (nextProps.auth.isEmpty) {
-            this.context.router.history.push('/signIn');
+    componentDidUpdate() {
+        if (isEmpty(this.props.auth)) {
+            this.context.router.history.push('/login');
         }
     }
+
 
     render() {
         return (

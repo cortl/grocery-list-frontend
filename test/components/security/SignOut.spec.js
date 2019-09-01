@@ -1,9 +1,9 @@
-import {expect} from '../../utils/chai';
+import { expect } from '../../utils/chai';
 import React from 'react';
-import {mount, shallow} from 'enzyme';
-import {mapStateToProps, SignOut} from '../../../src/components/security/SignOut';
+import { mount, shallow } from 'enzyme';
+import { mapStateToProps, SignOut } from '../../../src/components/security/SignOut';
 import Chance from 'chance';
-import {Menu} from 'semantic-ui-react';
+import { Menu } from 'semantic-ui-react';
 import sinon from 'sinon';
 
 const sandbox = sinon.createSandbox();
@@ -12,15 +12,17 @@ const chance = new Chance();
 describe('Sign Out', () => {
 
     let wrapper,
-        signOutSpy;
+        givenProps;
 
     beforeEach(() => {
-        signOutSpy = sandbox.spy();
+        givenProps = {
+            auth: {
+                [chance.word]: chance.word()
+            },
+            signOut: sandbox.spy()
+        };
         wrapper = shallow(<SignOut
-            auth={{
-                isEmpty: false
-            }}
-            signOut={signOutSpy}
+            {...givenProps}
         />);
     });
 
@@ -37,7 +39,7 @@ describe('Sign Out', () => {
         });
 
         it('should call sign out', () => {
-            expect(signOutSpy).to.have.been.calledOnce;
+            expect(givenProps.signOut).to.have.been.calledOnce;
         });
     });
 
@@ -59,11 +61,11 @@ describe('Sign Out', () => {
 
             wrapper = mount(<SignOut
                 auth={auth}
-            />, {context});
+            />, { context });
         });
 
-        it('should not push the user to the signIn page', () => {
-            expect(context.router.history.push).to.have.not.been.calledWith('/signIn');
+        it('should not push the user to the login page', () => {
+            expect(context.router.history.push).to.have.not.been.calledWith('/login');
         });
 
         describe('when the auth becomes empty', () => {
@@ -72,11 +74,11 @@ describe('Sign Out', () => {
                     isEmpty: true
                 };
 
-                wrapper.setProps({auth: auth});
+                wrapper.setProps({ auth: auth });
             });
 
-            it('should push the user to the signIn page', () => {
-                expect(context.router.history.push).to.have.been.calledWith('/signIn');
+            it('should push the user to the login page', () => {
+                expect(context.router.history.push).to.have.been.calledWith('/login');
             });
         });
     });

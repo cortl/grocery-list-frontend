@@ -11,19 +11,28 @@ const chance = new Chance();
 
 describe('Sign In', () => {
     let wrapper,
-        givenProps;
+        givenProps,
+        context;
 
     const whenComponentIsRendered = () => {
         wrapper = shallow(<SignIn
             {...givenProps}
-        />);
+        />, {context});
     };
 
     beforeEach(() => {
+        context = {
+            router: {
+                history: {
+                    push: sandbox.spy()
+                }
+            }
+        };
         givenProps = {
-            signIn: sandbox.spy(),
+            login: sandbox.spy(),
             auth: {
-                [chance.word()]: chance.word()
+                [chance.word()]: chance.word(),
+                isEmpty: true
             }
         };
 
@@ -76,29 +85,23 @@ describe('Sign In', () => {
         });
     });
 
-    describe('when auth is empty', () => {
-        let context;
-
-        beforeEach(() => {
-            context = {
-                router: {
-                    history: {
-                        push: sinon.spy()
-                    }
-                }
-            };
-            givenProps.auth.isEmpty = false;
-
+    describe('when auth is not empty', () => {
+        const whenComponentIsMounted = () => {
             wrapper = mount(<SignIn
                 {...givenProps}
             />, { context });
+        };
+
+        beforeEach(() => {
+            givenProps.auth.isEmpty = true;
+            whenComponentIsMounted();
         });
 
         it('should not push the user to the home page', () => {
             expect(context.router.history.push).to.have.not.been.calledWith('/');
         });
 
-        describe('when the auth is not empty', () => {
+        describe('when the auth is empty', () => {
             beforeEach(() => {
                 givenProps.auth.isEmpty = false;
 

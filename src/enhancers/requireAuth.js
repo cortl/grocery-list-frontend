@@ -2,24 +2,21 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
+export const mapStateToProps = (state) => {
+    return { auth: state.firebase.auth };
+};
+
 export default (ComposedComponent) => {
     class Authentication extends Component {
         static contextTypes = {
             router: PropTypes.object
         };
 
-        isLoggedIn = () => this.props.auth.isLoaded
-
-        // eslint-disable-next-line camelcase
-        UNSAFE_componentWillMount = () => {
-            if (!this.isLoggedIn()) {
-                this.context.router.history.push('/signIn');
-            }
-        };
+        isLoggedIn = () => this.props.auth.isLoaded && !this.props.auth.isEmpty
 
         componentDidUpdate = () => {
             if (!this.isLoggedIn()) {
-                this.context.router.history.push('/signIn');
+                this.context.router.history.push('/login');
             }
         }
 
@@ -38,11 +35,5 @@ export default (ComposedComponent) => {
         })
     };
 
-    // eslint-disable-next-line no-use-before-define
     return connect(mapStateToProps)(Authentication);
-};
-
-
-export const mapStateToProps = (state) => {
-    return { auth: state.firebase.auth };
 };

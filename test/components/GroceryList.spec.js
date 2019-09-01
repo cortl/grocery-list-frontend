@@ -5,7 +5,7 @@ import AddItem from '../../src/components/AddItem';
 import {GroceryList} from '../../src/components/GroceryList';
 import Chance from 'chance';
 import ItemList from '../../src/enhancers/FireStoreItemList';
-import {Grid, Loader} from 'semantic-ui-react';
+import {Grid, Loader, Header} from 'semantic-ui-react';
 import {MainNavigation} from '../../src/components/navigation/MainNavigation';
 
 const chance = new Chance();
@@ -39,6 +39,11 @@ describe('Grocery List', () => {
 
     it('should have a navigation', () => {
         expect(wrapper.find(MainNavigation)).to.be.present();
+    });
+
+    it('should have a header', () => {
+        expect(wrapper.find(Header).childAt(0)).to.have.text('Grocery List');
+        expect(wrapper.find(Header)).to.have.prop('as', 'h1');
     });
 
     describe('when auth is not loaded', () => {
