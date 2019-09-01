@@ -27,12 +27,13 @@ jobs:
           keys:
             - v1-dependencies-serveless-{{ checksum "package.json" }}
             - v1-dependencies-serverless
-      - run: npm install --prefix functions
+      - run: cd functions
+      - run: npm install
       - save_cache:
           paths:
             - functions/node_modules
           key: v1-dependencies-serverless-{{ checksum "package.json" }}
-      - run: npm run lint --prefix functions
+      - run: npm run lint
   deploy:
     docker:
       - image: circleci/node:8.12.0
