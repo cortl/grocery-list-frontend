@@ -2,7 +2,7 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 
 admin.initializeApp();
-admin.firestore().settings({ timestampsInSnapshots: true })
+admin.firestore().settings({ timestampsInSnapshots: true });
 const firestore = admin.firestore();
 
 const itemStripper = name => {
@@ -17,18 +17,18 @@ const hasNumber = string => {
 };
 
 const categoriesFound = (snap, item, categories) => {
-    console.info(`Category found for user: ${item.userId} and item: ${item.name}`)
+    console.info(`Category found for user: ${item.userId} and item: ${item.name}`);
     return categories.forEach(category => {
         return snap.ref.set({
             userId: item.userId,
             name: item.name,
             category: category.ref
         });
-    })
+    });
 };
 
 const categoriesNotFound = (snap, item) => {
-    console.log(`Category not found for user: ${item.userId} and item: ${item.name}`)
+    console.log(`Category not found for user: ${item.userId} and item: ${item.name}`);
     return firestore.collection('associations').add({
         category: 'None',
         name: item.name,
@@ -40,12 +40,13 @@ const categoriesNotFound = (snap, item) => {
             category: categoryDocRef
         });
     });
-}
+};
 
-exports.addItemFirestore = functions.firestore.document('items/{item}')
+exports.addItemFirestore = functions.firestore
+    .document('items/{item}')
     .onCreate(async snap => {
         const item = snap.data();
-        const normalizedItemName = itemStripper(item.name)
+        const normalizedItemName = itemStripper(item.name);
 
         const categories = await firestore.collection('associations')
             .where('userId', '==', item.userId)

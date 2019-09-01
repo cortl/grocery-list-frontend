@@ -1,6 +1,6 @@
 {
   "parserOptions": {
-    "ecmaVersion": 6
+    "ecmaVersion": 8
   },
   "plugins": [
     "promise"
@@ -8,7 +8,15 @@
   "extends": [
     "eslint:recommended"
   ],
+  "env": {
+    "browser": true,
+    "es6": true,
+    "mocha": true,
+    "node": true
+  },
+  "root": true,
   "rules": {
+    "semi": 2,
     "no-console": "off",
     "no-regex-spaces": "off",
     "no-debugger": "off",
