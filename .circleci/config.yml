@@ -31,8 +31,8 @@ jobs:
       - save_cache:
           paths:
             - functions/node_modules
-          key: v1-dependencies-serverless{{ checksum "package.json" }}
-      - run: npm run verify --prefix functions
+          key: v1-dependencies-serverless-{{ checksum "package.json" }}
+      - run: npm run lint --prefix functions
   deploy:
     docker:
       - image: circleci/node:8.12.0
@@ -48,7 +48,7 @@ jobs:
 
 workflows:
   version: 2
-  -build_and_deploy:
+  build_and_deploy:
     jobs:
       - test
       - test_serverless
