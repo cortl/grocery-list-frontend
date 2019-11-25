@@ -50,11 +50,11 @@ workflows:
   build_and_deploy:
     jobs:
       - test
-      - test_serverless
+      - test_functions
       - deploy:
           requires:
             - test
-            - test_serverless
+            - test_functions
           filters:
             branches:
               only: master
