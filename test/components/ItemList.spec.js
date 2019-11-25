@@ -1,11 +1,11 @@
-import { shallow } from 'enzyme/build';
+import {shallow} from 'enzyme/build';
 import React from 'react';
-import { expect } from '../utils/chai';
+import {expect} from '../utils/chai';
 import Chance from 'chance';
-import { ItemList } from '../../src/components/ItemList';
+import {ItemList} from '../../src/components/ItemList';
 import GroceryItem from '../../src/components/items/GroceryItem';
-import { CATEGORIES } from '../../src/constants/categories';
-import { Loader, Header, Grid, Divider } from 'semantic-ui-react';
+import {CATEGORIES} from '../../src/constants/categories';
+import {Loader, Header, Grid, Divider} from 'semantic-ui-react';
 
 const chance = new Chance();
 
@@ -52,7 +52,6 @@ describe('Item List', () => {
                 expect(wrapper.find(Header).at(index)).to.have.prop('as', 'h3');
                 expect(wrapper.find(Header).at(index).childAt(0)).to.have.text(`${category.category} ${category.symbol}`);
                 expect(wrapper.find(Grid).at(index)).to.have.prop('columns', 2);
-                expect(wrapper.find(Grid).at(index)).to.have.prop('padded', false);
             });
         });
 
