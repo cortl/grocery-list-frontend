@@ -53,7 +53,7 @@ workflows:
       - test_functions
       - deploy:
           requires:
-            - test
+            - test_ui
             - test_functions
           filters:
             branches:
