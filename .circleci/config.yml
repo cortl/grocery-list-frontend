@@ -1,46 +1,45 @@
 version: 2
 jobs:
-  test:
+  test_ui:
     docker:
-      - image: circleci/node:8.12.0
+      - image: circleci/node:lts
     working_directory: ~/repo
     steps:
       - checkout
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
-            - v1-dependencies-serverless
-      - run: npm install
+      - run: npm ci
       - save_cache:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
       - run: npm run verify
-  test_serverless:
-    docker:
-      - image: circleci/node:8.12.0
-    working_directory: ~/repo
 
+  test_functions:
+    docker:
+      - image: circleci/node:lts
+    working_directory: ~/repo
     steps:
       - checkout
       - restore_cache:
           keys:
-            - v1-dependencies-serveless-{{ checksum "package.json" }}
-            - v1-dependencies-serverless
+            - v1-dependencies-serverless-{{ checksum "package.json" }}
       - run: npm install --prefix functions
       - save_cache:
           paths:
             - functions/node_modules
           key: v1-dependencies-serverless-{{ checksum "package.json" }}
       - run: npm run lint --prefix functions
+
   deploy:
     docker:
-      - image: circleci/node:8.12.0
+      - image: circleci/node:lts
     working_directory: ~/repo
     steps:
       - checkout
-      - run: npm install
-      - run: npm install --prefix functions
+      - run: npm ci
+      - run: npm ci --prefix functions
       - run: npm run build
       - run:
           name: Deploy Master to Firebase

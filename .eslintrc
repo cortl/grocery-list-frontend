@@ -124,7 +124,7 @@
       "error",
       {
         "closingSlash": "never",
-        "beforeSelfClosing": "never",
+        "beforeSelfClosing": "always",
         "afterOpening": "never",
         "beforeClosing": "never"
       }

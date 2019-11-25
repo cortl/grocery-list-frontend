@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import GroceryItem from './items/GroceryItem';
-import { Loader, Header, Grid, Divider } from 'semantic-ui-react';
-import { CATEGORIES } from '../constants/categories';
+import {Loader, Header, Grid, Divider} from 'semantic-ui-react';
+import {CATEGORIES} from '../constants/categories';
 
 const sortCategory = (catA, catB) => CATEGORIES[catA].sortOrder - CATEGORIES[catB].sortOrder;
 
@@ -15,10 +15,10 @@ const buildLists = (items) => {
             {
                 categories.map((category, index) => (
                     <div key={`${index}div`}>
-                        <Header as='h3' style={{ marginBottom: '.75em' , marginTop: '1em'}}>
+                        <Header as='h3' style={{marginBottom: '.75em', marginTop: '1em'}}>
                             {`${category} ${CATEGORIES[category].symbol}`}
                         </Header>
-                        <Grid columns={2} padded={false} style={{ marginBottom: '.5em' }}>
+                        <Grid columns={2} style={{marginBottom: '.5em'}}>
                             {items.filter(byCategory(category))
                                 .map(item => (
                                     <>
@@ -28,7 +28,7 @@ const buildLists = (items) => {
                                             key={item.id}
                                             text={item.name}
                                         />
-                                        <Divider fitted key={`${item.id}divider`} style={{marginTop: '0', marginBottom: '0'}}/>
+                                        <Divider fitted key={`${item.id}divider`} style={{marginTop: '0', marginBottom: '0'}} />
                                     </>
                                 ))
                             }
@@ -40,14 +40,9 @@ const buildLists = (items) => {
     );
 };
 
-export const ItemList = (props) => {
-    return (
-        props.items
-            ? buildLists(props.items)
-            : <Loader active/>
-
-    );
-};
+export const ItemList = (props) => props.items
+    ? buildLists(props.items)
+    : <Loader active />;
 
 ItemList.propTypes = {
     items: PropTypes.arrayOf(PropTypes.shape({
