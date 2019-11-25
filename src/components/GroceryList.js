@@ -13,11 +13,11 @@ export class GroceryList extends Component {
         return (
             <Grid centered columns={1} container>
                 <Grid.Column computer='10' mobile='16'>
-                    <MainNavigation/>
+                    <MainNavigation />
                     <Header as='h1'>{'Grocery List'}</Header>
                     {this.props.auth.uid
                         ? this.buildList()
-                        : <Loader active/>}
+                        : <Loader active />}
                 </Grid.Column>
             </Grid>
         );
@@ -27,10 +27,10 @@ export class GroceryList extends Component {
         return (
             <>
                 <Grid.Row>
-                    <ItemList auth={this.props.auth}/>
+                    <ItemList auth={this.props.auth} />
                 </Grid.Row>
                 <Grid.Row>
-                    <AddItem/>
+                    <AddItem />
                 </Grid.Row>
             </>
         );

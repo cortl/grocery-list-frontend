@@ -5,7 +5,7 @@ import {Menu} from 'semantic-ui-react';
 export const MainNavigation = () => {
     return (
         <Menu secondary>
-            <SignOut/>
+            <SignOut />
         </Menu>
     );
 };

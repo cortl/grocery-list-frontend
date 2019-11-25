@@ -22,7 +22,7 @@ export default (ComposedComponent) => {
 
         render = () => {
             if (this.isLoggedIn()) {
-                return <ComposedComponent {...this.props}/>;
+                return <ComposedComponent {...this.props} />;
             }
             return null;
         }

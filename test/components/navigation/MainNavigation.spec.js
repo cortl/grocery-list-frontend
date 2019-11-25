@@ -10,7 +10,7 @@ describe('Main Navigation', () => {
     let wrapper;
 
     const whenComponentIsRendered = () => {
-        wrapper = shallow(<MainNavigation/>);
+        wrapper = shallow(<MainNavigation />);
     };
 
     beforeEach(() => {

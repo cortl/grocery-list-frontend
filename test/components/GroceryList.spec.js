@@ -16,7 +16,7 @@ describe('Grocery List', () => {
         givenProps;
 
     const whenComponentIsRendered = () => {
-        wrapper = shallow(<GroceryList {...givenProps}/>);
+        wrapper = shallow(<GroceryList {...givenProps} />);
     };
 
     beforeEach(() => {

@@ -25,12 +25,12 @@ export class SignIn extends Component {
         return (
             <Container style={contentStyle}>
                 <Header icon size='large' textAlign='center'>
-                    <Image alt='logo' src={Logo}/>
+                    <Image alt='logo' src={Logo} />
                     <Header.Content>{'Grocery List'}</Header.Content>
                 </Header>
                 {
                     !isLoaded(this.props.auth)
-                        ? <Loader active/>
+                        ? <Loader active />
                         : (
                             <Grid style={{ marginTop: '5em' }} verticalAlign='middle'>
                                 <Grid.Row>
@@ -40,7 +40,7 @@ export class SignIn extends Component {
                                         <Button color='google plus'
                                             inline='centered'
                                             onClick={this.props.login}>
-                                            <Icon name='google'/>
+                                            <Icon name='google' />
                                             {'Google'}
                                         </Button>
                                     </Grid.Column>

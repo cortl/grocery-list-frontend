@@ -8,8 +8,8 @@ import requireAuth from '../enhancers/requireAuth';
 const App = () => (
     <BrowserRouter>
         <>
-            <Route component={requireAuth(GroceryList)} exact path='/'/>
-            <Route component={SignIn} exact path='/login'/>
+            <Route component={requireAuth(GroceryList)} exact path='/' />
+            <Route component={SignIn} exact path='/login' />
         </>
     </BrowserRouter>
 );

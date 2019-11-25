@@ -34,7 +34,7 @@ export const ItemActions = (props) => {
                         </Dropdown.Menu>
                     </Dropdown>
                 )
-                : <Button basic disabled icon='tag' loading/>
+                : <Button basic disabled icon='tag' loading />
             }
             <Menu.Item
                 icon='trash'

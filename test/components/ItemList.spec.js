@@ -22,7 +22,7 @@ describe('Item List', () => {
         givenProps;
 
     const whenComponentIsRendered = () => {
-        wrapper = shallow(<ItemList {...givenProps}/>);
+        wrapper = shallow(<ItemList {...givenProps} />);
     };
 
     beforeEach(() => {

@@ -22,7 +22,7 @@ describe('Grocery Item', () => {
                 symbol: chance.string()
             }
         };
-        wrapper = shallow(<GroceryItem {...givenProps}/>);
+        wrapper = shallow(<GroceryItem {...givenProps} />);
     });
 
     it('should render in a list item', () => {
