@@ -2,7 +2,6 @@ import React from 'react';
 import {Grid, Header} from 'semantic-ui-react';
 
 import {MainNavigation} from './navigation/MainNavigation';
-import {Shares} from './Shares';
 
 export const Settings = () => (
     <Grid centered columns={1} container>

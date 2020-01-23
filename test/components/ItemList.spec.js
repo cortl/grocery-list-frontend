@@ -5,7 +5,7 @@ import Chance from 'chance';
 import {ItemList} from '../../src/components/ItemList';
 import GroceryItem from '../../src/components/items/GroceryItem';
 import {CATEGORIES} from '../../src/constants/categories';
-import {Loader, Header, Card, Divider} from 'semantic-ui-react';
+import {Loader, Card, Divider} from 'semantic-ui-react';
 
 const chance = new Chance();
 
