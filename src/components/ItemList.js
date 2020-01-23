@@ -1,7 +1,7 @@
 import React, {Fragment} from 'react';
 import PropTypes from 'prop-types';
 import GroceryItem from './items/GroceryItem';
-import {Loader, Header, Grid, Divider} from 'semantic-ui-react';
+import {Loader, Grid, Card, Divider} from 'semantic-ui-react';
 import {CATEGORIES} from '../constants/categories';
 
 const sortCategory = (catA, catB) => CATEGORIES[catA].sortOrder - CATEGORIES[catB].sortOrder;
@@ -14,26 +14,26 @@ const buildLists = (items) => {
         <>
             {
                 categories.map((category, index) => (
-                    <div key={`${index}div`}>
-                        <Header as='h3' style={{marginBottom: '.75em', marginTop: '1em'}}>
-                            {`${category} ${CATEGORIES[category].symbol}`}
-                        </Header>
-                        <Grid columns={2} style={{marginBottom: '.5em'}}>
-                            {items.filter(byCategory(category))
-                                .map((item, i) => (
-                                    <Fragment key={`${i}`}>
-                                        <GroceryItem
-                                            category={item.category}
-                                            itemId={item.id}
-                                            key={item.id}
-                                            text={item.name}
-                                        />
-                                        <Divider fitted key={`${item.id}divider`} style={{marginTop: '0', marginBottom: '0'}} />
-                                    </Fragment>
-                                ))
-                            }
-                        </Grid>
-                    </div>
+                    <Card fluid key={`${index}div`}>
+                        <Card.Content header={`${category} ${CATEGORIES[category].symbol}`} />
+                        <Card.Content>
+                            <Grid columns={2} style={{marginBottom: '.5em'}}>
+                                {items.filter(byCategory(category))
+                                    .map((item, i) => (
+                                        <Fragment key={`${i}`}>
+                                            <GroceryItem
+                                                category={item.category}
+                                                itemId={item.id}
+                                                key={item.id}
+                                                text={item.name}
+                                            />
+                                            <Divider fitted style={{marginTop: '0', marginBottom: '0'}} />
+                                        </Fragment>
+                                    ))
+                                }
+                            </Grid>
+                        </Card.Content>
+                    </Card>
                 ))
             }
         </>
