@@ -4,9 +4,9 @@ export const addItem = (name, userId) => {
     return (_dispatch, _getState, {getFirestore}) => {
         getFirestore().add(
             {collection: 'items'}, {
-                name,
-                userId
-            });
+            name,
+            userId
+        });
     };
 };
 
