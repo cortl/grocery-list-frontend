@@ -60,5 +60,5 @@ exports.addItemFirestore = functions.firestore
     });
 
 exports.addUserMetadata = functions.auth.user().onCreate((user) => {
-    firestore.collection('users').set({email: user.email, list: uuid.v4()})
+    firestore.collection('users').set({email: user.email, list: uuid.v4()});
 });
