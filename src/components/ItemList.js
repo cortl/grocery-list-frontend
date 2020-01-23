@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import PropTypes from 'prop-types';
 import GroceryItem from './items/GroceryItem';
 import {Loader, Header, Grid, Divider} from 'semantic-ui-react';
@@ -20,8 +20,8 @@ const buildLists = (items) => {
                         </Header>
                         <Grid columns={2} style={{marginBottom: '.5em'}}>
                             {items.filter(byCategory(category))
-                                .map(item => (
-                                    <>
+                                .map((item, i) => (
+                                    <Fragment key={`${i}`}>
                                         <GroceryItem
                                             category={item.category}
                                             itemId={item.id}
@@ -29,7 +29,7 @@ const buildLists = (items) => {
                                             text={item.name}
                                         />
                                         <Divider fitted key={`${item.id}divider`} style={{marginTop: '0', marginBottom: '0'}} />
-                                    </>
+                                    </Fragment>
                                 ))
                             }
                         </Grid>

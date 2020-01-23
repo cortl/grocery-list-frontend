@@ -1,10 +1,10 @@
-import { expect } from '../../utils/chai';
+import {expect} from '../../utils/chai';
 import React from 'react';
-import { mount, shallow } from 'enzyme';
+import {mount, shallow} from 'enzyme';
 import Chance from 'chance';
 import * as sinon from 'sinon';
-import { SignIn, mapStateToProps } from '../../../src/components/security/SignIn';
-import { Header, Container, Image, Loader, Grid } from 'semantic-ui-react';
+import {SignIn, mapStateToProps} from '../../../src/components/security/SignIn';
+import {Header, Container, Image, Loader, Card} from 'semantic-ui-react';
 
 const sandbox = sinon.createSandbox();
 const chance = new Chance();
@@ -79,9 +79,9 @@ describe('Sign In', () => {
             expect(wrapper.find(Loader)).to.not.exist;
         });
 
-        it('should have a grid', () => {
-            expect(wrapper.find(Grid)).to.have.prop('verticalAlign', 'middle');
-            expect(wrapper.find(Grid).props().style).to.eql({ marginTop: '5em' });
+        it('should have a card', () => {
+            expect(wrapper.find(Card)).to.have.prop('centered', true);
+            expect(wrapper.find(Card).props().style).to.eql({marginTop: '5em'});
         });
     });
 
@@ -89,7 +89,7 @@ describe('Sign In', () => {
         const whenComponentIsMounted = () => {
             wrapper = mount(<SignIn
                 {...givenProps}
-            />, { context });
+            />, {context});
         };
 
         beforeEach(() => {
@@ -105,7 +105,7 @@ describe('Sign In', () => {
             beforeEach(() => {
                 givenProps.auth.isEmpty = false;
 
-                wrapper.setProps({ ...givenProps });
+                wrapper.setProps({...givenProps});
             });
 
             it('should push the user to the home page', () => {

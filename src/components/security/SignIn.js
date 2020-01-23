@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { login } from '../../actions';
-import { connect } from 'react-redux';
-import { isLoaded, isEmpty } from 'react-redux-firebase';
-import { Container, Header, Image, Button, Icon, Grid, Loader } from 'semantic-ui-react';
+import {login} from '../../actions';
+import {connect} from 'react-redux';
+import {isLoaded, isEmpty} from 'react-redux-firebase';
+import {Container, Header, Image, Button, Icon, Loader, Card} from 'semantic-ui-react';
 import Logo from '../../media/logo.png';
 
 const contentStyle = {
@@ -32,20 +32,16 @@ export class SignIn extends Component {
                     !isLoaded(this.props.auth)
                         ? <Loader active />
                         : (
-                            <Grid style={{ marginTop: '5em' }} verticalAlign='middle'>
-                                <Grid.Row>
-                                    <Grid.Column
-                                        stlye=''
-                                        textAlign='center'>
-                                        <Button color='google plus'
-                                            inline='centered'
-                                            onClick={this.props.login}>
-                                            <Icon name='google' />
-                                            {'Google'}
-                                        </Button>
-                                    </Grid.Column>
-                                </Grid.Row>
-                            </Grid>
+                            <Card centered style={{marginTop: '5em'}}>
+                                <Card.Content header='Log in' />
+                                <Card.Content textAlign='center'>
+                                    <Button color='google plus'
+                                        onClick={this.props.login}>
+                                        <Icon name='google' />
+                                        {'Log in with Google'}
+                                    </Button>
+                                </Card.Content>
+                            </Card>
                         )
                 }
             </Container>
@@ -62,4 +58,4 @@ export const mapStateToProps = (state) => ({
     auth: state.firebase.auth
 });
 
-export default connect(mapStateToProps, { login })(SignIn);
+export default connect(mapStateToProps, {login})(SignIn);

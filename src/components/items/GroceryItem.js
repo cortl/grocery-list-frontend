@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ItemActions from './ItemActions';
-import { Grid } from 'semantic-ui-react';
+import {Grid} from 'semantic-ui-react';
 
-const GroceryItem = ({ category, text, itemId }) => {
+const GroceryItem = ({category, text, itemId}) => {
     return (
         <Grid.Row style={{paddingTop: '0px', paddingBottom: '0px'}}>
             <Grid.Column verticalAlign='middle'>
