@@ -1,8 +1,9 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
+const uuid = require('uuid');
 
 admin.initializeApp();
-admin.firestore().settings({ timestampsInSnapshots: true });
+admin.firestore().settings({timestampsInSnapshots: true});
 const firestore = admin.firestore();
 
 const itemStripper = name => {
@@ -57,3 +58,7 @@ exports.addItemFirestore = functions.firestore
             ? categoriesFound(snap, item, categories)
             : categoriesNotFound(snap, item);
     });
+
+exports.addUserMetadata = functions.auth.user().onCreate((user) => {
+    firestore.collection('users').set({email: user.email, list: uuid.v4()})
+});
