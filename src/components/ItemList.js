@@ -1,7 +1,7 @@
 import React, {Fragment} from 'react';
 import PropTypes from 'prop-types';
 import GroceryItem from './items/GroceryItem';
-import {Loader, Grid, Card, Divider} from 'semantic-ui-react';
+import {Loader, Grid, Card} from 'semantic-ui-react';
 import {CATEGORIES} from '../constants/categories';
 
 const sortCategory = (catA, catB) => CATEGORIES[catA].sortOrder - CATEGORIES[catB].sortOrder;
@@ -16,7 +16,7 @@ const buildLists = (items) => {
                 categories.map((category, index) => (
                     <Card fluid key={`${index}div`}>
                         <Card.Content header={`${category} ${CATEGORIES[category].symbol}`} />
-                        <Card.Content>
+                        <Card.Content description>
                             <Grid columns={2} style={{marginBottom: '.5em'}}>
                                 {items.filter(byCategory(category))
                                     .map((item, i) => (
@@ -27,7 +27,6 @@ const buildLists = (items) => {
                                                 key={item.id}
                                                 text={item.name}
                                             />
-                                            <Divider fitted style={{marginTop: '0', marginBottom: '0'}} />
                                         </Fragment>
                                     ))
                                 }

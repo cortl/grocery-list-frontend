@@ -5,7 +5,7 @@ import Chance from 'chance';
 import {ItemList} from '../../src/components/ItemList';
 import GroceryItem from '../../src/components/items/GroceryItem';
 import {CATEGORIES} from '../../src/constants/categories';
-import {Loader, Card, Divider} from 'semantic-ui-react';
+import {Loader, Card} from 'semantic-ui-react';
 
 const chance = new Chance();
 
@@ -63,7 +63,6 @@ describe('Item List', () => {
                     expect(card.find(GroceryItem).at(index)).to.have.prop('category', item.category);
                     expect(card.find(GroceryItem).at(index)).to.have.prop('itemId', item.id);
                     expect(card.find(GroceryItem).at(index)).to.have.prop('text', item.name);
-                    expect(card.find(Divider).at(index)).to.have.prop('fitted', true);
                 });
             });
         });
