@@ -17,7 +17,7 @@ const buildLists = (items) => {
                 categories.map((category, index) => (
                     <Card fluid key={`${index}div`}>
                         <Card.Content header={`${category} ${CATEGORIES[category].symbol}`} />
-                        <Card.Content description>
+                        <Card.Content>
                             <Grid columns={2} style={{marginBottom: '.5em'}}>
                                 {items.filter(byCategory(category))
                                     .map((item, i) => (

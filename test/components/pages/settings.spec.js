@@ -1,17 +1,13 @@
 import {expect} from '../../chai';
 import React from 'react';
 import {shallow} from 'enzyme';
-import Chance from 'chance';
-import {Grid, Loader, Header} from 'semantic-ui-react';
+import {Grid, Header} from 'semantic-ui-react';
 
 import {Navigation} from '../../../src/components/features/navigation';
 import Shares from '../../../src/components/features/settings/shares';
 import {Settings} from '../../../src/components/pages/settings';
 
-const chance = new Chance();
-
 describe('Settings Page', () => {
-
     let wrapper,
         givenProps;
 
