@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { addItem } from '../actions/index';
 import { Input } from 'semantic-ui-react';
+
+import { addItem } from '../actions/index';
 
 export class AddItem extends Component {
 

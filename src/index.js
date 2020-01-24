@@ -3,11 +3,13 @@ import {render} from 'react-dom';
 import {Provider} from 'react-redux';
 import {compose, createStore, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
-import rootReducer from './reducers';
-import App from './components/App';
 import {reduxFirestore, getFirestore} from 'redux-firestore';
 import {reactReduxFirebase, getFirebase} from 'react-redux-firebase';
+
 import fbConfig from './config/fbConfig';
+import rootReducer from './reducers';
+import App from './components/App';
+
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(rootReducer,
