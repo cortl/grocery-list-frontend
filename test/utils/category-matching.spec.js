@@ -5,47 +5,47 @@ describe('Category Matching', () => {
 
     describe('Item Stripper', () => {
         it('should remove front quantifiers from name', () => {
-            expect(itemStripper('32x Chicken Breast')).to.be.equal('Chicken Breast');
+            expect(itemStripper('32x Chicken Breast')).to.be.equal('CHICKEN BREAST');
         });
 
         it('should remove front quantifiers from name', () => {
-            expect(itemStripper('32 x Chicken Breast')).to.be.equal('Chicken Breast');
+            expect(itemStripper('32 x Chicken Breast')).to.be.equal('CHICKEN BREAST');
         });
 
         it('should remove front quantifiers from name', () => {
-            expect(itemStripper('32lbs Chicken Breast')).to.be.equal('Chicken Breast');
+            expect(itemStripper('32lbs Chicken Breast')).to.be.equal('CHICKEN BREAST');
         });
 
         it('should remove front quantifiers from name', () => {
-            expect(itemStripper('x 3 Chicken Breast')).to.be.equal('Chicken Breast');
+            expect(itemStripper('x 3 Chicken Breast')).to.be.equal('CHICKEN BREAST');
         });
 
         it('should remove front quantifiers from name', () => {
-            expect(itemStripper('Chicken Breast')).to.be.equal('Chicken Breast');
+            expect(itemStripper('Chicken Breast')).to.be.equal('CHICKEN BREAST');
         });
 
         it('should remove rear quantifiers from name', () => {
-            expect(itemStripper('Chicken Breast x32')).to.be.equal('Chicken Breast');
+            expect(itemStripper('Chicken Breast x32')).to.be.equal('CHICKEN BREAST');
         });
 
         it('should remove rear quantifiers from name', () => {
-            expect(itemStripper('Chicken Breast x 32')).to.be.equal('Chicken Breast');
+            expect(itemStripper('Chicken Breast x 32')).to.be.equal('CHICKEN BREAST');
         });
 
         it('should remove rear quantifiers from name', () => {
-            expect(itemStripper('Chicken Breast 32lbs')).to.be.equal('Chicken Breast');
+            expect(itemStripper('Chicken Breast 32lbs')).to.be.equal('CHICKEN BREAST');
         });
 
         it('should remove rear quantifiers from name', () => {
-            expect(itemStripper('Chicken Breast 3x')).to.be.equal('Chicken Breast');
+            expect(itemStripper('Chicken Breast 3x')).to.be.equal('CHICKEN BREAST');
         });
 
         it('should not remove important details from name', () => {
-            expect(itemStripper('46oz x Evaporated Milk')).to.be.equal('Evaporated Milk');
+            expect(itemStripper('46oz x Evaporated Milk')).to.be.equal('EVAPORATED MILK');
         });
 
         it('should not remove important details from name', () => {
-            expect(itemStripper('Evaporated Milk')).to.be.equal('Evaporated Milk');
+            expect(itemStripper('Evaporated Milk')).to.be.equal('EVAPORATED MILK');
         });
 
     });

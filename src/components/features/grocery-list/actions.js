@@ -1,42 +1,41 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import {Menu, Dropdown, Button} from 'semantic-ui-react';
+import {Menu, Dropdown} from 'semantic-ui-react';
 
-import {changeCategory, removeItem} from '../../../actions';
+import {changeAssociation, newAssociation, removeItem} from '../../../actions';
 import {CATEGORIES} from '../../../constants/categories';
 import {itemStripper} from '../../../utils/category-matching';
 
 
 export const Actions = (props) => {
     const removeOnClick = () => () => props.removeItem(props.itemId);
-    const changeOnClick = (key) => () => props.changeCategory(props.categoryId, props.userId, props.name)(CATEGORIES[key].category);
+    const changeOnClick = (key) => () => {
+        props.categoryId
+            ? props.changeAssociation(props.categoryId, props.userId, props.name)(CATEGORIES[key].category)
+            : props.newAssociation(props.userId, props.name)(CATEGORIES[key].category);
+    };
 
     return (
         <Menu
             floated='right'
             icon
             secondary>
-            {props.categoryId
-                ? (
-                    <Dropdown
-                        button
-                        compact
-                        icon='tag'
-                        item>
-                        <Dropdown.Menu>
-                            {Object.keys(CATEGORIES).map((key) => (
-                                <Dropdown.Item
-                                    key={key}
-                                    onClick={changeOnClick(key)}
-                                    text={`${CATEGORIES[key].symbol} ${CATEGORIES[key].category}`}
-                                />
-                            ))}
-                        </Dropdown.Menu>
-                    </Dropdown>
-                )
-                : <Button basic disabled icon='tag' loading />
-            }
+            <Dropdown
+                button
+                compact
+                icon='tag'
+                item>
+                <Dropdown.Menu>
+                    {Object.keys(CATEGORIES).map((key) => (
+                        <Dropdown.Item
+                            key={key}
+                            onClick={changeOnClick(key)}
+                            text={`${CATEGORIES[key].symbol} ${CATEGORIES[key].category}`}
+                        />
+                    ))}
+                </Dropdown.Menu>
+            </Dropdown>
             <Menu.Item
                 icon='trash'
                 onClick={removeOnClick()}
@@ -49,12 +48,10 @@ Actions.propTypes = {
     itemId: PropTypes.string.isRequired,
     categoryId: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    category: PropTypes.shape({
-        associationId: PropTypes.string,
-        categoryId: PropTypes.string
-    }),
     userId: PropTypes.string.isRequired,
-    changeCategory: PropTypes.func.isRequired,
+
+    changeAssociation: PropTypes.func.isRequired,
+    newAssociation: PropTypes.func.isRequired,
     removeItem: PropTypes.func.isRequired
 };
 
@@ -64,7 +61,8 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchToProps = dispatch => ({
     removeItem: id => dispatch(removeItem(id)),
-    changeCategory: (id, userId, name) => category => dispatch(changeCategory(id, userId, itemStripper(name), category))
+    changeAssociation: (id, userId, name) => category => dispatch(changeAssociation(id, userId, itemStripper(name), category)),
+    newAssociation: (userId, name) => category => dispatch(newAssociation(userId, itemStripper(name), category))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Actions);

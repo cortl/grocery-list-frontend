@@ -6,11 +6,11 @@ import Item from './item';
 import {CATEGORIES} from '../../../constants/categories';
 
 const sortCategory = (catA, catB) => CATEGORIES[catA].sortOrder - CATEGORIES[catB].sortOrder;
+const byCategory = category => item => item.category === category;
 
 const buildLists = (items) => {
-    let categories = Array.from(new Set(items.map(item => item.category.category)));
+    let categories = Array.from(new Set(items.map(item => item.category)));
     categories = categories.sort(sortCategory);
-    const byCategory = category => item => item.category.category === category;
     return (
         <>
             {
@@ -24,6 +24,7 @@ const buildLists = (items) => {
                                         <Fragment key={`${i}`}>
                                             <Item
                                                 category={item.category}
+                                                categoryId={item.categoryId}
                                                 itemId={item.id}
                                                 key={item.id}
                                                 text={item.name}
@@ -48,6 +49,7 @@ ItemList.propTypes = {
     items: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
-        category: PropTypes.object.isRequired
+        category: PropTypes.string.isRequired,
+        categoryId: PropTypes.string.isRequired
     }).isRequired)
 };

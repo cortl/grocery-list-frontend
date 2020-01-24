@@ -15,6 +15,7 @@ export class Shares extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            input: '',
             invites: [],
             pending: [],
             current: []

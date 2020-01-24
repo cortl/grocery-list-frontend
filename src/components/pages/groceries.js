@@ -6,17 +6,41 @@ import {Loader, Grid, Header} from 'semantic-ui-react';
 import {firebaseConnect} from 'react-redux-firebase';
 
 import Add from '../features/grocery-list/add';
+import firebase from '../../config/fbConfig';
 import FirestoreItemList from '../../enhancers/firestore-connected-list';
 import {Navigation} from '../features/navigation';
 
+const queryFor = (field, value) => firebase.firestore().collection('shares')
+    .where(field, '==', value)
+    .get()
+    .then(querySnap => querySnap.docs)
+    .then(queryDocSnaps => queryDocSnaps.map(queryDocSnap => ({id: queryDocSnap.id, ...queryDocSnap.data()})));
+
 export class Groceries extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            ids: []
+        };
+    }
+    async componentDidMount() {
+        const othersShares = await queryFor('requestedId', this.props.auth.uid)
+            .then(docs => docs.map(doc => doc.senderId));
+        const myShares = await queryFor('senderId', this.props.auth.uid)
+            .then(docs => docs.map(doc => doc.requestedId).filter(Boolean));
+        myShares.push(this.props.auth.uid);
+        this.setState({
+            ids: Array.from(new Set(othersShares.concat(myShares)))
+        });
+    }
+
     render = () => {
         return (
             <Grid centered columns={1} container>
                 <Grid.Column computer='10' mobile='16'>
                     <Navigation active='home' />
                     <Header as='h1'>{'Grocery List'}</Header>
-                    {this.props.auth.uid
+                    {this.state.ids.length
                         ? this.buildList()
                         : <Loader active />}
                 </Grid.Column>
@@ -28,7 +52,7 @@ export class Groceries extends Component {
         return (
             <>
                 <Grid.Row>
-                    <FirestoreItemList auth={this.props.auth} />
+                    <FirestoreItemList ids={this.state.ids} userId={this.props.auth.uid} />
                 </Grid.Row>
                 <Grid.Row>
                     <Add />

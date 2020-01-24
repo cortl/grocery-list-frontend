@@ -2,23 +2,42 @@ import {expect} from '../../chai';
 import React from 'react';
 import {shallow} from 'enzyme';
 import Chance from 'chance';
+import sinon from 'sinon';
 import {Grid, Loader, Header} from 'semantic-ui-react';
 
 import connectedList from '../../../src/enhancers/firestore-connected-list';
+import firebase from '../../../src/config/fbConfig';
+
 import {Navigation} from '../../../src/components/features/navigation';
 import AddItem from '../../../src/components/features/grocery-list/add';
 import {Groceries} from '../../../src/components/pages/groceries';
 
 const chance = new Chance();
+const sandbox = sinon.createSandbox();
 
-describe('Groceries Page', () => {
+describe.only('Groceries Page', () => {
 
     let wrapper,
-        givenProps;
+        givenProps,
+        shareCollection,
+        otherIds,
+        ourIds;
 
     const whenComponentIsRendered = () => {
         wrapper = shallow(<Groceries {...givenProps} />);
     };
+
+    const givenSharesExist = (ids, field) => {
+        shareCollection.where.withArgs(field, '==', givenProps.auth.uid)
+            .returns({
+                get: sandbox.stub().resolves({
+                    docs: ids.map(id => ({
+                        id: chance.guid(),
+                        data: () => ({[field]: id})
+                    }))
+                })
+            });
+    }
 
     beforeEach(() => {
         givenProps = {
@@ -26,8 +45,20 @@ describe('Groceries Page', () => {
                 uid: chance.pickone([chance.guid(), ''])
             }
         };
+        shareCollection = {
+            where: sandbox.stub()
+        };
+        firebase.firestore().collection.withArgs('shares').returns(shareCollection);
+
+        otherIds = chance.n(chance.guid, chance.d4());
+        ourIds = chance.n(chance.guid, chance.d4());
+
+        givenSharesExist(otherIds, 'requestedId');
+        givenSharesExist(ourIds, 'senderId');
         whenComponentIsRendered();
     });
+
+    afterEach(() => sandbox.restore());
 
     it('should render in a grid', () => {
         expect(wrapper).to.have.type(Grid);
@@ -50,6 +81,8 @@ describe('Groceries Page', () => {
     describe('when auth is not loaded', () => {
         beforeEach(() => {
             givenProps.auth.uid = '';
+            givenSharesExist(otherIds, 'requestedId');
+            givenSharesExist(ourIds, 'senderId');
             whenComponentIsRendered();
         });
 
@@ -61,6 +94,8 @@ describe('Groceries Page', () => {
     describe('when auth is loaded', () => {
         beforeEach(() => {
             givenProps.auth.uid = chance.string();
+            givenSharesExist(otherIds, 'requestedId');
+            givenSharesExist(ourIds, 'senderId');
             whenComponentIsRendered();
         });
 
