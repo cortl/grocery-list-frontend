@@ -1,22 +1,23 @@
-import {expect} from '../utils/chai';
+import {expect} from '../../chai';
 import React from 'react';
 import {shallow} from 'enzyme';
-import AddItem from '../../src/components/AddItem';
-import {GroceryList} from '../../src/components/GroceryList';
 import Chance from 'chance';
-import ItemList from '../../src/enhancers/FireStoreItemList';
 import {Grid, Loader, Header} from 'semantic-ui-react';
-import {MainNavigation} from '../../src/components/navigation/MainNavigation';
+
+import connectedList from '../../../src/enhancers/firestore-connected-list';
+import {Navigation} from '../../../src/components/features/navigation';
+import AddItem from '../../../src/components/features/grocery-list/add';
+import {Groceries} from '../../../src/components/pages/groceries';
 
 const chance = new Chance();
 
-describe('Grocery List', () => {
+describe('Groceries Page', () => {
 
     let wrapper,
         givenProps;
 
     const whenComponentIsRendered = () => {
-        wrapper = shallow(<GroceryList {...givenProps} />);
+        wrapper = shallow(<Groceries {...givenProps} />);
     };
 
     beforeEach(() => {
@@ -38,7 +39,7 @@ describe('Grocery List', () => {
     });
 
     it('should have a navigation', () => {
-        expect(wrapper.find(MainNavigation)).to.be.present();
+        expect(wrapper.find(Navigation)).to.be.present();
     });
 
     it('should have a header', () => {
@@ -68,7 +69,7 @@ describe('Grocery List', () => {
         });
 
         it('should have an item list', () => {
-            expect(wrapper.find(ItemList)).to.have.prop('auth', givenProps.auth);
+            expect(wrapper.find(connectedList)).to.have.prop('auth', givenProps.auth);
         });
 
         it('should have an add item', () => {

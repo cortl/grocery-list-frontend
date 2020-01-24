@@ -1,9 +1,10 @@
-import {CATEGORIES, NONE} from '../constants/categories';
 import {firestoreConnect} from 'react-redux-firebase';
 import {withFirestore} from 'react-redux-firebase';
-import {ItemList} from '../components/ItemList';
 import {connect} from 'react-redux';
 import {compose} from 'recompose';
+
+import {CATEGORIES, NONE} from '../constants/categories';
+import {ItemList} from '../components/features/grocery-list/item-list';
 
 const getMatchingCategory = (firestoreCategoryDoc, categories) => {
     if (categories && firestoreCategoryDoc) {

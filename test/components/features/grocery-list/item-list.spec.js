@@ -1,11 +1,12 @@
+import {expect} from '../../../chai';
 import {shallow} from 'enzyme/build';
 import React from 'react';
-import {expect} from '../utils/chai';
 import Chance from 'chance';
-import {ItemList} from '../../src/components/ItemList';
-import GroceryItem from '../../src/components/items/GroceryItem';
-import {CATEGORIES} from '../../src/constants/categories';
 import {Loader, Card} from 'semantic-ui-react';
+
+import {ItemList} from '../../../../src/components/features/grocery-list/item-list';
+import Item from '../../../../src/components/features/grocery-list/item';
+import {CATEGORIES} from '../../../../src/constants/categories';
 
 const chance = new Chance();
 
@@ -60,9 +61,9 @@ describe('Item List', () => {
                 const items = givenProps.items.filter(byCategory(category.category));
                 const card = wrapper.find(Card).at(listIndex);
                 items.forEach((item, index) => {
-                    expect(card.find(GroceryItem).at(index)).to.have.prop('category', item.category);
-                    expect(card.find(GroceryItem).at(index)).to.have.prop('itemId', item.id);
-                    expect(card.find(GroceryItem).at(index)).to.have.prop('text', item.name);
+                    expect(card.find(Item).at(index)).to.have.prop('category', item.category);
+                    expect(card.find(Item).at(index)).to.have.prop('itemId', item.id);
+                    expect(card.find(Item).at(index)).to.have.prop('text', item.name);
                 });
             });
         });

@@ -1,10 +1,11 @@
-import { expect } from '../../utils/chai';
+import {expect} from '../../../chai';
 import React from 'react';
-import { mount, shallow } from 'enzyme';
-import { mapStateToProps, SignOut } from '../../../src/components/security/SignOut';
+import {mount, shallow} from 'enzyme';
 import Chance from 'chance';
-import { Menu } from 'semantic-ui-react';
+import {Menu} from 'semantic-ui-react';
 import sinon from 'sinon';
+
+import {SignOut, mapStateToProps} from '../../../../src/components/features/navigation/sign-out';
 
 const sandbox = sinon.createSandbox();
 const chance = new Chance();
@@ -61,7 +62,7 @@ describe('Sign Out', () => {
 
             wrapper = mount(<SignOut
                 auth={auth}
-            />, { context });
+            />, {context});
         });
 
         it('should not push the user to the login page', () => {
@@ -74,7 +75,7 @@ describe('Sign Out', () => {
                     isEmpty: true
                 };
 
-                wrapper.setProps({ auth: auth });
+                wrapper.setProps({auth: auth});
             });
 
             it('should push the user to the login page', () => {

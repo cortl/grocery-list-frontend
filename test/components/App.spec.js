@@ -1,9 +1,10 @@
-import {expect} from '../utils/chai';
+import {expect} from '../chai';
 import React from 'react';
 import {shallow} from 'enzyme';
-import App from '../../src/components/App';
 import {BrowserRouter, Route} from 'react-router-dom';
-import SignIn from '../../src/components/security/SignIn';
+
+import SignIn from '../../src/components/pages/sign-in';
+import App from '../../src/components/app';
 
 describe('App', () => {
 

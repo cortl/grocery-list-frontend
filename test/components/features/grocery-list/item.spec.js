@@ -1,14 +1,15 @@
+import {expect} from '../../../chai';
 import {shallow} from 'enzyme/build';
 import React from 'react';
-import {expect} from '../../utils/chai';
 import Chance from 'chance';
-import ItemActions from '../../../src/components/items/ItemActions';
-import GroceryItem from '../../../src/components/items/GroceryItem';
 import {Grid} from 'semantic-ui-react';
+
+import Actions from '../../../../src/components/features/grocery-list/actions';
+import Item from '../../../../src/components/features/grocery-list/item';
 
 const chance = new Chance();
 
-describe('Grocery Item', () => {
+describe('Item', () => {
 
     let wrapper,
         givenProps;
@@ -22,7 +23,7 @@ describe('Grocery Item', () => {
                 symbol: chance.string()
             }
         };
-        wrapper = shallow(<GroceryItem {...givenProps} />);
+        wrapper = shallow(<Item {...givenProps} />);
     });
 
     it('should render in a list item', () => {
@@ -35,10 +36,10 @@ describe('Grocery Item', () => {
         expect(wrapper.find(Grid.Column).at(0).childAt(0)).to.have.text(givenProps.text);
     });
 
-    it('should render ItemActions', () => {
-        expect(wrapper.find(ItemActions)).to.have.prop('category', givenProps.category);
-        expect(wrapper.find(ItemActions)).to.have.prop('categoryId', givenProps.category.categoryId);
-        expect(wrapper.find(ItemActions)).to.have.prop('itemId', givenProps.itemId);
-        expect(wrapper.find(ItemActions)).to.have.prop('name', givenProps.text);
+    it('should render Actions', () => {
+        expect(wrapper.find(Actions)).to.have.prop('category', givenProps.category);
+        expect(wrapper.find(Actions)).to.have.prop('categoryId', givenProps.category.categoryId);
+        expect(wrapper.find(Actions)).to.have.prop('itemId', givenProps.itemId);
+        expect(wrapper.find(Actions)).to.have.prop('name', givenProps.text);
     });
 });

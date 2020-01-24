@@ -1,11 +1,12 @@
+import {expect} from '../../../chai';
 import Chance from 'chance';
 import sinon from 'sinon';
-import {expect} from '../utils/chai';
-import {AddItem, mapDispatchToProps} from '../../src/components/AddItem';
 import React from 'react';
 import {shallow} from 'enzyme';
-import * as Actions from '../../src/actions';
 import {Input} from 'semantic-ui-react';
+
+import {Add, mapDispatchToProps} from '../../../../src/components/features/grocery-list/add';
+import * as Actions from '../../../../src/actions';
 
 const chance = new Chance();
 const sandbox = sinon.createSandbox();
@@ -19,7 +20,7 @@ describe('Add Item', () => {
     beforeEach(() => {
         addItemSpy = sandbox.spy();
         item = chance.word();
-        wrapper = shallow(<AddItem
+        wrapper = shallow(<Add
             addItem={addItemSpy}
         />);
     });

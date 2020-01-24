@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {signOut} from '../../actions';
 import {connect} from 'react-redux';
-import { isEmpty } from 'react-redux-firebase';
+import {isEmpty} from 'react-redux-firebase';
 import {Menu} from 'semantic-ui-react';
+
+import {signOut} from '../../../actions/index';
 
 export class SignOut extends Component {
     static contextTypes = {

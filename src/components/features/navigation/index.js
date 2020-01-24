@@ -2,9 +2,9 @@ import React from 'react';
 import {Menu} from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
-import SignOut from '../security/SignOut';
+import SignOut from './sign-out';
 
-export class MainNavigation extends React.Component {
+export class Navigation extends React.Component {
     static contextTypes = {
         router: PropTypes.object
     };
@@ -34,6 +34,6 @@ export class MainNavigation extends React.Component {
     }
 }
 
-MainNavigation.propTypes = {
+Navigation.propTypes = {
     active: PropTypes.string
 };

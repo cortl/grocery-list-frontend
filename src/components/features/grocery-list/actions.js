@@ -1,13 +1,14 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { changeCategory, removeItem } from '../../actions';
+import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import { CATEGORIES } from '../../constants/categories';
-import { itemStripper } from '../../utils/categoryMatching';
-import { Menu, Dropdown, Button } from 'semantic-ui-react';
+import {Menu, Dropdown, Button} from 'semantic-ui-react';
+
+import {changeCategory, removeItem} from '../../../actions';
+import {CATEGORIES} from '../../../constants/categories';
+import {itemStripper} from '../../../utils/category-matching';
 
 
-export const ItemActions = (props) => {
+export const Actions = (props) => {
     const removeOnClick = () => () => props.removeItem(props.itemId);
     const changeOnClick = (key) => () => props.changeCategory(props.categoryId, props.userId, props.name)(CATEGORIES[key].category);
 
@@ -44,7 +45,7 @@ export const ItemActions = (props) => {
     );
 };
 
-ItemActions.propTypes = {
+Actions.propTypes = {
     itemId: PropTypes.string.isRequired,
     categoryId: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
@@ -66,4 +67,4 @@ export const mapDispatchToProps = dispatch => ({
     changeCategory: (id, userId, name) => category => dispatch(changeCategory(id, userId, itemStripper(name), category))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ItemActions);
+export default connect(mapStateToProps, mapDispatchToProps)(Actions);

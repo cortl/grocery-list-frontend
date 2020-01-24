@@ -1,15 +1,16 @@
-import {expect} from '../../utils/chai';
+import {expect} from '../../chai';
 import React from 'react';
 import {mount, shallow} from 'enzyme';
 import Chance from 'chance';
 import * as sinon from 'sinon';
-import {SignIn, mapStateToProps} from '../../../src/components/security/SignIn';
 import {Header, Container, Image, Loader, Card} from 'semantic-ui-react';
+
+import {SignIn, mapStateToProps} from '../../../src/components/pages/sign-in';
 
 const sandbox = sinon.createSandbox();
 const chance = new Chance();
 
-describe('Sign In', () => {
+describe('Sign In Page', () => {
     let wrapper,
         givenProps,
         context;

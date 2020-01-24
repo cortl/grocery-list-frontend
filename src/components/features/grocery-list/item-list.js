@@ -1,8 +1,9 @@
 import React, {Fragment} from 'react';
 import PropTypes from 'prop-types';
-import GroceryItem from './items/GroceryItem';
 import {Loader, Grid, Card} from 'semantic-ui-react';
-import {CATEGORIES} from '../constants/categories';
+
+import Item from './item';
+import {CATEGORIES} from '../../../constants/categories';
 
 const sortCategory = (catA, catB) => CATEGORIES[catA].sortOrder - CATEGORIES[catB].sortOrder;
 
@@ -21,7 +22,7 @@ const buildLists = (items) => {
                                 {items.filter(byCategory(category))
                                     .map((item, i) => (
                                         <Fragment key={`${i}`}>
-                                            <GroceryItem
+                                            <Item
                                                 category={item.category}
                                                 itemId={item.id}
                                                 key={item.id}

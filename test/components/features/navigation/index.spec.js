@@ -1,16 +1,17 @@
+import {expect} from '../../../chai';
 import React from 'react';
-import { shallow } from 'enzyme';
-import { MainNavigation } from '../../../src/components/navigation/MainNavigation';
-import { expect } from '../../utils/chai';
-import { SignOut } from '../../../src/components/security/SignOut';
-import { Menu } from 'semantic-ui-react';
+import {shallow} from 'enzyme';
+import {Menu} from 'semantic-ui-react';
 
-describe('Main Navigation', () => {
+import {SignOut} from '../../../../src/components/features/navigation/sign-out';
+import {Navigation} from '../../../../src/components/features/navigation';
+
+describe('Navigation', () => {
 
     let wrapper;
 
     const whenComponentIsRendered = () => {
-        wrapper = shallow(<MainNavigation />);
+        wrapper = shallow(<Navigation />);
     };
 
     beforeEach(() => {

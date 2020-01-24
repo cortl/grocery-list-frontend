@@ -1,5 +1,5 @@
-import {itemStripper} from '../../src/utils/categoryMatching';
-import {expect} from './chai';
+import {itemStripper} from '../../src/utils/category-matching';
+import {expect} from '../chai';
 
 describe('Category Matching', () => {
 

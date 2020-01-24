@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {login} from '../../actions';
 import {connect} from 'react-redux';
 import {isLoaded, isEmpty} from 'react-redux-firebase';
 import {Container, Header, Image, Button, Icon, Loader, Card} from 'semantic-ui-react';
+
 import Logo from '../../media/logo.png';
+import {login} from '../../actions';
 
 const contentStyle = {
     marginTop: '2em'

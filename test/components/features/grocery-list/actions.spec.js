@@ -1,12 +1,13 @@
+import {expect} from '../../../chai';
 import {shallow} from 'enzyme/build';
 import React from 'react';
-import {expect} from '../../utils/chai';
 import Chance from 'chance';
-import {ItemActions, mapDispatchToProps} from '../../../src/components/items/ItemActions';
 import * as sinon from 'sinon';
-import * as Actions from '../../../src/actions';
-import {CATEGORIES} from '../../../src/constants/categories';
 import {Menu, Dropdown, Button} from 'semantic-ui-react';
+
+import {Actions, mapDispatchToProps} from '../../../../src/components/features/grocery-list/actions';
+import * as ReduxActions from '../../../../src/actions';
+import {CATEGORIES} from '../../../../src/constants/categories';
 
 const chance = new Chance();
 const sandbox = sinon.createSandbox();
@@ -17,7 +18,7 @@ describe('Item Actions', () => {
         givenProps;
 
     const whenComponentIsRendered = () => {
-        wrapper = shallow(<ItemActions
+        wrapper = shallow(<Actions
             {...givenProps}
         />);
     };
@@ -97,7 +98,7 @@ describe('Item Actions', () => {
             beforeEach(() => {
                 categoryChange = sandbox.spy();
                 givenProps.changeCategory.returns(categoryChange);
-                
+
                 const pickedId = chance.pickone(Object.keys(CATEGORIES));
                 category = CATEGORIES[pickedId];
                 index = Object.keys(CATEGORIES).findIndex((id) => id === pickedId);
@@ -145,8 +146,8 @@ describe('Item Actions', () => {
             userId = chance.guid();
             name = chance.string();
             category = chance.string();
-            sandbox.stub(Actions, 'removeItem');
-            sandbox.stub(Actions, 'changeCategory');
+            sandbox.stub(ReduxActions, 'removeItem');
+            sandbox.stub(ReduxActions, 'changeCategory');
             dispatchSpy = sandbox.spy();
 
             actualProps = mapDispatchToProps(dispatchSpy);
@@ -157,12 +158,12 @@ describe('Item Actions', () => {
         });
         it('should map removeItem', () => {
             actualProps.removeItem(id);
-            expect(dispatchSpy).to.have.been.calledWith(Actions.removeItem());
+            expect(dispatchSpy).to.have.been.calledWith(ReduxActions.removeItem());
         });
 
         it('should map changeCategory', () => {
             actualProps.changeCategory(id, userId, name)(category);
-            expect(dispatchSpy).to.have.been.calledWith(Actions.changeCategory());
+            expect(dispatchSpy).to.have.been.calledWith(ReduxActions.changeCategory());
         });
     });
 });

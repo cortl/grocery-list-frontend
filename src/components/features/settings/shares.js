@@ -1,8 +1,9 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { Card, Input, Button } from 'semantic-ui-react';
-import firebase from '../config/fbConfig';
-import { addShare, approveShare } from '../actions/index';
+import {connect} from 'react-redux';
+import {Card, Input, Button} from 'semantic-ui-react';
+
+import firebase from '../../../config/fbConfig';
+import {addShare, approveShare} from '../../../actions/index';
 
 export class Shares extends React.Component {
     constructor(props) {
@@ -10,18 +11,18 @@ export class Shares extends React.Component {
         this.state = {
             invites: [],
             currentShares: []
-        }
-    };
+        };
+    }
 
     async componentDidMount() {
-        console.log(this.props.email)
+        console.log(this.props.email);
         const docs = (await firebase.firestore().collection('shares')
             .where('requestedEmail', '==', this.props.email)
             .get()
             .then(querySnap => querySnap.docs))
-            .map(queryDocSnap => ({ id: queryDocSnap.id, ...queryDocSnap.data() }));
+            .map(queryDocSnap => ({id: queryDocSnap.id, ...queryDocSnap.data()}));
         this.setState({
-            invites: docs.filter(doc => !Boolean(doc.requestedId))
+            invites: docs.filter(doc => !doc.requestedId)
         });
     }
 
@@ -30,10 +31,10 @@ export class Shares extends React.Component {
             <Card fluid>
                 <Card.Content header='Share your list' />
                 <Card.Content>
-                    Shared with
+                    {'Shared with'}
                 </Card.Content>
                 <Card.Content>
-                    Invites to approve
+                    {'Invites to approve'}
                     {this.state.invites.map(invite => (
                         <>
                             <p>{invite.senderEmail}</p>
@@ -51,17 +52,17 @@ export class Shares extends React.Component {
                             color: 'teal',
                             onClick: () => {
                                 console.log(`${this.state.input}`);
-                                this.props.addShare(this.props.userId, this.props.email, this.state.input)
+                                this.props.addShare(this.props.userId, this.props.email, this.state.input);
                             }
                         }}
-                        onChange={e => this.setState({ input: e.target.value })}
                         fluid
                         maxLength={50}
+                        onChange={e => this.setState({input: e.target.value})}
                         placeholder='your.name@email.com'
-                        style={{ marginTop: '1em' }}
+                        style={{marginTop: '1em'}}
                     />
                 </Card.Content>
-            </Card >
+            </Card>
         );
     }
 }

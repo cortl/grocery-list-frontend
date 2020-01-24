@@ -1,16 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ItemActions from './ItemActions';
 import {Grid} from 'semantic-ui-react';
 
-const GroceryItem = ({category, text, itemId}) => {
+import Actions from './actions';
+
+const Item = ({category, text, itemId}) => {
     return (
         <Grid.Row style={{paddingTop: '0px', paddingBottom: '0px'}}>
             <Grid.Column verticalAlign='middle'>
                 {`${text}`}
             </Grid.Column>
             <Grid.Column>
-                <ItemActions
+                <Actions
                     category={category}
                     categoryId={category.categoryId}
                     itemId={itemId}
@@ -21,10 +22,10 @@ const GroceryItem = ({category, text, itemId}) => {
     );
 };
 
-GroceryItem.propTypes = {
+Item.propTypes = {
     itemId: PropTypes.string.isRequired,
     text: PropTypes.string.isRequired,
     category: PropTypes.object.isRequired
 };
 
-export default GroceryItem;
+export default Item;

@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import { Input } from 'semantic-ui-react';
+import {Input} from 'semantic-ui-react';
 
-import { addItem } from '../actions/index';
+import {addItem} from '../../../actions';
 
-export class AddItem extends Component {
+export class Add extends Component {
 
     constructor(props) {
         super(props);
@@ -27,13 +27,13 @@ export class AddItem extends Component {
                 onChange={this.onChange}
                 onKeyPress={this.onEnter}
                 placeholder='Add item...'
-                style={{ marginTop: '1em' }}
+                style={{marginTop: '1em'}}
                 value={this.state.value}
             />
         );
     }
 
-    onChange = e => this.setState({ value: e.target.value })
+    onChange = e => this.setState({value: e.target.value})
 
     onEnter = (e) => {
         if (e.key === 'Enter') {
@@ -51,7 +51,7 @@ export class AddItem extends Component {
     };
 }
 
-AddItem.propTypes = {
+Add.propTypes = {
     addItem: PropTypes.func.isRequired,
     userId: PropTypes.string
 };
@@ -64,4 +64,4 @@ export const mapDispatchToProps = dispatch => ({
     addItem: (itemValue, userId) => dispatch(addItem(itemValue, userId))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddItem);
+export default connect(mapStateToProps, mapDispatchToProps)(Add);
