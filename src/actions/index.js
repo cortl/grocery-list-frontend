@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import {authRef, provider} from '../config/fbConfig';
+import {authRef, facebookProvider, googleProvider} from '../config/fbConfig';
 
 export const addItem = (name, userId) => {
     return (_dispatch, _getState, {getFirestore}) => {
@@ -32,6 +32,7 @@ export const newAssociation = (userId, name, category) => {
     };
 };
 
-export const login = () => () => authRef.signInWithPopup(provider);
+export const loginWithGoogle = () => () => authRef.signInWithPopup(googleProvider);
+export const loginWithFacebook = () => () => authRef.signInWithPopup(facebookProvider);
 
 export const signOut = () => () => authRef.signOut();

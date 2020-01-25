@@ -30,7 +30,8 @@ describe('Sign In Page', () => {
             }
         };
         givenProps = {
-            login: sandbox.spy(),
+            loginWithGoogle: sandbox.spy(),
+            loginWithFacebook: sandbox.spy(),
             auth: {
                 [chance.word()]: chance.word(),
                 isEmpty: true

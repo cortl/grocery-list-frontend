@@ -5,7 +5,7 @@ import {isLoaded, isEmpty} from 'react-redux-firebase';
 import {Container, Header, Image, Button, Icon, Loader, Card} from 'semantic-ui-react';
 
 import Logo from '../../media/logo.png';
-import {login} from '../../actions';
+import {loginWithGoogle, loginWithFacebook} from '../../actions';
 
 const contentStyle = {
     marginTop: '2em'
@@ -36,11 +36,18 @@ export class SignIn extends Component {
                             <Card centered style={{marginTop: '5em'}}>
                                 <Card.Content header='Log in' />
                                 <Card.Content textAlign='center'>
-                                    <Button color='google plus'
-                                        onClick={this.props.login}>
-                                        <Icon name='google' />
-                                        {'Log in with Google'}
-                                    </Button>
+                                    <Button.Group vertical>
+                                        <Button color='google plus'
+                                            onClick={this.props.loginWithGoogle}>
+                                            <Icon name='google' />
+                                            {'Log in with Google'}
+                                        </Button>
+                                        <Button color='facebook'
+                                            onClick={this.props.loginWithFacebook}>
+                                            <Icon name='facebook' />
+                                            {'Log in with Facebook'}
+                                        </Button>
+                                    </Button.Group>
                                 </Card.Content>
                             </Card>
                         )
@@ -52,11 +59,12 @@ export class SignIn extends Component {
 
 SignIn.propTypes = {
     auth: PropTypes.object,
-    login: PropTypes.func.isRequired
+    loginWithGoogle: PropTypes.func.isRequired,
+    loginWithFacebook: PropTypes.func.isRequired
 };
 
 export const mapStateToProps = (state) => ({
     auth: state.firebase.auth
 });
 
-export default connect(mapStateToProps, {login})(SignIn);
+export default connect(mapStateToProps, {loginWithGoogle, loginWithFacebook})(SignIn);
