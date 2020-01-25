@@ -22,7 +22,7 @@ export class Groceries extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            ids: [],
+            ids: []
         };
     }
 
@@ -32,13 +32,13 @@ export class Groceries extends Component {
                 .then(docs => docs.map(doc => doc.senderId)),
             queryFor('senderId', this.props.auth.uid)
                 .then(docs => docs.map(doc => doc.requestedId).filter(Boolean))
-        ])
+        ]);
 
         const [othersShares, myShares] = await this.busy;
-        
+
         myShares.push(this.props.auth.uid);
         this.setState({
-            ids: Array.from(new Set(othersShares.concat(myShares))),
+            ids: Array.from(new Set(othersShares.concat(myShares)))
         });
     }
 

@@ -80,13 +80,13 @@ describe('Item Actions', () => {
 
     describe('when one of the categories is picked', () => {
         let index,
-            category
+            category;
 
         const pickRandomCategory = () => {
             const pickedId = chance.pickone(Object.keys(CATEGORIES));
             category = CATEGORIES[pickedId];
             index = Object.keys(CATEGORIES).findIndex((id) => id === pickedId);
-        }
+        };
 
         beforeEach(() => {
             pickRandomCategory();
@@ -112,7 +112,7 @@ describe('Item Actions', () => {
 
                 wrapper.find(Dropdown.Item).at(index).simulate('click');
             });
-            
+
             it('should call the change category', () => {
                 expect(givenProps.newAssociation).to.have.been.calledOnceWithExactly(givenProps.userId, givenProps.name);
                 expect(givenProps.newAssociation()).to.have.been.calledWith(category.category);
@@ -155,7 +155,7 @@ describe('Item Actions', () => {
         it('should map newAssociation', () => {
             actualProps.removeItem(userId, name);
             expect(dispatchSpy).to.have.been.calledWith(ReduxActions.newAssociation());
-        })
+        });
 
         it('should map changeAssocation', () => {
             actualProps.changeAssociation(id, userId, name)(category);
