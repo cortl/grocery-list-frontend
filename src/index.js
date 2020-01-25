@@ -8,7 +8,7 @@ import {reactReduxFirebase, getFirebase} from 'react-redux-firebase';
 
 import fbConfig from './config/fbConfig';
 import rootReducer from './reducers';
-import App from './components/app';
+import App from './components/App';
 
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
