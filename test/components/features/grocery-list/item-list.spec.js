@@ -16,7 +16,8 @@ describe('Item List', () => {
         id: chance.string(),
         name: chance.word(),
         userId: chance.string(),
-        category: CATEGORIES[chance.pickone(Object.keys(CATEGORIES))]
+        categoryId: chance.guid(),
+        ...CATEGORIES[chance.pickone(Object.keys(CATEGORIES))]
     });
 
     let wrapper,
@@ -37,13 +38,13 @@ describe('Item List', () => {
     describe('when items exist', () => {
         let categories;
 
-        const byCategory = category => item => item.category.category === category;
+        const byCategory = category => item => item.category === category;
 
         beforeEach(() => {
             givenProps.items = chance.n(buildItem, chance.d10());
 
             categories = Array.from(new Set(givenProps.items.map(item => item.category)));
-            categories = categories.sort((catA, catB) => catA.sortOrder - catB.sortOrder);
+            categories = categories.sort((catA, catB) => CATEGORIES[catA].sortOrder - CATEGORIES[catB].sortOrder);
 
             whenComponentIsRendered();
         });
@@ -52,7 +53,7 @@ describe('Item List', () => {
             categories.forEach((category, index) => {
                 const card = wrapper.find(Card).at(index);
                 expect(card).to.have.prop('fluid', true);
-                expect(card.childAt(0)).to.have.prop('header', `${category.category} ${category.symbol}`);
+                expect(card.childAt(0)).to.have.prop('header', `${category} ${CATEGORIES[category].symbol}`);
             });
         });
 

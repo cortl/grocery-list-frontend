@@ -1,21 +1,21 @@
-import {expect} from '../../chai';
+import { expect } from '../../chai';
 import React from 'react';
-import {shallow} from 'enzyme';
+import { shallow } from 'enzyme';
 import Chance from 'chance';
 import sinon from 'sinon';
-import {Grid, Loader, Header} from 'semantic-ui-react';
+import { Grid, Loader, Header } from 'semantic-ui-react';
 
 import connectedList from '../../../src/enhancers/firestore-connected-list';
 import firebase from '../../../src/config/fbConfig';
 
-import {Navigation} from '../../../src/components/features/navigation';
+import { Navigation } from '../../../src/components/features/navigation';
 import AddItem from '../../../src/components/features/grocery-list/add';
-import {Groceries} from '../../../src/components/pages/groceries';
+import { Groceries } from '../../../src/components/pages/groceries';
 
 const chance = new Chance();
 const sandbox = sinon.createSandbox();
 
-describe.only('Groceries Page', () => {
+describe('Groceries Page', () => {
 
     let wrapper,
         givenProps,
@@ -33,11 +33,11 @@ describe.only('Groceries Page', () => {
                 get: sandbox.stub().resolves({
                     docs: ids.map(id => ({
                         id: chance.guid(),
-                        data: () => ({[field]: id})
+                        data: () => ({ [field]: id })
                     }))
                 })
             });
-    }
+    };
 
     beforeEach(() => {
         givenProps = {
@@ -78,11 +78,11 @@ describe.only('Groceries Page', () => {
         expect(wrapper.find(Header)).to.have.prop('as', 'h1');
     });
 
-    describe('when auth is not loaded', () => {
+    describe('when no ids are loaded', () => {
         beforeEach(() => {
             givenProps.auth.uid = '';
-            givenSharesExist(otherIds, 'requestedId');
-            givenSharesExist(ourIds, 'senderId');
+            givenSharesExist([], 'requestedId');
+            givenSharesExist([], 'senderId');
             whenComponentIsRendered();
         });
 
@@ -91,12 +91,15 @@ describe.only('Groceries Page', () => {
         });
     });
 
-    describe('when auth is loaded', () => {
-        beforeEach(() => {
+    describe('when ids are loaded', () => {
+        beforeEach(async () => {
             givenProps.auth.uid = chance.string();
             givenSharesExist(otherIds, 'requestedId');
             givenSharesExist(ourIds, 'senderId');
+
             whenComponentIsRendered();
+
+            await wrapper.instance().busy;
         });
 
         it('should not have a loader', () => {
@@ -104,7 +107,7 @@ describe.only('Groceries Page', () => {
         });
 
         it('should have an item list', () => {
-            expect(wrapper.find(connectedList)).to.have.prop('auth', givenProps.auth);
+            expect(wrapper.find(connectedList)).to.have.prop('userId', givenProps.auth.uid);
         });
 
         it('should have an add item', () => {

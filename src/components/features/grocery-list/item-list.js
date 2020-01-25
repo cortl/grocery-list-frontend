@@ -11,6 +11,7 @@ const byCategory = category => item => item.category === category;
 const buildLists = (items) => {
     let categories = Array.from(new Set(items.map(item => item.category)));
     categories = categories.sort(sortCategory);
+    console.log(items);
     return (
         <>
             {

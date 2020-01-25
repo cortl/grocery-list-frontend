@@ -29,7 +29,7 @@ export class Shares extends React.Component {
     }
 
     refresh = async () => {
-        this.setState({loading: true})
+        this.setState({ loading: true });
         const [otherDocs, myDocs] = await Promise.all([
             queryFor('requestedEmail', this.props.email),
             queryFor('senderId', this.props.userId)
@@ -69,7 +69,7 @@ export class Shares extends React.Component {
     };
 
     onClick = () => {
-        this.validateInput(this.addShare)
+        this.validateInput(this.addShare);
     }
 
     onChange = e => {
@@ -84,10 +84,10 @@ export class Shares extends React.Component {
 
     validateInput = () => {
         if (/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(this.state.input)) {
-            this.setState({error: false});
-            return false
+            this.setState({ error: false });
+            return false;
         } else {
-            this.setState({error: true})
+            this.setState({ error: true });
             return true;
         }
     }
@@ -98,27 +98,31 @@ export class Shares extends React.Component {
                 {title}
                 {
                     this.state.loading
-                        ? <Loader active inline='centered'/>
+                        ? <Loader active inline='centered' />
                         : list.map((item, i) => (
                             <Fragment key={`${field}-${i}`}>
                                 <p>{item[field]}</p>
                                 {
                                     approve
-                                    && <Button onClick={this.approveShare(item.id)}>
-                                        <Icon name='checkmark' />
-                                    </Button>
+                                    && (
+                                        <Button onClick={this.approveShare(item.id)}>
+                                            <Icon name='checkmark' />
+                                        </Button>
+                                    )
                                 }
                                 {
                                     deny
-                                    && <Button onClick={this.removeShare(item.id)}>
-                                        <Icon name='times' />
-                                    </Button>
+                                    && (
+                                        <Button onClick={this.removeShare(item.id)}>
+                                            <Icon name='times' />
+                                        </Button>
+                                    )
                                 }
                             </Fragment>
                         ))
                 }
             </Card.Content>
-        )
+        );
     }
 
     render() {
@@ -135,12 +139,12 @@ export class Shares extends React.Component {
                             color: this.state.error ? 'red' : 'teal',
                             onClick: () => !this.validateInput(this.addShare) && this.addShare()
                         }}
-                        fluid
                         error={this.state.error}
+                        fluid
                         maxLength={50}
+                        onBlur={this.validateInput}
                         onChange={this.onChange}
                         onKeyPress={this.onEnter}
-                        onBlur={this.validateInput}
                         placeholder='your.name@email.com'
                         style={{ marginTop: '1em' }}
                         value={this.state.input}

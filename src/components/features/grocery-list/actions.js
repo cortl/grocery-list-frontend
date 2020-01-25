@@ -49,7 +49,6 @@ Actions.propTypes = {
     categoryId: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     userId: PropTypes.string.isRequired,
-
     changeAssociation: PropTypes.func.isRequired,
     newAssociation: PropTypes.func.isRequired,
     removeItem: PropTypes.func.isRequired

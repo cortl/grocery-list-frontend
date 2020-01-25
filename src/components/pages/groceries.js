@@ -1,36 +1,44 @@
-import React, {Component} from 'react';
-import {compose} from 'redux';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import {Loader, Grid, Header} from 'semantic-ui-react';
-import {firebaseConnect} from 'react-redux-firebase';
+import { Loader, Grid, Header } from 'semantic-ui-react';
+import { firebaseConnect } from 'react-redux-firebase';
 
 import Add from '../features/grocery-list/add';
 import firebase from '../../config/fbConfig';
 import FirestoreItemList from '../../enhancers/firestore-connected-list';
-import {Navigation} from '../features/navigation';
+import { Navigation } from '../features/navigation';
 
 const queryFor = (field, value) => firebase.firestore().collection('shares')
     .where(field, '==', value)
     .get()
     .then(querySnap => querySnap.docs)
-    .then(queryDocSnaps => queryDocSnaps.map(queryDocSnap => ({id: queryDocSnap.id, ...queryDocSnap.data()})));
+    .then(queryDocSnaps => queryDocSnaps.map(queryDocSnap => ({ id: queryDocSnap.id, ...queryDocSnap.data() })));
 
 export class Groceries extends Component {
+    busy;
+
     constructor(props) {
         super(props);
         this.state = {
-            ids: []
+            ids: [],
         };
     }
+
     async componentDidMount() {
-        const othersShares = await queryFor('requestedId', this.props.auth.uid)
-            .then(docs => docs.map(doc => doc.senderId));
-        const myShares = await queryFor('senderId', this.props.auth.uid)
-            .then(docs => docs.map(doc => doc.requestedId).filter(Boolean));
+        this.busy = Promise.all([
+            queryFor('requestedId', this.props.auth.uid)
+                .then(docs => docs.map(doc => doc.senderId)),
+            queryFor('senderId', this.props.auth.uid)
+                .then(docs => docs.map(doc => doc.requestedId).filter(Boolean))
+        ])
+
+        const [othersShares, myShares] = await this.busy;
+        
         myShares.push(this.props.auth.uid);
         this.setState({
-            ids: Array.from(new Set(othersShares.concat(myShares)))
+            ids: Array.from(new Set(othersShares.concat(myShares))),
         });
     }
 
