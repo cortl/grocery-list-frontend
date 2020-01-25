@@ -5,7 +5,7 @@ import {isLoaded, isEmpty} from 'react-redux-firebase';
 import {Container, Header, Image, Button, Icon, Loader, Card} from 'semantic-ui-react';
 
 import Logo from '../../media/logo.png';
-import {loginWithGoogle, loginWithFacebook, loginWithTwitter} from '../../actions';
+import {loginWithGoogle, loginWithFacebook, loginWithTwitter, loginWithGithub} from '../../actions';
 
 const contentStyle = {
     marginTop: '2em'
@@ -52,6 +52,11 @@ export class SignIn extends Component {
                                             <Icon name='twitter' />
                                             {'Log in with Twitter'}
                                         </Button>
+                                        <Button color='github'
+                                            onClick={this.props.loginWithGithub}>
+                                            <Icon name='github' />
+                                            {'Log in with Github'}
+                                        </Button>
                                     </Button.Group>
                                 </Card.Content>
                             </Card>
@@ -66,11 +71,12 @@ SignIn.propTypes = {
     auth: PropTypes.object,
     loginWithGoogle: PropTypes.func.isRequired,
     loginWithFacebook: PropTypes.func.isRequired,
-    loginWithTwitter: PropTypes.func.isRequired
+    loginWithTwitter: PropTypes.func.isRequired,
+    loginWithGithub: PropTypes.func.isRequired
 };
 
 export const mapStateToProps = (state) => ({
     auth: state.firebase.auth
 });
 
-export default connect(mapStateToProps, {loginWithGoogle, loginWithFacebook, loginWithTwitter})(SignIn);
+export default connect(mapStateToProps, {loginWithGoogle, loginWithFacebook, loginWithTwitter, loginWithGithub})(SignIn);
