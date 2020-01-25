@@ -3,7 +3,7 @@ import Chance from 'chance';
 import sinon from 'sinon';
 import React from 'react';
 import {shallow} from 'enzyme';
-import {Input} from 'semantic-ui-react';
+import {Input, Label} from 'semantic-ui-react';
 
 import {Add, mapDispatchToProps} from '../../../../src/components/features/grocery-list/add';
 import * as Actions from '../../../../src/actions';
@@ -30,25 +30,22 @@ describe('Add Item', () => {
     });
 
     it('should be an input', () => {
-        expect(wrapper).to.have.type(Input);
+        expect(wrapper.find(Input).props().action.content).to.be.equal('+');
 
-        expect(wrapper.props().action.content).to.be.equal('+');
-
-        expect(wrapper).to.have.prop('fluid', true);
-        expect(wrapper.props().style).to.be.eql({marginTop: '1em'});
-        expect(wrapper).to.have.prop('placeholder', 'Add item...');
-        expect(wrapper).to.have.prop('maxLength', 50);
+        expect(wrapper.find(Input)).to.have.prop('fluid', true);
+        expect(wrapper.find(Input).props().style).to.be.eql({marginTop: '1em'});
+        expect(wrapper.find(Input)).to.have.prop('placeholder', 'Add item...');
     });
 
     describe('when an item is entered', () => {
         beforeEach(() => {
             item = chance.word();
-            wrapper.simulate('change', {target: {value: item}});
+            wrapper.find(Input).simulate('change', {target: {value: item}});
         });
 
         describe('when enter is pressed', () => {
             beforeEach(() => {
-                wrapper.simulate('keyPress', {key: 'Enter'});
+                wrapper.find(Input).simulate('keyPress', {key: 'Enter'});
             });
 
             it('should add the item', () => {
@@ -58,38 +55,66 @@ describe('Add Item', () => {
 
         describe('when the add button action is clicked', () => {
             beforeEach(() => {
-                wrapper.props().action.onClick();
+                wrapper.find(Input).props().action.onClick();
             });
 
             it('should add the item', () => {
                 expect(addItemSpy).to.have.been.calledWith(item);
             });
+        });
+
+        it('should not have the error label present', () => {
+            expect(wrapper.find(Label)).to.not.be.present;
         });
     });
 
-    describe('when an item has more than 50 characters', () => {
+    describe('when an item has more than 30 characters', () => {
         beforeEach(() => {
-            item = chance.string({length: 51});
-            wrapper.simulate('change', {target: {value: item}});
+            item = chance.string({length: 31});
+            wrapper.find(Input).simulate('change', {target: {value: item}});
         });
 
         describe('when enter is pressed', () => {
             beforeEach(() => {
-                wrapper.simulate('keyPress', {key: 'Enter'});
+                wrapper.find(Input).simulate('keyPress', {key: 'Enter'});
             });
 
             it('should not add the item', () => {
                 expect(addItemSpy).to.have.not.been.calledWith(item);
+            });
+
+            it('should have an error label', () => {
+                expect(wrapper.find(Label)).to.have.prop('color', 'red');
+                expect(wrapper.find(Label)).to.have.prop('pointing');
+                expect(wrapper.find(Label).childAt(0)).to.have.text('You can\'t enter an item with more than 30 characters');
             });
         });
 
         describe('when the add button action is clicked', () => {
             beforeEach(() => {
-                wrapper.props().action.onClick();
+                wrapper.find(Input).props().action.onClick();
             });
 
             it('should not add the item', () => {
                 expect(addItemSpy).to.have.not.been.calledWith(item);
+            });
+
+            it('should have an error label', () => {
+                expect(wrapper.find(Label)).to.have.prop('color', 'red');
+                expect(wrapper.find(Label)).to.have.prop('pointing');
+                expect(wrapper.find(Label).childAt(0)).to.have.text('You can\'t enter an item with more than 30 characters');
+            });
+        });
+
+        describe('when onBlur is triggered', () => {
+            beforeEach(() => {
+                wrapper.find(Input).simulate('blur');
+            });
+
+            it('should have an error label', () => {
+                expect(wrapper.find(Label)).to.have.prop('color', 'red');
+                expect(wrapper.find(Label)).to.have.prop('pointing');
+                expect(wrapper.find(Label).childAt(0)).to.have.text('You can\'t enter an item with more than 30 characters');
             });
         });
     });
@@ -112,7 +137,7 @@ describe('Add Item', () => {
 
         describe('when the add button action is clicked', () => {
             beforeEach(() => {
-                wrapper.props().action.onClick();
+                wrapper.find(Input).props().action.onClick();
             });
 
             it('should not add the item', () => {

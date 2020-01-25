@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import {Input} from 'semantic-ui-react';
+import {Input, Label} from 'semantic-ui-react';
 
 import {addItem} from '../../../actions';
 
@@ -10,26 +10,31 @@ export class Add extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            error: false,
             value: ''
         };
     }
 
     render() {
         return (
-            <Input
-                action={{
-                    content: '+',
-                    color: 'teal',
-                    onClick: () => this.addItemToList()
-                }}
-                fluid
-                maxLength={50}
-                onChange={this.onChange}
-                onKeyPress={this.onEnter}
-                placeholder='Add item...'
-                style={{marginTop: '1em'}}
-                value={this.state.value}
-            />
+            <>
+                <Input
+                    action={{
+                        content: '+',
+                        color: this.state.error ? 'red' : 'teal',
+                        onClick: () => this.validateInput() && this.addItemToList()
+                    }}
+                    error={this.state.error}
+                    fluid
+                    onBlur={this.validateInput}
+                    onChange={this.onChange}
+                    onKeyPress={this.onEnter}
+                    placeholder='Add item...'
+                    style={{marginTop: '1em'}}
+                    value={this.state.value}
+                />
+                {this.state.error && <Label color='red' pointing>{'You can\'t enter an item with more than 30 characters'}</Label>}
+            </>
         );
     }
 
@@ -41,8 +46,18 @@ export class Add extends Component {
         }
     }
 
+    validateInput = () => {
+        if (this.state.value.length > 30) {
+            this.setState({error: true});
+            return false;
+        } else {
+            this.setState({error: false});
+            return true;
+        }
+    }
+
     addItemToList = () => {
-        if (this.state.value && this.state.value.length < 50) {
+        if (this.state.value && this.validateInput()) {
             this.props.addItem(this.state.value, this.props.userId);
             this.setState({
                 value: ''
