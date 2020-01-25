@@ -20,7 +20,12 @@ export class SignOut extends Component {
 
     render() {
         return (
-            <Menu.Item onClick={this.props.signOut} position='right'>{'Sign Out'}</Menu.Item>
+            <Menu.Item
+                content='Sign Out'
+                icon='sign-out'
+                onClick={this.props.signOut}
+                position='right'
+            />
         );
     }
 

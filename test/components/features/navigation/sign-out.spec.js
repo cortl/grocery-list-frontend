@@ -31,7 +31,8 @@ describe('Sign Out', () => {
 
     it('should be a sign out button', () => {
         expect(wrapper).to.have.type(Menu.Item);
-        expect(wrapper.childAt(0)).to.have.text('Sign Out');
+        expect(wrapper).to.have.prop('content', 'Sign Out');
+        expect(wrapper).to.have.prop('icon', 'sign-out');
     });
 
     describe('when sign out is clicked', () => {

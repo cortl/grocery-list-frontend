@@ -52,7 +52,7 @@ export class SignIn extends Component {
                                             <Icon name='twitter' />
                                             {'Log in with Twitter'}
                                         </Button>
-                                        <Button color='github'
+                                        <Button color='grey'
                                             onClick={this.props.loginWithGithub}>
                                             <Icon name='github' />
                                             {'Log in with Github'}
