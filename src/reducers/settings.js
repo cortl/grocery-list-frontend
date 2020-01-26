@@ -21,12 +21,12 @@ export const settingsReducer = (state = initialSettings, action) => {
             return {
                 ...state,
                 error: action.message
-            }
+            };
         case 'CLEAR_ERROR':
             return {
                 ...state,
                 error: ''
-            }
+            };
         default:
             return state;
     }

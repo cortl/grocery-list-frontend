@@ -82,11 +82,12 @@ export class Shares extends React.Component {
     render() {
         return (
             <>
-                {this.props.error &&
+                {this.props.error && (
                     <Message negative>
                         <Message.Header>{'Oops, something went wrong'}</Message.Header>
                         <p>{this.props.error}</p>
                     </Message>
+                )
                 }
                 <Card fluid>
                     <Card.Content header='Share your list' />

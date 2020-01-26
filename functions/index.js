@@ -54,7 +54,7 @@ const buildEmail = (name) => `<html>
     </p>
     <a href='https://groceries.cortlan.dev' class='button'>See the list</a>
 </body>
-</html>`
+</html>`;
 
 exports.sendInviteEmail = functions.firestore
     .document('shares/{docId}')
@@ -67,4 +67,4 @@ exports.sendInviteEmail = functions.firestore
         };
 
         transporter.sendMail(mailOptions, () => { });
-    })
+    });

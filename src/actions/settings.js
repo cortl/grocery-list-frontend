@@ -59,7 +59,6 @@ export const addShare = (requestedEmail) => async (dispatch, getState, { getFire
         .where('senderEmail', '==', requestedEmail)
         .get()
         .then(querySnap => querySnap.empty);
-    console.log(yourInvitationDoesNotExist, theirInvitationDoesNotExist);
     if (yourInvitationDoesNotExist && theirInvitationDoesNotExist) {
         getFirestore()
             .collection('shares').add({
@@ -69,6 +68,6 @@ export const addShare = (requestedEmail) => async (dispatch, getState, { getFire
                 requestedEmail
             }).then(() => dispatch(fetchSettings()));
     } else {
-        dispatch(shareError('You\'re already sharing your list with them!'))
+        dispatch(shareError('You\'re already sharing your list with them!'));
     }
-}
+};
