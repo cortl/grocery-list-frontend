@@ -60,7 +60,7 @@ exports.sendInviteEmail = functions.firestore
     .document('shares/{docId}')
     .onCreate((docSnap) => {
         const mailOptions = {
-            from: `Cortlan <${functions.config().user}@gmail.com>`,
+            from: `Cortlan <${functions.config().mail.user}@gmail.com>`,
             to: docSnap.get('requestedEmail'),
             subject: 'You\'ve been invited to view to groceries.cortlan.dev',
             html: buildEmail(docSnap.get('senderName'))
