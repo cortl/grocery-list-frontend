@@ -1,6 +1,6 @@
-import React, {Fragment} from 'react';
-import {connect} from 'react-redux';
-import {Card, Input, Icon, Button, Loader, Label} from 'semantic-ui-react';
+import React, { Fragment } from 'react';
+import { connect } from 'react-redux';
+import { Card, Input, Icon, Button, Loader, Label, Header } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
 import firebase from '../../../config/fbConfig';
@@ -9,7 +9,7 @@ const queryFor = (field, value) => firebase.firestore().collection('shares')
     .where(field, '==', value)
     .get()
     .then(querySnap => querySnap.docs)
-    .then(queryDocSnaps => queryDocSnaps.map(queryDocSnap => ({id: queryDocSnap.id, ...queryDocSnap.data()})));
+    .then(queryDocSnaps => queryDocSnaps.map(queryDocSnap => ({ id: queryDocSnap.id, ...queryDocSnap.data() })));
 
 export class Shares extends React.Component {
     constructor(props) {
@@ -29,7 +29,7 @@ export class Shares extends React.Component {
     }
 
     refresh = async () => {
-        this.setState({loading: true});
+        this.setState({ loading: true });
         const [otherDocs, myDocs] = await Promise.all([
             queryFor('requestedEmail', this.props.email),
             queryFor('senderId', this.props.userId)
@@ -38,10 +38,10 @@ export class Shares extends React.Component {
             invites: otherDocs.filter(doc => !doc.requestedId),
             pending: myDocs.filter(doc => !doc.requestedId),
             current: otherDocs.filter(doc => doc.requestedId)
-                .map(doc => ({email: doc.senderEmail, id: doc.id}))
+                .map(doc => ({ email: doc.senderEmail, id: doc.id }))
                 .concat(
                     myDocs.filter(doc => doc.requestedId)
-                        .map(doc => ({email: doc.requestedEmail, id: doc.id}))
+                        .map(doc => ({ email: doc.requestedEmail, id: doc.id }))
                 ),
             loading: false
         });
@@ -50,7 +50,7 @@ export class Shares extends React.Component {
     approveShare = docId => () => {
         firebase.firestore().doc(`shares/${docId}`).set({
             requestedId: this.props.userId
-        }, {merge: true})
+        }, { merge: true })
             .then(() => this.refresh());
     }
 
@@ -60,7 +60,7 @@ export class Shares extends React.Component {
             senderEmail: this.props.email,
             requestedEmail: this.state.input
         }).then(() => this.refresh());
-        this.setState({input: ''});
+        this.setState({ input: '' });
     }
 
     removeShare = docId => () => {
@@ -73,7 +73,7 @@ export class Shares extends React.Component {
     }
 
     onChange = e => {
-        this.setState({input: e.target.value});
+        this.setState({ input: e.target.value });
     }
 
     onEnter = e => {
@@ -84,42 +84,46 @@ export class Shares extends React.Component {
 
     validateInput = () => {
         if (/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(this.state.input)) {
-            this.setState({error: false});
+            this.setState({ error: false });
             return false;
         } else {
-            this.setState({error: true});
+            this.setState({ error: true });
             return true;
         }
     }
 
-    buildContent = (title, list, field, deny, approve) => {
+    buildContent = (title, list, noneMessage, field, deny, approve) => {
         return (
             <Card.Content>
-                {title}
+                <Header as='h4'>{title}</Header>
                 {
                     this.state.loading
                         ? <Loader active inline='centered' />
-                        : list.map((item, i) => (
-                            <Fragment key={`${field}-${i}`}>
-                                <p>{item[field]}</p>
-                                {
-                                    approve
-                                    && (
-                                        <Button onClick={this.approveShare(item.id)}>
-                                            <Icon name='checkmark' />
-                                        </Button>
-                                    )
-                                }
-                                {
-                                    deny
-                                    && (
-                                        <Button onClick={this.removeShare(item.id)}>
-                                            <Icon name='times' />
-                                        </Button>
-                                    )
-                                }
-                            </Fragment>
-                        ))
+                        : list.length ?
+                            list.map((item, i) => (
+                                <Fragment key={`${field}-${i}`}>
+                                    <p>{item[field]}</p>
+                                    {
+                                        approve
+                                        && (
+                                            <Button color='green' onClick={this.approveShare(item.id)}>
+                                                <Icon name='checkmark' />
+                                                <span>{'Approve'}</span>
+                                            </Button>
+                                        )
+                                    }
+                                    {
+                                        deny
+                                        && (
+                                            <Button color='red' fitted onClick={this.removeShare(item.id)}>
+                                                <Icon name='times' />
+                                                <span>{'Remove'}</span>
+                                            </Button>
+                                        )
+                                    }
+                                </Fragment>
+                            ))
+                            : <p>{noneMessage}</p>
                 }
             </Card.Content>
         );
@@ -129,9 +133,9 @@ export class Shares extends React.Component {
         return (
             <Card fluid>
                 <Card.Content header='Share your list' />
-                {this.buildContent('Shared with', this.state.current, 'email', true, false)}
-                {this.buildContent('Invites to approve', this.state.invites, 'senderEmail', true, true)}
-                {this.buildContent('Pending invites', this.state.pending, 'requestedEmail', true, false)}
+                {this.buildContent('Shared with', this.state.current, 'Not shared with anyone 😢', 'email', true, false)}
+                {this.buildContent('Invites to approve', this.state.invites, 'No invites to approve yet! 👍', 'senderEmail', true, true)}
+                {this.buildContent('Pending invites', this.state.pending, 'No invites pending 🙌', 'requestedEmail', true, false)}
                 <Card.Content>
                     <Input
                         action={{
@@ -146,7 +150,7 @@ export class Shares extends React.Component {
                         onChange={this.onChange}
                         onKeyPress={this.onEnter}
                         placeholder='your.name@email.com'
-                        style={{marginTop: '1em'}}
+                        style={{ marginTop: '1em' }}
                         value={this.state.input}
                     />
                     {this.state.error && <Label color='red' pointing>{'Please enter a valid email'}</Label>}
