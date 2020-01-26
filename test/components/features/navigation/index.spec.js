@@ -68,6 +68,7 @@ describe('Navigation', () => {
         it('should render a menu for mobile', () => {
             expect(mobileMenu).to.have.type(Responsive);
             expect(mobileMenu).to.have.prop('as', Menu);
+            expect(mobileMenu).to.have.prop('size', 'massive');
             expect(mobileMenu).to.have.prop('maxWidth', 767);
             expect(mobileMenu).to.have.prop('secondary', true);
         });
@@ -79,7 +80,6 @@ describe('Navigation', () => {
             expect(dropdown).to.have.type(Dropdown);
             expect(dropdown).to.have.prop('icon', 'bars');
             expect(dropdown).to.have.prop('item');
-            expect(dropdown).to.have.prop('simple');
         });
 
         it('should have all links', () => {

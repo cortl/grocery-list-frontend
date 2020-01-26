@@ -61,9 +61,9 @@ export class Navigation extends React.Component {
                         <SignOut />
                     </Menu.Menu>
                 </Responsive>
-                <Responsive as={Menu} maxWidth={767} secondary>
+                <Responsive as={Menu} maxWidth={767} secondary size='massive'>
                     <Menu.Menu position='right'>
-                        <Dropdown icon='bars' item simple>
+                        <Dropdown icon='bars' item>
                             <Dropdown.Menu>
                                 {
                                     this.leftLinks.concat(this.rightLinks).map((page, i) => (

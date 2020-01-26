@@ -32,6 +32,8 @@ describe('Sign In Page', () => {
         givenProps = {
             loginWithGoogle: sandbox.spy(),
             loginWithFacebook: sandbox.spy(),
+            loginWithGithub: sandbox.spy(),
+            loginWithTwitter: sandbox.spy(),
             auth: {
                 [chance.word()]: chance.word(),
                 isEmpty: true
