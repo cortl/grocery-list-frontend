@@ -9,6 +9,7 @@ import Add from '../features/grocery-list/add';
 import firebase from '../../config/fbConfig';
 import FirestoreItemList from '../../enhancers/firestore-connected-list';
 import Navigation from '../features/navigation';
+import { fetchSettings } from '../../actions/settings';
 
 const queryFor = (field, value) => firebase.firestore().collection('shares')
     .where(field, '==', value)
@@ -21,6 +22,7 @@ export class Groceries extends Component {
 
     constructor(props) {
         super(props);
+        props.fetchSettings();
         this.state = {
             ids: []
         };
@@ -73,7 +75,8 @@ export class Groceries extends Component {
 Groceries.propTypes = {
     auth: PropTypes.shape({
         uid: PropTypes.string
-    })
+    }),
+    fetchSettings: PropTypes.func
 };
 
 const mapStateToProps = state => ({
@@ -82,5 +85,5 @@ const mapStateToProps = state => ({
 
 export default compose(
     firebaseConnect(),
-    connect(mapStateToProps)
+    connect(mapStateToProps, { fetchSettings })
 )(Groceries);

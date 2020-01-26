@@ -43,7 +43,8 @@ describe('Groceries Page', () => {
         givenProps = {
             auth: {
                 uid: chance.pickone([chance.guid(), ''])
-            }
+            },
+            fetchSettings: sandbox.spy()
         };
         shareCollection = {
             where: sandbox.stub()

@@ -37,18 +37,22 @@ const authError = dispatch => e => dispatch({
     text: e.message
 });
 
-const removeError = dispatch => () => dispatch({
-    type: 'AUTH_SUCCEED'
-});
+const removeError = (dispatch) => () => {
+    dispatch({
+        type: 'AUTH_SUCCEED'
+    });
+    dispatch({
+        type: 'FETCH_SETTINGS'
+    });
+};
 
-const loginWith = (provider, dispatch) => authRef
+const loginWith = (provider, dispatch, getState) => authRef
     .signInWithPopup(provider)
-    .then(removeError(dispatch))
+    .then(removeError(dispatch, getState()))
     .catch(authError(dispatch));
 
-export const loginWithGoogle = () => (dispatch) => loginWith(googleProvider, dispatch);
-export const loginWithFacebook = () => (dispatch) => loginWith(facebookProvider, dispatch);
-export const loginWithTwitter = () => (dispatch) => loginWith(twitterProvider, dispatch);
-export const loginWithGithub = () => (dispatch) => loginWith(githubProvider, dispatch);
-
+export const loginWithGoogle = () => (dispatch, getState) => loginWith(googleProvider, dispatch, getState);
+export const loginWithFacebook = () => (dispatch, getState) => loginWith(facebookProvider, dispatch, getState);
+export const loginWithTwitter = () => (dispatch, getState) => loginWith(twitterProvider, dispatch, getState);
+export const loginWithGithub = () => (dispatch, getState) => loginWith(githubProvider, dispatch, getState);
 export const signOut = () => () => authRef.signOut();

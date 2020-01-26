@@ -3,85 +3,35 @@ import { connect } from 'react-redux';
 import { Card, Input, Icon, Button, Loader, Label, Header } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
-import firebase from '../../../config/fbConfig';
-
-const queryFor = (field, value) => firebase.firestore().collection('shares')
-    .where(field, '==', value)
-    .get()
-    .then(querySnap => querySnap.docs)
-    .then(queryDocSnaps => queryDocSnaps.map(queryDocSnap => ({ id: queryDocSnap.id, ...queryDocSnap.data() })));
+import { fetchSettings, approveShare, addShare, removeShare } from '../../../actions/settings';
 
 export class Shares extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             input: '',
-            loading: true,
-            error: false,
-            invites: [],
-            pending: [],
-            current: []
+            error: false
         };
     }
 
     componentDidMount() {
-        this.refresh();
+        this.props.fetchSettings();
     }
 
-    refresh = async () => {
-        this.setState({ loading: true });
-        const [otherDocs, myDocs] = await Promise.all([
-            queryFor('requestedEmail', this.props.email),
-            queryFor('senderId', this.props.userId)
-        ]);
-        this.setState({
-            invites: otherDocs.filter(doc => !doc.requestedId),
-            pending: myDocs.filter(doc => !doc.requestedId),
-            current: otherDocs.filter(doc => doc.requestedId)
-                .map(doc => ({ email: doc.senderEmail, id: doc.id }))
-                .concat(
-                    myDocs.filter(doc => doc.requestedId)
-                        .map(doc => ({ email: doc.requestedEmail, id: doc.id }))
-                ),
-            loading: false
-        });
-    }
-
-    approveShare = docId => () => {
-        firebase.firestore().doc(`shares/${docId}`).set({
-            requestedId: this.props.userId
-        }, { merge: true })
-            .then(() => this.refresh());
-    }
-
+    approveShare = docId => () => this.props.approveShare(docId)
+    removeShare = docId => () => this.props.removeShare(docId)
     addShare = () => {
-        firebase.firestore().collection('shares').add({
-            senderId: this.props.userId,
-            senderEmail: this.props.email,
-            requestedEmail: this.state.input
-        }).then(() => this.refresh());
+        this.props.addShare(this.state.input);
         this.setState({ input: '' });
     }
 
-    removeShare = docId => () => {
-        firebase.firestore().doc(`shares/${docId}`).delete()
-            .then(() => this.refresh());
-    };
-
-    onClick = () => {
-        this.validateInput(this.addShare);
-    }
-
-    onChange = e => {
-        this.setState({ input: e.target.value });
-    }
-
+    onClick = () => this.validateInput(this.addShare);
+    onChange = e => this.setState({ input: e.target.value });
     onEnter = e => {
         if (e.key === 'Enter' && !this.validateInput()) {
             this.addShare();
         }
     }
-
     validateInput = () => {
         if (/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(this.state.input)) {
             this.setState({ error: false });
@@ -97,7 +47,7 @@ export class Shares extends React.Component {
             <Card.Content>
                 <Header as='h4'>{title}</Header>
                 {
-                    this.state.loading
+                    this.props.loading
                         ? <Loader active inline='centered' />
                         : list.length ?
                             list.map((item, i) => (
@@ -115,7 +65,7 @@ export class Shares extends React.Component {
                                     {
                                         deny
                                         && (
-                                            <Button color='red' fitted onClick={this.removeShare(item.id)}>
+                                            <Button color='red' onClick={this.removeShare(item.id)}>
                                                 <Icon name='times' />
                                                 <span>{'Remove'}</span>
                                             </Button>
@@ -133,9 +83,9 @@ export class Shares extends React.Component {
         return (
             <Card fluid>
                 <Card.Content header='Share your list' />
-                {this.buildContent('Shared with', this.state.current, 'Not shared with anyone 😢', 'email', true, false)}
-                {this.buildContent('Invites to approve', this.state.invites, 'No invites to approve yet! 👍', 'senderEmail', true, true)}
-                {this.buildContent('Pending invites', this.state.pending, 'No invites pending 🙌', 'requestedEmail', true, false)}
+                {this.buildContent('Shared with', this.props.current, 'Not shared with anyone 😢', 'email', true, false)}
+                {this.buildContent('Invites to approve', this.props.invites, 'No invites to approve yet! 👍', 'senderEmail', true, true)}
+                {this.buildContent('Pending invites', this.props.pending, 'No invites pending 🙌', 'requestedEmail', true, false)}
                 <Card.Content>
                     <Input
                         action={{
@@ -161,13 +111,26 @@ export class Shares extends React.Component {
 }
 
 Shares.propTypes = {
-    userId: PropTypes.string,
-    email: PropTypes.string
+    loading: PropTypes.bool,
+    pending: PropTypes.array,
+    current: PropTypes.array,
+    invites: PropTypes.array,
+    fetchSettings: PropTypes.func,
+    addShare: PropTypes.func,
+    approveShare: PropTypes.func,
+    removeShare: PropTypes.func
 };
 
 export const mapStateToProps = state => ({
-    userId: state.firebase.auth.uid,
-    email: state.firebase.auth.email
+    loading: state.settings.loading,
+    pending: state.settings.pending,
+    current: state.settings.current,
+    invites: state.settings.invites
 });
 
-export default connect(mapStateToProps)(Shares);
+export default connect(mapStateToProps, {
+    fetchSettings,
+    addShare,
+    approveShare,
+    removeShare
+})(Shares);
