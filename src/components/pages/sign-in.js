@@ -29,7 +29,10 @@ export class SignIn extends Component {
                     <Image alt='logo' src={Logo} />
                     <Header.Content>{'Grocery List'}</Header.Content>
                 </Header>
-                {this.props.error && <Message negative>{this.props.error}</Message>}
+                {this.props.error && <Message negative>
+                    <Message.Header>{'Oops, something went wrong'}</Message.Header>
+                    <p>{this.props.error}</p>
+                </Message>}
                 {
                     !isLoaded(this.props.auth)
                         ? <Loader active />
