@@ -29,10 +29,12 @@ export class SignIn extends Component {
                     <Image alt='logo' src={Logo} />
                     <Header.Content>{'Grocery List'}</Header.Content>
                 </Header>
-                {this.props.error && <Message negative>
-                    <Message.Header>{'Oops, something went wrong'}</Message.Header>
-                    <p>{this.props.error}</p>
-                </Message>}
+                {this.props.error && (
+                    <Message negative>
+                        <Message.Header>{'Oops, something went wrong'}</Message.Header>
+                        <p>{this.props.error}</p>
+                    </Message>
+                )}
                 {
                     !isLoaded(this.props.auth)
                         ? <Loader active />
@@ -73,6 +75,7 @@ export class SignIn extends Component {
 
 SignIn.propTypes = {
     auth: PropTypes.object,
+    error: PropTypes.string,
     loginWithGoogle: PropTypes.func.isRequired,
     loginWithFacebook: PropTypes.func.isRequired,
     loginWithTwitter: PropTypes.func.isRequired,

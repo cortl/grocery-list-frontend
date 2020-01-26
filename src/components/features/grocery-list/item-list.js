@@ -44,7 +44,7 @@ const buildLists = (items) => {
 export const ItemList = (props) =>
     props.items.length
         ? buildLists(props.items)
-        : <Message>{'Try adding your first item below 😁'}</Message>
+        : <Message>{'Try adding your first item below 😁'}</Message>;
 
 ItemList.propTypes = {
     items: PropTypes.arrayOf(PropTypes.shape({

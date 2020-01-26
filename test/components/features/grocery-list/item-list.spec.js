@@ -1,12 +1,12 @@
-import {expect} from '../../../chai';
-import {shallow} from 'enzyme/build';
+import { expect } from '../../../chai';
+import { shallow } from 'enzyme/build';
 import React from 'react';
 import Chance from 'chance';
-import {Loader, Card, Message} from 'semantic-ui-react';
+import { Card, Message } from 'semantic-ui-react';
 
-import {ItemList} from '../../../../src/components/features/grocery-list/item-list';
+import { ItemList } from '../../../../src/components/features/grocery-list/item-list';
 import Item from '../../../../src/components/features/grocery-list/item';
-import {CATEGORIES} from '../../../../src/constants/categories';
+import { CATEGORIES } from '../../../../src/constants/categories';
 
 const chance = new Chance();
 

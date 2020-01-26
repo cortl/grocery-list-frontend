@@ -35,16 +35,16 @@ export const newAssociation = (userId, name, category) => {
 const authError = dispatch => e => dispatch({
     type: 'AUTH_ERROR',
     text: e.message
-})
+});
 
 const removeError = dispatch => () => dispatch({
-    type: 'AUTH_SUCCEED',
-})
+    type: 'AUTH_SUCCEED'
+});
 
 const loginWith = (provider, dispatch) => authRef
     .signInWithPopup(provider)
     .then(removeError(dispatch))
-    .catch(authError(dispatch))
+    .catch(authError(dispatch));
 
 export const loginWithGoogle = () => (dispatch) => loginWith(googleProvider, dispatch);
 export const loginWithFacebook = () => (dispatch) => loginWith(facebookProvider, dispatch);

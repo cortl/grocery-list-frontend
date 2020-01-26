@@ -2,17 +2,17 @@ import {combineReducers} from 'redux';
 import {firestoreReducer} from 'redux-firestore';
 import {firebaseReducer} from 'react-redux-firebase';
 
-const initialState = ''
+const initialState = '';
 const errorReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'AUTH_ERROR':
-            return action.text
+            return action.text;
         case 'AUTH_SUCCEED':
-            return initialState
+            return initialState;
         default:
             return state;
     }
-}
+};
 
 export default combineReducers({
     firebase: firebaseReducer,
