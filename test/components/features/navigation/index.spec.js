@@ -1,10 +1,10 @@
-import {expect} from '../../../chai';
+import { expect } from '../../../chai';
 import React from 'react';
-import {shallow} from 'enzyme';
-import {Menu, Responsive, Dropdown} from 'semantic-ui-react';
+import { shallow } from 'enzyme';
+import { Menu, Responsive, Dropdown } from 'semantic-ui-react';
 
 import SignOut from '../../../../src/components/features/navigation/sign-out';
-import {Navigation} from '../../../../src/components/features/navigation';
+import { Navigation } from '../../../../src/components/features/navigation';
 
 describe('Navigation', () => {
 
@@ -68,7 +68,7 @@ describe('Navigation', () => {
         it('should render a menu for mobile', () => {
             expect(mobileMenu).to.have.type(Responsive);
             expect(mobileMenu).to.have.prop('as', Menu);
-            expect(mobileMenu).to.have.prop('size', 'massive');
+            expect(mobileMenu).to.have.prop('size', 'huge');
             expect(mobileMenu).to.have.prop('maxWidth', 767);
             expect(mobileMenu).to.have.prop('secondary', true);
         });

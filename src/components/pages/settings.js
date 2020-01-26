@@ -1,7 +1,7 @@
 import React from 'react';
 import {Grid, Header} from 'semantic-ui-react';
 
-import {Navigation} from '../features/navigation';
+import Navigation from '../features/navigation';
 import Shares from '../features/settings/shares';
 
 export const Settings = () => (

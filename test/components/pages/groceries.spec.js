@@ -8,7 +8,7 @@ import { Grid, Loader, Header } from 'semantic-ui-react';
 import connectedList from '../../../src/enhancers/firestore-connected-list';
 import firebase from '../../../src/config/fbConfig';
 
-import { Navigation } from '../../../src/components/features/navigation';
+import Navigation from '../../../src/components/features/navigation';
 import AddItem from '../../../src/components/features/grocery-list/add';
 import { Groceries } from '../../../src/components/pages/groceries';
 

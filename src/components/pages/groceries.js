@@ -8,7 +8,7 @@ import { firebaseConnect } from 'react-redux-firebase';
 import Add from '../features/grocery-list/add';
 import firebase from '../../config/fbConfig';
 import FirestoreItemList from '../../enhancers/firestore-connected-list';
-import { Navigation } from '../features/navigation';
+import Navigation from '../features/navigation';
 
 const queryFor = (field, value) => firebase.firestore().collection('shares')
     .where(field, '==', value)
