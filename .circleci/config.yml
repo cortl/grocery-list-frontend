@@ -43,7 +43,7 @@ jobs:
       - run: npm run build
       - run:
           name: Update Firebase Config
-          command: ./node_modules/.bin/firebase functions:config:set user=$MAIL_USER pass=$MAIL_PASS
+          command: ./node_modules/.bin/firebase functions:config:set --token=$FIREBASE_DEPLOY_TOKEN user=$MAIL_USER pass=$MAIL_PASS
       - run:
           name: Deploy Master to Firebase
           command: ./node_modules/.bin/firebase deploy --token=$FIREBASE_DEPLOY_TOKEN --force
