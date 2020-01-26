@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
-import { Card, Input, Icon, Button, Loader, Label, Header } from 'semantic-ui-react';
+import { Card, Input, Icon, Button, Loader, Label, Header, Message } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 
 import { fetchSettings, approveShare, addShare, removeShare } from '../../../actions/settings';
@@ -81,37 +81,46 @@ export class Shares extends React.Component {
 
     render() {
         return (
-            <Card fluid>
-                <Card.Content header='Share your list' />
-                {this.buildContent('Shared with', this.props.current, 'Not shared with anyone 😢', 'email', true, false)}
-                {this.buildContent('Invites to approve', this.props.invites, 'No invites to approve yet! 👍', 'senderEmail', true, true)}
-                {this.buildContent('Pending invites', this.props.pending, 'No invites pending 🙌', 'requestedEmail', true, false)}
-                <Card.Content>
-                    <Input
-                        action={{
-                            content: '+',
-                            color: this.state.error ? 'red' : 'teal',
-                            onClick: () => !this.validateInput() && this.addShare()
-                        }}
-                        error={this.state.error}
-                        fluid
-                        maxLength={50}
-                        onBlur={this.validateInput}
-                        onChange={this.onChange}
-                        onKeyPress={this.onEnter}
-                        placeholder='your.name@email.com'
-                        style={{ marginTop: '1em' }}
-                        value={this.state.input}
-                    />
-                    {this.state.error && <Label color='red' pointing>{'Please enter a valid email'}</Label>}
-                </Card.Content>
-            </Card>
+            <>
+                {this.props.error &&
+                    <Message negative>
+                        <Message.Header>{'Oops, something went wrong'}</Message.Header>
+                        <p>{this.props.error}</p>
+                    </Message>
+                }
+                <Card fluid>
+                    <Card.Content header='Share your list' />
+                    {this.buildContent('Shared with', this.props.current, 'Not shared with anyone 😢', 'email', true, false)}
+                    {this.buildContent('Invites to approve', this.props.invites, 'No invites to approve yet! 👍', 'senderEmail', true, true)}
+                    {this.buildContent('Pending invites', this.props.pending, 'No invites pending 🙌', 'requestedEmail', true, false)}
+                    <Card.Content>
+                        <Input
+                            action={{
+                                content: '+',
+                                color: this.state.error ? 'red' : 'teal',
+                                onClick: () => !this.validateInput() && this.addShare()
+                            }}
+                            error={this.state.error}
+                            fluid
+                            maxLength={50}
+                            onBlur={this.validateInput}
+                            onChange={this.onChange}
+                            onKeyPress={this.onEnter}
+                            placeholder='your.name@email.com'
+                            style={{ marginTop: '1em' }}
+                            value={this.state.input}
+                        />
+                        {this.state.error && <Label color='red' pointing>{'Please enter a valid email'}</Label>}
+                    </Card.Content>
+                </Card>
+            </>
         );
     }
 }
 
 Shares.propTypes = {
     loading: PropTypes.bool,
+    error: PropTypes.string,
     pending: PropTypes.array,
     current: PropTypes.array,
     invites: PropTypes.array,
@@ -123,6 +132,7 @@ Shares.propTypes = {
 
 export const mapStateToProps = state => ({
     loading: state.settings.loading,
+    error: state.settings.error,
     pending: state.settings.pending,
     current: state.settings.current,
     invites: state.settings.invites

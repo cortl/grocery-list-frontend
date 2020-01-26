@@ -26,6 +26,7 @@ export const fetchSettings = () => async (dispatch, getState, { getFirestore }) 
         pending,
         current
     });
+    dispatch({ type: 'CLEAR_ERROR' });
 };
 
 export const approveShare = (docId) => (dispatch, getState, { getFirestore }) =>
@@ -39,10 +40,35 @@ export const removeShare = (docId) => (dispatch, _getState, { getFirestore }) =>
         .doc(`shares/${docId}`).delete()
         .then(() => dispatch(fetchSettings()));
 
-export const addShare = (requestedEmail) => (dispatch, getState, { getFirestore }) =>
-    getFirestore()
-        .collection('shares').add({
-            senderId: getState().firebase.auth.uid,
-            senderEmail: getState().firebase.auth.email,
-            requestedEmail
-        }).then(() => dispatch(fetchSettings()));
+const shareError = (message) => dispatch => dispatch({
+    type: 'SHARE_ERROR',
+    message
+});
+
+export const addShare = (requestedEmail) => async (dispatch, getState, { getFirestore }) => {
+    const { uid, email, displayName } = getState().firebase.auth;
+    const yourInvitationDoesNotExist = await getFirestore()
+        .collection('shares')
+        .where('senderId', '==', uid)
+        .where('requestedEmail', '==', requestedEmail)
+        .get()
+        .then(querySnap => querySnap.empty);
+    const theirInvitationDoesNotExist = await getFirestore()
+        .collection('shares')
+        .where('requestedEmail', '==', email)
+        .where('senderEmail', '==', requestedEmail)
+        .get()
+        .then(querySnap => querySnap.empty);
+    console.log(yourInvitationDoesNotExist, theirInvitationDoesNotExist);
+    if (yourInvitationDoesNotExist && theirInvitationDoesNotExist) {
+        getFirestore()
+            .collection('shares').add({
+                senderId: uid,
+                senderEmail: email,
+                senderName: displayName,
+                requestedEmail
+            }).then(() => dispatch(fetchSettings()));
+    } else {
+        dispatch(shareError('You\'re already sharing your list with them!'))
+    }
+}
