@@ -10,8 +10,8 @@ const firestore = admin.firestore();
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: process.env.MAIL_USER,
-        pass: process.env.MAIL_PASS
+        user: functions.config().user,
+        pass: functions.config().pass
     }
 });
 
@@ -60,11 +60,21 @@ exports.sendInviteEmail = functions.firestore
     .document('shares/{docId}')
     .onCreate((docSnap) => {
         const mailOptions = {
-            from: `Cortlan <${process.env.MAIL_USER}@gmail.com>`,
+            from: `Cortlan <${functions.config().user}@gmail.com>`,
             to: docSnap.get('requestedEmail'),
             subject: 'You\'ve been invited to view to groceries.cortlan.dev',
             html: buildEmail(docSnap.get('senderName'))
         };
 
-        transporter.sendMail(mailOptions, () => { });
+        console.log('Sending email');
+
+        transporter.sendMail(mailOptions, (error, info) => {
+            console.log('Sent email');
+            if (error) {
+                console.error(error.stack);
+                return -1;
+            } else {
+                return 0;
+            }
+        });
     });
