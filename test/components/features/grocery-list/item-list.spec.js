@@ -2,7 +2,7 @@ import {expect} from '../../../chai';
 import {shallow} from 'enzyme/build';
 import React from 'react';
 import Chance from 'chance';
-import {Loader, Card} from 'semantic-ui-react';
+import {Loader, Card, Message} from 'semantic-ui-react';
 
 import {ItemList} from '../../../../src/components/features/grocery-list/item-list';
 import Item from '../../../../src/components/features/grocery-list/item';
@@ -72,12 +72,12 @@ describe('Item List', () => {
 
     describe('when items do not exist', () => {
         beforeEach(() => {
-            givenProps.items = undefined;
+            givenProps.items = [];
             whenComponentIsRendered();
         });
 
-        it('should have a loader', () => {
-            expect(wrapper).to.have.type(Loader);
+        it('should have a message', () => {
+            expect(wrapper).to.have.type(Message);
         });
     });
 });

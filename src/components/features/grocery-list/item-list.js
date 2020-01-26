@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Loader, Grid, Card } from 'semantic-ui-react';
+import { Message, Grid, Card } from 'semantic-ui-react';
 
 import Item from './item';
 import { CATEGORIES } from '../../../constants/categories';
@@ -41,9 +41,10 @@ const buildLists = (items) => {
     );
 };
 
-export const ItemList = (props) => props.items
-    ? buildLists(props.items)
-    : <Loader active />;
+export const ItemList = (props) =>
+    props.items.length
+        ? buildLists(props.items)
+        : <Message>{'Try adding your first item below 😁'}</Message>
 
 ItemList.propTypes = {
     items: PropTypes.arrayOf(PropTypes.shape({
