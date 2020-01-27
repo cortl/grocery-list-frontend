@@ -1,10 +1,9 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
-const uuid = require('uuid');
 const nodemailer = require('nodemailer');
 
 admin.initializeApp();
-admin.firestore().settings({ timestampsInSnapshots: true });
+admin.firestore().settings({timestampsInSnapshots: true});
 const firestore = admin.firestore();
 
 const transporter = nodemailer.createTransport({
@@ -15,9 +14,17 @@ const transporter = nodemailer.createTransport({
     }
 });
 
+exports.incrementTotalItemsUser = functions.firestore
+    .document('items/{docId}')
+    .onCreate(() => {
+        firestore.collection('users')
+            .doc(user.uid)
+            .set({totalItemsAdded: firestore.FieldValue.increment(1)}, {merge: true});
+    });
 
 exports.addUserMetadata = functions.auth.user().onCreate((user) => {
-    firestore.collection('users').set({ email: user.email, list: uuid.v4() });
+    firestore.collection('users').doc(user.uid)
+        .set({user: user.displayName, email: user.email, totalItemsAdded: 0});
 });
 
 const buildEmail = (name) => `<html>
@@ -68,7 +75,7 @@ exports.sendInviteEmail = functions.firestore
 
         console.log('Sending email');
 
-        transporter.sendMail(mailOptions, (error, info) => {
+        transporter.sendMail(mailOptions, (error, _info) => {
             console.log('Sent email');
             if (error) {
                 console.error(error.stack);
