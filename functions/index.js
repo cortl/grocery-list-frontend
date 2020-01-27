@@ -16,9 +16,9 @@ const transporter = nodemailer.createTransport({
 
 exports.incrementTotalItemsUser = functions.firestore
     .document('items/{docId}')
-    .onCreate(() => {
+    .onCreate((_docSnap, context) => {
         firestore.collection('users')
-            .doc(user.uid)
+            .doc(context.auth.uid)
             .set({totalItemsAdded: firestore.FieldValue.increment(1)}, {merge: true});
     });
 
