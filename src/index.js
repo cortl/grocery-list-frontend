@@ -6,6 +6,7 @@ import thunk from 'redux-thunk';
 import {reduxFirestore, getFirestore} from 'redux-firestore';
 import {reactReduxFirebase, getFirebase} from 'react-redux-firebase';
 
+import * as serviceWorker from './serviceWorker';
 import fbConfig from './config/fbConfig';
 import rootReducer from './reducers';
 import App from './components/app';
@@ -26,3 +27,5 @@ render(
     </Provider>,
     document.getElementById('root')
 );
+
+serviceWorker.register();
