@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+/* eslint-disable no-mixed-operators */
 
 const isLocalhost = Boolean(
     window.location.hostname === 'localhost' ||
