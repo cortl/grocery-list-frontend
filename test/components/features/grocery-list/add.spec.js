@@ -5,7 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 import {Input, Label} from 'semantic-ui-react';
 
-import {Add, mapDispatchToProps} from '../../../../src/components/features/grocery-list/add';
+import {Add, mapDispatchToProps, LIMIT} from '../../../../src/components/features/grocery-list/add';
 import * as Actions from '../../../../src/actions';
 
 const chance = new Chance();
@@ -68,9 +68,9 @@ describe('Add Item', () => {
         });
     });
 
-    describe('when an item has more than 30 characters', () => {
+    describe(`when an item has more than ${LIMIT} characters`, () => {
         beforeEach(() => {
-            item = chance.string({length: 31});
+            item = chance.string({length: LIMIT+1});
             wrapper.find(Input).simulate('change', {target: {value: item}});
         });
 
@@ -86,7 +86,7 @@ describe('Add Item', () => {
             it('should have an error label', () => {
                 expect(wrapper.find(Label)).to.have.prop('color', 'red');
                 expect(wrapper.find(Label)).to.have.prop('pointing');
-                expect(wrapper.find(Label).childAt(0)).to.have.text('You can\'t enter an item with more than 30 characters');
+                expect(wrapper.find(Label).childAt(0)).to.have.text(`You can't enter an item with more than ${LIMIT} characters`);
             });
         });
 
@@ -102,7 +102,7 @@ describe('Add Item', () => {
             it('should have an error label', () => {
                 expect(wrapper.find(Label)).to.have.prop('color', 'red');
                 expect(wrapper.find(Label)).to.have.prop('pointing');
-                expect(wrapper.find(Label).childAt(0)).to.have.text('You can\'t enter an item with more than 30 characters');
+                expect(wrapper.find(Label).childAt(0)).to.have.text(`You can't enter an item with more than ${LIMIT} characters`);
             });
         });
 
@@ -114,7 +114,7 @@ describe('Add Item', () => {
             it('should have an error label', () => {
                 expect(wrapper.find(Label)).to.have.prop('color', 'red');
                 expect(wrapper.find(Label)).to.have.prop('pointing');
-                expect(wrapper.find(Label).childAt(0)).to.have.text('You can\'t enter an item with more than 30 characters');
+                expect(wrapper.find(Label).childAt(0)).to.have.text(`You can't enter an item with more than ${LIMIT} characters`);
             });
         });
     });

@@ -5,6 +5,7 @@ import {Input, Label} from 'semantic-ui-react';
 
 import {addItem} from '../../../actions';
 
+export const LIMIT = 40;
 export class Add extends Component {
 
     constructor(props) {
@@ -33,7 +34,7 @@ export class Add extends Component {
                     style={{marginTop: '1em'}}
                     value={this.state.value}
                 />
-                {this.state.error && <Label color='red' pointing>{'You can\'t enter an item with more than 30 characters'}</Label>}
+                {this.state.error && <Label color='red' pointing>{`You can't enter an item with more than ${LIMIT} characters`}</Label>}
             </>
         );
     }
@@ -47,7 +48,7 @@ export class Add extends Component {
     }
 
     validateInput = () => {
-        if (this.state.value.length > 30) {
+        if (this.state.value.length > LIMIT) {
             this.setState({error: true});
             return false;
         } else {
