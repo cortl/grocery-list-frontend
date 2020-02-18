@@ -19,7 +19,7 @@ exports.incrementTotalItemsUser = functions.firestore
     .onCreate((docSnap) => {
         firestore.collection('users')
             .doc(docSnap.get('userId'))
-            .set({totalItemsAdded: firestore.FieldValue.increment(1)}, {merge: true});
+            .set({totalItemsAdded: firestore.FieldValue().increment(1)}, {merge: true});
     });
 
 exports.addUserMetadata = functions.auth.user().onCreate((user) =>
