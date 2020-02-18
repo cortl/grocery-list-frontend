@@ -16,16 +16,15 @@ const transporter = nodemailer.createTransport({
 
 exports.incrementTotalItemsUser = functions.firestore
     .document('items/{docId}')
-    .onCreate((_docSnap, context) => {
+    .onCreate((docSnap) => {
         firestore.collection('users')
-            .doc(context.auth.uid)
+            .doc(docSnap.get('userId'))
             .set({totalItemsAdded: firestore.FieldValue.increment(1)}, {merge: true});
     });
 
-exports.addUserMetadata = functions.auth.user().onCreate((user) => {
+exports.addUserMetadata = functions.auth.user().onCreate((user) =>
     firestore.collection('users').doc(user.uid)
         .set({user: user.displayName, email: user.email, totalItemsAdded: 0});
-});
 
 const buildEmail = (name) => `<html>
 <head>
