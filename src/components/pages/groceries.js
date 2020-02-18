@@ -1,21 +1,21 @@
-import React, { Component } from 'react';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
+import React, {Component} from 'react';
+import {compose} from 'redux';
+import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import { Loader, Grid, Header } from 'semantic-ui-react';
-import { firebaseConnect } from 'react-redux-firebase';
+import {Loader, Grid, Header} from 'semantic-ui-react';
+import {firebaseConnect} from 'react-redux-firebase';
 
 import Add from '../features/grocery-list/add';
 import firebase from '../../config/fbConfig';
 import FirestoreItemList from '../../enhancers/firestore-connected-list';
 import Navigation from '../features/navigation';
-import { fetchSettings } from '../../actions/settings';
+import {fetchSettings} from '../../actions/settings';
 
 const queryFor = (field, value) => firebase.firestore().collection('shares')
     .where(field, '==', value)
     .get()
     .then(querySnap => querySnap.docs)
-    .then(queryDocSnaps => queryDocSnaps.map(queryDocSnap => ({ id: queryDocSnap.id, ...queryDocSnap.data() })));
+    .then(queryDocSnaps => queryDocSnaps.map(queryDocSnap => ({id: queryDocSnap.id, ...queryDocSnap.data()})));
 
 export class Groceries extends Component {
     busy;
@@ -46,15 +46,17 @@ export class Groceries extends Component {
 
     render = () => {
         return (
-            <Grid centered columns={1} container>
-                <Grid.Column computer='10' mobile='16'>
-                    <Navigation active='home' />
-                    <Header as='h1'>{'Grocery List'}</Header>
-                    {this.state.ids.length
-                        ? this.buildList()
-                        : <Loader active />}
-                </Grid.Column>
-            </Grid>
+            <>
+                <Navigation active='home' />
+                <Grid centered columns={1} container>
+                    <Grid.Column computer='10' mobile='16'>
+                        <Header as='h1'>{'Grocery List'}</Header>
+                        {this.state.ids.length
+                            ? this.buildList()
+                            : <Loader active />}
+                    </Grid.Column>
+                </Grid>
+            </>
         );
     }
 
@@ -85,5 +87,5 @@ const mapStateToProps = state => ({
 
 export default compose(
     firebaseConnect(),
-    connect(mapStateToProps, { fetchSettings })
+    connect(mapStateToProps, {fetchSettings})
 )(Groceries);

@@ -5,13 +5,15 @@ import Navigation from '../features/navigation';
 import Shares from '../features/settings/shares';
 
 export const Settings = () => (
-    <Grid centered columns={1} container>
-        <Grid.Column computer='10' mobile='16'>
-            <Navigation active='settings' />
-            <Header as='h1'>{'Settings'}</Header>
-            <Shares />
-        </Grid.Column>
-    </Grid>
+    <>
+        <Navigation active='settings' />
+        <Grid centered columns={1} container>
+            <Grid.Column computer='10' mobile='16'>
+                <Header as='h1'>{'Settings'}</Header>
+                <Shares />
+            </Grid.Column>
+        </Grid>
+    </>
 );
 
 export default Settings;

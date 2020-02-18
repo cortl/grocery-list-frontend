@@ -1,10 +1,10 @@
-import { expect } from '../../../chai';
+import {expect} from '../../../chai';
 import React from 'react';
-import { shallow } from 'enzyme';
-import { Menu, Responsive, Dropdown } from 'semantic-ui-react';
+import {shallow} from 'enzyme';
+import {Menu, Responsive, Dropdown} from 'semantic-ui-react';
 
 import SignOut from '../../../../src/components/features/navigation/sign-out';
-import { Navigation } from '../../../../src/components/features/navigation';
+import {Navigation} from '../../../../src/components/features/navigation';
 
 describe('Navigation', () => {
 
@@ -28,7 +28,6 @@ describe('Navigation', () => {
             expect(desktopMenu).to.have.type(Responsive);
             expect(desktopMenu).to.have.prop('as', Menu);
             expect(desktopMenu).to.have.prop('minWidth', 768);
-            expect(desktopMenu).to.have.prop('secondary', true);
         });
 
         it('should have a left hand menu', () => {
@@ -55,27 +54,32 @@ describe('Navigation', () => {
     });
 
     describe('Mobile Menu Composition', () => {
-        let menu,
+        let leftMenu,
+            rightMenu,
             dropdown,
             dropdownMenu;
 
         beforeEach(() => {
-            menu = mobileMenu.childAt(0);
-            dropdown = menu.childAt(0);
+            leftMenu = mobileMenu.childAt(0);
+            rightMenu = mobileMenu.childAt(1);
+            dropdown = wrapper.find(Dropdown);
             dropdownMenu = dropdown.childAt(0);
         });
 
         it('should render a menu for mobile', () => {
             expect(mobileMenu).to.have.type(Responsive);
             expect(mobileMenu).to.have.prop('as', Menu);
-            expect(mobileMenu).to.have.prop('size', 'huge');
             expect(mobileMenu).to.have.prop('maxWidth', 767);
-            expect(mobileMenu).to.have.prop('secondary', true);
+        });
+
+        it('should have a left menu for a profile', () => {
+            expect(leftMenu).to.have.type(Menu.Menu);
+            expect(leftMenu).to.have.prop('position', 'left');
         });
 
         it('should have a dropdown menu', () => {
-            expect(menu).to.have.type(Menu.Menu);
-            expect(menu).to.have.prop('position', 'right');
+            expect(rightMenu).to.have.type(Menu.Menu);
+            expect(rightMenu).to.have.prop('position', 'right');
 
             expect(dropdown).to.have.type(Dropdown);
             expect(dropdown).to.have.prop('icon', 'bars');

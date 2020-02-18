@@ -1,7 +1,7 @@
 import React from 'react';
-import { Menu, Responsive, Dropdown, Image } from 'semantic-ui-react';
+import {Menu, Responsive, Dropdown, Image} from 'semantic-ui-react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 
 import SignOut from './sign-out';
 
@@ -33,7 +33,7 @@ export class Navigation extends React.Component {
     render = () => {
         return (
             <>
-                <Responsive as={Menu} minWidth={768} secondary>
+                <Responsive as={Menu} minWidth={768}>
                     <Menu.Menu position='left'>
                         {
                             this.props.profileImg && (
@@ -69,18 +69,19 @@ export class Navigation extends React.Component {
                         <SignOut />
                     </Menu.Menu>
                 </Responsive>
-                <Responsive as={Menu} maxWidth={767} secondary size='huge'>
+                <Responsive as={Menu} maxWidth={767} size='large'>
+                    <Menu.Menu position='left'>
+                        {
+                            this.props.profileImg && (
+                                <Menu.Item>
+                                    <Image avatar src={this.props.profileImg} />
+                                </Menu.Item>
+                            )
+                        }
+                    </Menu.Menu>
                     <Menu.Menu position='right'>
                         <Dropdown icon='bars' item>
                             <Dropdown.Menu>
-                                {
-                                    this.props.profileImg && (
-                                        <Menu.Item>
-                                            <p>{'Logged in as'}</p>
-                                            <Image avatar src={this.props.profileImg} />
-                                            <span>{this.props.username}</span>
-                                        </Menu.Item>
-                                    )}
                                 {
                                     this.leftLinks.concat(this.rightLinks).map((page, i) => (
                                         <Dropdown.Item

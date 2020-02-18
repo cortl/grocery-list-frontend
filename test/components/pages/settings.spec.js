@@ -21,13 +21,15 @@ describe('Settings Page', () => {
     });
 
     it('should render in a grid', () => {
-        expect(wrapper).to.have.type(Grid);
-        expect(wrapper.find(Grid)).to.have.prop('centered', true);
-        expect(wrapper.find(Grid)).to.have.prop('columns', 1);
-        expect(wrapper.find(Grid)).to.have.prop('container', true);
+        const grid = wrapper.childAt(1);
 
-        expect(wrapper.find(Grid.Column)).to.have.prop('computer', '10');
-        expect(wrapper.find(Grid.Column)).to.have.prop('mobile', '16');
+        expect(grid).to.have.type(Grid);
+        expect(grid.find(Grid)).to.have.prop('centered', true);
+        expect(grid.find(Grid)).to.have.prop('columns', 1);
+        expect(grid.find(Grid)).to.have.prop('container', true);
+
+        expect(grid.find(Grid.Column)).to.have.prop('computer', '10');
+        expect(grid.find(Grid.Column)).to.have.prop('mobile', '16');
     });
 
     it('should have a navigation', () => {

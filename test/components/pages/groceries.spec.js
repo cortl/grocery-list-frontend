@@ -1,16 +1,16 @@
-import { expect } from '../../chai';
+import {expect} from '../../chai';
 import React from 'react';
-import { shallow } from 'enzyme';
+import {shallow} from 'enzyme';
 import Chance from 'chance';
 import sinon from 'sinon';
-import { Grid, Loader, Header } from 'semantic-ui-react';
+import {Grid, Loader, Header} from 'semantic-ui-react';
 
 import connectedList from '../../../src/enhancers/firestore-connected-list';
 import firebase from '../../../src/config/fbConfig';
 
 import Navigation from '../../../src/components/features/navigation';
 import AddItem from '../../../src/components/features/grocery-list/add';
-import { Groceries } from '../../../src/components/pages/groceries';
+import {Groceries} from '../../../src/components/pages/groceries';
 
 const chance = new Chance();
 const sandbox = sinon.createSandbox();
@@ -33,7 +33,7 @@ describe('Groceries Page', () => {
                 get: sandbox.stub().resolves({
                     docs: ids.map(id => ({
                         id: chance.guid(),
-                        data: () => ({ [field]: id })
+                        data: () => ({[field]: id})
                     }))
                 })
             });
@@ -62,16 +62,17 @@ describe('Groceries Page', () => {
     afterEach(() => sandbox.restore());
 
     it('should render in a grid', () => {
-        expect(wrapper).to.have.type(Grid);
-        expect(wrapper.find(Grid)).to.have.prop('centered', true);
-        expect(wrapper.find(Grid)).to.have.prop('columns', 1);
+        const grid = wrapper.childAt(1);
+        expect(grid).to.have.type(Grid);
+        expect(grid.find(Grid)).to.have.prop('centered', true);
+        expect(grid.find(Grid)).to.have.prop('columns', 1);
 
-        expect(wrapper.find(Grid.Column)).to.have.prop('computer', '10');
-        expect(wrapper.find(Grid.Column)).to.have.prop('mobile', '16');
+        expect(grid.find(Grid.Column)).to.have.prop('computer', '10');
+        expect(grid.find(Grid.Column)).to.have.prop('mobile', '16');
     });
 
     it('should have a navigation', () => {
-        expect(wrapper.find(Navigation)).to.be.present();
+        expect(wrapper.childAt(0)).to.have.type(Navigation);
     });
 
     it('should have a header', () => {
