@@ -14,18 +14,12 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-const increment = () => {
-    console.log(firestore.FieldValue());
-    console.log(firestore.FieldValue);
-    return admin.firestore.FieldValue.increment.increment(1);
-};
-
 exports.incrementTotalItemsUser = functions.firestore
     .document('items/{docId}')
     .onCreate((docSnap) => {
         firestore.collection('users')
             .doc(docSnap.get('userId'))
-            .set({totalItemsAdded: increment()}, {merge: true});
+            .set({totalItemsAdded: admin.firestore.FieldValue.increment.increment(1)}, {merge: true});
     });
 
 exports.addUserMetadata = functions.auth.user().onCreate((user) =>
