@@ -17,7 +17,7 @@ const transporter = nodemailer.createTransport({
 const increment = () => {
     console.log(firestore.FieldValue());
     console.log(firestore.FieldValue);
-    return firestore.FieldValue.increment(1);
+    return admin.firestore.FieldValue.increment.increment(1);
 };
 
 exports.incrementTotalItemsUser = functions.firestore
