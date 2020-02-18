@@ -18,7 +18,7 @@ const increment = () => {
     console.log(firestore.FieldValue());
     console.log(firestore.FieldValue);
     return firestore.FieldValue.increment(1);
-}
+};
 
 exports.incrementTotalItemsUser = functions.firestore
     .document('items/{docId}')
