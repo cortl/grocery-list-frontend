@@ -24,7 +24,7 @@ exports.incrementTotalItemsUser = functions.firestore
 
 exports.addUserMetadata = functions.auth.user().onCreate((user) =>
     firestore.collection('users').doc(user.uid)
-        .set({user: user.displayName, email: user.email, totalItemsAdded: 0});
+        .set({user: user.displayName, email: user.email, totalItemsAdded: 0}));
 
 const buildEmail = (name) => `<html>
 <head>
