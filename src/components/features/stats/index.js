@@ -46,6 +46,7 @@ export class Stats extends React.Component {
 Stats.propTypes = {
     loading: PropTypes.bool,
     error: PropTypes.string,
+    fetchStats: PropTypes.func,
     totalItemsAdded: PropTypes.number
 };
 

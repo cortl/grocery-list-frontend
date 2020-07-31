@@ -1,7 +1,7 @@
 
 const initialStats = {
     loading: true,
-    error: '',
+    error: ''
 };
 
 export const statsReducer = (state = initialStats, action) => {
