@@ -1,0 +1,4 @@
+{
+    "recursive": true,
+    "require": ["ignore-styles", "@babel/register", "test/setup.js"]
+}

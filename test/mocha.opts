@@ -1,4 +1,0 @@
---recursive 
---require ignore-styles
---require @babel/register 
---require test/setup.js
