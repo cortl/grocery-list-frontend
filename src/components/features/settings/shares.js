@@ -32,6 +32,7 @@ export class Shares extends React.Component {
             this.addShare();
         }
     }
+
     validateInput = () => {
         if (/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(this.state.input)) {
             this.setState({ error: false });
