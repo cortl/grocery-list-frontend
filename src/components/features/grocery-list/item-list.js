@@ -6,7 +6,7 @@ import Item from './item';
 import { CATEGORIES } from '../../../constants/categories';
 
 const sortCategory = (catA, catB) => CATEGORIES[catA].sortOrder - CATEGORIES[catB].sortOrder;
-const sortAlphabetically = (itemA, itemB) => itemA.name.localeCompare(itemB.name)
+const sortAlphabetically = (itemA, itemB) => itemA.name.localeCompare(itemB.name);
 const byCategory = category => item => item.category === category;
 
 const buildLists = (items) => {
